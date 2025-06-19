@@ -1,0 +1,39 @@
+/* eslint-disable arrow-body-style */
+export const enabledEmitters = (state) => state.all.filter(({ enabled }) => enabled);
+export const getEmitterByName = (state, name) => {
+  return state.all.find((emitter) => emitter.name === name);
+};
+
+export const currentConfig = (state) => {
+  const idx = state.all.findIndex((e) => e.name === state.current);
+  return state.all[idx].config;
+};
+
+export const getEmitterIdx = (state, name) => state.all.findIndex((e) => e.name === name);
+
+export const getCurrentEmitter = (state) => getEmitterByName(state, state.current);
+export const getCurrentEmitterIdx = (state) => state.all.findIndex((e) => e.name === state.current);
+
+export const nameExists = (state) => (emitterName) => {
+  return state.all.some((emitter) => emitter.name === emitterName);
+};
+export const emittersList = (state) => state.all.map(({ name, type, enabled }) => ({
+  name,
+  type,
+  enabled,
+  isCurrent: state.current === name,
+}));
+
+export const v3Syntax = (state) => state.v3Syntax;
+
+export const assetsList = (state) => state.assets;
+export const assetsListNames = (state) => state.assets.map((item) => item.name);
+export const currentAssetsList = (state) => getCurrentEmitter(state).art;
+
+export const getAssetIdx = (state) => (name) => {
+  return state.assets.findIndex((item) => item.name === name);
+};
+
+export const getAssetItem = (state) => (fileName) => {
+  return state.assets.find((item) => item.name === fileName);
+};
