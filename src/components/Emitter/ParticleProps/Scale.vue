@@ -12,7 +12,7 @@
         <step-item
           prop-name="scale"
           label="Scale"
-          v-for="(item, index) in cc.scale.list"
+          v-for="(item, index) in cc.behaviors.find((i) => i?.type === 'scale')?.config?.scale.list"
           :key="index"
           :idx="index"
           :time="item.time"
@@ -30,29 +30,6 @@
       </el-form-item>
     </div>
 
-    <div v-show="!useV3">
-      <el-form-item label="Start" label-width="4em">
-        <el-input-number
-          input-size="mini"
-          :min="0"
-          :precision="2"
-          :step="0.01"
-          :value="cc.scale.start"
-          @input="(value) => setOldAPIPropStart({propName: 'scale', value})"
-        />
-      </el-form-item>
-      <el-form-item label="End" label-width="4em">
-        <el-input-number
-          input-size="mini"
-          :min="0"
-          :precision="2"
-          :step="0.01"
-          :value="cc.scale.end"
-          @input="(value) => setOldAPIPropEnd({propName: 'scale', value})"
-        />
-      </el-form-item>
-
-    </div>
   </el-form>
 </template>
 

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@pixi/devtools": "^2.0.1",
+    "@pixi/events": "^7.4.3",
     "@pixi/graphics": "^7.4.3",
     "@pixi/particle-emitter": "5.0.8",
     "@pixi/text": "^7.4.3",

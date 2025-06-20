@@ -33,7 +33,7 @@
       <el-collapse-item name="1">
         <div slot="title">
           <i class="el-icon-document"></i>&nbsp;
-          <b class="panel-group-title">Particle Props</b>
+          <b class="panel-group-title">Behaviors</b>
         </div>
         <the-panel-emitter-particle-props/>
       </el-collapse-item

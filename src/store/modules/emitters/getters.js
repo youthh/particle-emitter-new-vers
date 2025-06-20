@@ -9,6 +9,12 @@ export const currentConfig = (state) => {
   return state.all[idx].config;
 };
 
+// Behavior getters
+export const getRotationBehavior = (state) => {
+  const rotatiponBehavior = state.all[0].config.behaviors.find((behavior) => behavior?.type === 'rotation').config;
+  return rotatiponBehavior;
+};
+
 export const getEmitterIdx = (state, name) => state.all.findIndex((e) => e.name === name);
 
 export const getCurrentEmitter = (state) => getEmitterByName(state, state.current);

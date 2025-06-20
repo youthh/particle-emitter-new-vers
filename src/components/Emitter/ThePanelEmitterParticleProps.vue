@@ -36,6 +36,12 @@
       </div>
       <the-panel-emitter-particle-prop-lifetime />
     </el-collapse-item>
+    <el-collapse-item name="1.6" align="left">
+      <div slot="title">
+        <b>Lifetime</b>
+      </div>
+      <ThePanelEmitterParticlePropMoveAcceleration />
+    </el-collapse-item>
   </el-collapse>
 </template>
 

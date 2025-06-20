@@ -51,21 +51,21 @@
       </el-row>
     </el-form-item>
 
-<!--    <el-form-item>-->
-<!--      <div slot="label">-->
-<!--        <el-tooltip placement="left">-->
-<!--          <div slot="content">-->
-<!--            If particles should never rotate. <br>-->
-<!--            A non-zero rotation speed will override this.-->
-<!--          </div>-->
-<!--          <span>No Particle rotation</span>-->
-<!--        </el-tooltip>-->
-<!--      </div>-->
-<!--      <el-switch-->
-<!--        :value="cc.noRotation"-->
-<!--        @input="setNoRotation"-->
-<!--      />-->
-<!--    </el-form-item>-->
+    <!--    <el-form-item>-->
+    <!--      <div slot="label">-->
+    <!--        <el-tooltip placement="left">-->
+    <!--          <div slot="content">-->
+    <!--            If particles should never rotate. <br>-->
+    <!--            A non-zero rotation speed will override this.-->
+    <!--          </div>-->
+    <!--          <span>No Particle rotation</span>-->
+    <!--        </el-tooltip>-->
+    <!--      </div>-->
+    <!--      <el-switch-->
+    <!--        :value="cc.noRotation"-->
+    <!--        @input="setNoRotation"-->
+    <!--      />-->
+    <!--    </el-form-item>-->
     <el-form-item label="">
       <div slot="label">
         <el-tooltip placement="left">
@@ -80,12 +80,12 @@
         <el-col>
           <el-form-item label="Min" label-width="3em">
             <el-tooltip content="Starting speed" placement="top">
-            <el-input-number
-              class="xs-mini"
-              :step="1"
-              :value="cc.minSpeed"
-              @input="setRotationSpeedMin"
-            />
+              <el-input-number
+                class="xs-mini"
+                :step="1"
+                :value="cc.minSpeed"
+                @input="setRotationSpeedMin"
+              />
             </el-tooltip>
           </el-form-item>
         </el-col>
@@ -112,7 +112,7 @@
 import { mapGetters, mapMutations } from 'vuex';
 
 export default {
-  name: 'ThePanelEmitterParticlePropRotation',
+  name: 'ThePanelEmitterParticlePropMoveAcceleration',
   computed: {
     ...mapGetters({
       cc: 'getRotationBehavior',
@@ -120,11 +120,7 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'setNoRotation',
-      'setStartRotationMin',
-      'setStartRotationMax',
-      'setRotationSpeedMin',
-      'setRotationSpeedMax',
+
     ]),
   },
 };

@@ -12,7 +12,7 @@
         <step-item
           prop-name="color"
           label="Color"
-          v-for="(item, index) in cc.color.list"
+          v-for="(item, index) in cc.behaviors.find((i) => i?.type === 'color')?.config?.color.list"
           :key="index"
           :idx="index"
           :time="item.time"
@@ -27,26 +27,6 @@
           />
         </step-item>
         <new-step-button prop-name="color" />
-      </el-form-item>
-    </div>
-    <div v-show="!useV3">
-      <el-form-item label="Start" label-width="4em">
-        <el-color-picker
-          :value="`#${cc.color.start}`"
-          @input="(value) => setOldAPIPropStart({
-            propName: 'color',
-            value: !value ? 'ffffff' : value.substr(1)
-          })"
-        />
-      </el-form-item>
-      <el-form-item label="End" label-width="4em">
-        <el-color-picker
-          :value="`#${cc.color.end}`"
-          @input="(value) => setOldAPIPropEnd({
-          propName: 'color',
-          value: !value ? 'ffffff' : value.substr(1)
-          })"
-        />
       </el-form-item>
     </div>
   </el-form>

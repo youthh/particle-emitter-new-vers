@@ -214,13 +214,13 @@ export const setPPropEasing = (state, { propName, value }) => {
   setConfigPropWithAttr(state, propName, 'ease', JSON.parse(normalized));
 };
 
-export const setOldAPIPropStart = (state, { propName, value }) => {
-  setConfigPropWithAttr(state, propName, 'start', value);
-};
+// export const setOldAPIPropStart = (state, { propName, value }) => {
+//   // setConfigPropWithAttr(state, propName, 'start', value);
+// };
 
-export const setOldAPIPropEnd = (state, { propName, value }) => {
-  setConfigPropWithAttr(state, propName, 'end', value);
-};
+// export const setOldAPIPropEnd = (state, { propName, value }) => {
+//   // setConfigPropWithAttr(state, propName, 'end', value);
+// };
 
 export const setEmitterPath = (state, pathValue) => {
   setConfigPropWithAttr(state, 'extraData', 'path', pathValue);

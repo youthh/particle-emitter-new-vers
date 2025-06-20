@@ -14,29 +14,8 @@
             Without a rotation speed defined, particles will rotate to <br>
             match movement direction.
           </div>
-          <span>Acceleration</span>
         </el-tooltip>
       </div>
-      <el-col :span="12">
-        <el-form-item label="x" label-width="2em">
-          <el-input-number
-            controls-position="right"
-            class="xs-mini"
-            :value="cc.acceleration.x"
-            @input="setAccelerationX"
-          />
-        </el-form-item>
-      </el-col>
-      <el-col :span="12">
-        <el-form-item label="y" label-width="2em">
-          <el-input-number
-            controls-position="right"
-            class="xs-mini"
-            :value="cc.acceleration.y"
-            @input="setAccelerationY"
-          />
-        </el-form-item>
-      </el-col>
     </el-form-item>
     <div v-show="useV3">
       <is-stepped-prop name="speed"/>
@@ -45,42 +24,22 @@
         <step-item
           prop-name="speed"
           label="Speed"
-          v-for="(item, index) in cc.speed.list"
+          v-for="(item, index) in cc.behaviors.find((i) => i?.type === 'moveSpeed')
+          ?.config?.speed.list"
           :key="index"
           :idx="index"
           :time="item.time"
         >
           <el-input-number
-          input-size="mini"
-          :min="0"
-          :step="1"
-          :value="item.value"
-          @input="(value) => setListedStepValue({ propName: 'speed', index, value })"
+            input-size="mini"
+            :min="0"
+            :step="1"
+            :value="item.value"
+            @input="(value) => setListedStepValue({ propName: 'speed', index, value })"
           />
         </step-item>
-        <new-step-button prop-name="speed" />
+        <new-step-button prop-name="speed"/>
       </el-form-item>
-    </div>
-    <div v-show="!useV3">
-      <el-form-item label="Start" label-width="4em">
-        <el-input-number
-          input-size="mini"
-          :min="0"
-          :step="1"
-          :value="cc.speed.start"
-          @input="(value) => setOldAPIPropStart({propName: 'speed', value})"
-        />
-      </el-form-item>
-      <el-form-item label="End" label-width="4em">
-        <el-input-number
-          input-size="mini"
-          :min="0"
-          :step="1"
-          :value="cc.speed.end"
-          @input="(value) => setOldAPIPropEnd({propName: 'speed', value})"
-        />
-      </el-form-item>
-
     </div>
   </el-form>
 </template>

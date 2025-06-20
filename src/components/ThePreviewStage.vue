@@ -1,13 +1,13 @@
 <template>
   <div class="preview-el">
-    <resize-observer @notify="handleResize" />
+    <resize-observer @notify="handleResize"/>
     <canvas ref="previewStageWebGL" class="webgl"></canvas>
     <canvas ref="previewStageCanvas2d" class="canvas2d"></canvas>
     <div class="stageInfo">
-      <div id="framerate">FPS: {{curFPS.toFixed(0)}}</div>
-      <div id="particleCount">Particles: {{pNumber}}</div>
-      <div id="cursorPos">x:{{mousePos.x}}, y: {{mousePos.y}}</div>
-      <div id="render">Use: {{isCurrentWebGl ? 'WebGL' : 'Canvas2d'}}</div>
+      <div id="framerate">FPS: {{ curFPS.toFixed(0) }}</div>
+      <div id="particleCount">Particles: {{ pNumber }}</div>
+      <div id="cursorPos">x:{{ mousePos.x }}, y: {{ mousePos.y }}</div>
+      <div id="render">Use: {{ isCurrentWebGl ? 'WebGL' : 'Canvas2d' }}</div>
     </div>
   </div>
 </template>
@@ -34,7 +34,7 @@ import { ResizeObserver } from 'vue-resize';
 
 // import { EMITTER_TYPE_ANIM, EMITTER_TYPE_PATH } from '@/store/modules/emitters/names';
 import { debounce } from 'debounce';
-import { Emitter, upgradeConfig } from '@pixi/particle-emitter';
+import { Emitter } from '@pixi/particle-emitter';
 import {
   makeDraggableByRightButton,
   EV_ON_DRAG,
@@ -73,6 +73,7 @@ export default {
       autoResize: true,
       backgroundColor: this.stageBGColor,
     };
+    this.$_parseEmitterArt(['CartoonSmoke.png']);
     this.canvasRenderer = autoDetectRenderer({
       ...generalAppOptions,
       view: this.$refs.previewStageCanvas2d,
@@ -93,10 +94,10 @@ export default {
 
     const stageIsWebGL = this.$store.getters['stage/renderType'] === RENDERER_TYPE.WEBGL;
     const useWebGL = stageIsWebGL && utils.isWebGLSupported();
-
     this.stage = new Container();
     this.stage.name = 'stage';
     this.stage.interactive = true;
+    this.stage.interactiveChildren = true;
 
     this.stageHelper = new Graphics();
     this.stageHelper.name = 'stageHelper';
@@ -115,7 +116,6 @@ export default {
         emitter.updateOwnerPos(ev.data.global.x, ev.data.global.y);
       });
     });
-
     this.stage.on('mousemove', (ev) => {
       this.mousePos.x = ev.data.global.x;
       this.mousePos.y = ev.data.global.y;
@@ -216,7 +216,8 @@ export default {
     preventDef(e) {
       e.preventDefault();
     },
-    handleResize() {},
+    handleResize() {
+    },
     $_refreshStageHelper() {
       // make transparent rectangle on whole screen
       this.stageHelper.beginFill(0xffffff, 0);
@@ -226,6 +227,15 @@ export default {
         this.renderer.screen.width,
         this.renderer.screen.height,
       );
+    },
+    $_setEmittersPos(x, y) {
+      this.pContainer.emittersMap.forEach((emitter) => {
+        // emitter.resetPositionTracking();
+        emitter.updateOwnerPos(
+          x,
+          y,
+        );
+      });
     },
     $_setEmittersToCenter() {
       // make transparent rectangle on whole screen
@@ -268,7 +278,8 @@ export default {
             case 'setEmitterPath':
               self.$_buildEnabledEmitters();
               break;
-            default: break;
+            default:
+              break;
           }
         }),
         this.$store.watch(
@@ -405,10 +416,10 @@ export default {
       this.pContainer.emittersMap.forEach((emitter) => {
         emitter.update(this.ticker.elapsedMS * 0.001);
       });
-
       this.renderer.render(this.stage);
     },
-    buildEnabledEmitters() {},
+    buildEnabledEmitters() {
+    },
     $_buildEnabledEmitters() {
       // cleanup first
       this.pContainer.emittersMap.forEach((emitter) => {
@@ -444,16 +455,25 @@ export default {
     },
     async buildEmitter(emitterObj) {
       const art = JSON.parse(JSON.stringify(emitterObj.art));
-      const animConf = JSON.parse(JSON.stringify(emitterObj.animConfig));
-      const parsedArt = this.$_parseEmitterArt(art, emitterObj.type, animConf);
+      // const animConf = JSON.parse(JSON.stringify(emitterObj.animConfig));
+
+      const textures = await this.$_parseEmitterArt(art);
+      const emitterConfig = JSON.parse(JSON.stringify(emitterObj.config));
+
+      // Підставляємо готові текстури
+      emitterConfig.behaviors.forEach((b) => {
+        if (b.type === 'textureRandom') {
+          // eslint-disable-next-line no-param-reassign
+          b.config.textures = textures.textures;
+        }
+      });
 
       const emitter = new Emitter(
         this.pContainer,
-        upgradeConfig(emitterObj.config, parsedArt),
+        emitterConfig,
       );
 
       emitter.emit = true;
-
       this.pContainer.emittersMap.set(emitterObj.name, emitter);
       this.$_setEmittersToCenter();
     },
@@ -463,30 +483,31 @@ export default {
 </script>
 
 <style scoped>
-  .preview-el {
-    position: relative;
-  }
-  canvas, .preview-el {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  }
+.preview-el {
+  position: relative;
+}
 
-  .stageInfo {
-    width: 110px;
-    position: absolute;
-    padding: 4px 8px;
-    background: rgba(0,0,0,0.3);
-    color: rgba(255,255,255,0.8);
-    font-family: "Lucida Console",Monaco,monospace;
-    letter-spacing: 1px;
-    font-size: 10px;
-    line-height: 1.6;
-    pointer-events: none;
-    z-index: 2;
-    -webkit-user-select: none;
-    user-select: none;
-    left: 0;
-    top: 0;
-  }
+canvas, .preview-el {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.stageInfo {
+  width: 110px;
+  position: absolute;
+  padding: 4px 8px;
+  background: rgba(0, 0, 0, 0.3);
+  color: rgba(255, 255, 255, 0.8);
+  font-family: "Lucida Console", Monaco, monospace;
+  letter-spacing: 1px;
+  font-size: 10px;
+  line-height: 1.6;
+  pointer-events: none;
+  z-index: 2;
+  -webkit-user-select: none;
+  user-select: none;
+  left: 0;
+  top: 0;
+}
 </style>
