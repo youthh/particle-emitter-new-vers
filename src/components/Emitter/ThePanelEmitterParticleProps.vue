@@ -38,7 +38,7 @@
     </el-collapse-item>
     <el-collapse-item name="1.6" align="left">
       <div slot="title">
-        <b>Lifetime</b>
+        <b>Move Acceleration</b>
       </div>
       <ThePanelEmitterParticlePropMoveAcceleration />
     </el-collapse-item>
@@ -53,6 +53,7 @@ import ThePanelEmitterParticlePropLifetime from './ParticleProps/Lifetime.vue';
 import ThePanelEmitterParticlePropRotation from './ParticleProps/Rotation.vue';
 import ThePanelEmitterParticlePropScale from './ParticleProps/Scale.vue';
 import ThePanelEmitterParticlePropSpeed from './ParticleProps/Speed.vue';
+import ThePanelEmitterParticlePropMoveAcceleration from './ParticleProps/MoveAcceleration.vue';
 
 export default {
   name: 'ThePanelEmitterParticleProps',
@@ -63,6 +64,7 @@ export default {
     ThePanelEmitterParticlePropRotation,
     ThePanelEmitterParticlePropScale,
     ThePanelEmitterParticlePropSpeed,
+    ThePanelEmitterParticlePropMoveAcceleration,
   },
 };
 </script>
