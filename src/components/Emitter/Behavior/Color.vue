@@ -6,47 +6,42 @@
     label-position="left"
   >
     <div v-show="useV3">
-      <is-stepped-prop name="scale"/>
-      <easing-prop name="scale"/>
       <el-form-item label="List">
         <step-item
-          prop-name="scale"
-          label="Scale"
-          v-for="(item, index) in cc.behaviors.find((i) => i?.type === 'scale')?.config?.scale.list"
+          prop-name="color"
+          label="Color"
+          v-for="(item, index) in cc.behaviors.find((i) => i?.type === 'color')?.config?.color.list"
           :key="index"
           :idx="index"
           :time="item.time"
+          behavior="color"
         >
-          <el-input-number
-            input-size="mini"
-            :min="0"
-            :precision="2"
-            :step="0.01"
-            :value="item.value"
-            @input="(value) => setListedStepValue({ propName: 'scale', index, value })"
+          <el-color-picker
+            :value="`#${item.value}`"
+            @input="(value) => setListedStepValue({
+                    propName: 'color',
+                    index,
+                    value: !value ? 'ffffff': value.substr(1),
+                    behavior: 'color',
+                  })"
           />
         </step-item>
-        <new-step-button prop-name="scale" />
+        <new-step-button prop-name="color" />
       </el-form-item>
     </div>
-
   </el-form>
 </template>
 
 <script>
 import { mapGetters, mapMutations } from 'vuex';
-import EasingProp from './v3/EasingProp.vue';
-import IsSteppedProp from './v3/IsSteppedProp.vue';
 import StepItem from './v3/StepItem.vue';
 import NewStepButton from './v3/NewStepButton.vue';
 
 export default {
-  name: 'ThePanelEmitterParticlePropScale',
+  name: 'ThePanelEmitterParticlePropColor',
   components: {
-    NewStepButton,
     StepItem,
-    IsSteppedProp,
-    EasingProp,
+    NewStepButton,
   },
   computed: {
     ...mapGetters({

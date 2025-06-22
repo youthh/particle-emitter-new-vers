@@ -17,9 +17,22 @@
         </el-tooltip>
       </div>
     </el-form-item>
-    <div v-show="useV3">
-      <is-stepped-prop name="speed"/>
-      <easing-prop name="speed"/>
+    <el-form-item>
+      <div slot="label">
+        <el-tooltip placement="top">
+          <div slot="content">{{ getDescription('minMult') }}</div>
+          <span>Min Mult</span>
+        </el-tooltip>
+      </div>
+      <el-input-number
+        :min="0"
+        :step="0.1"
+        :value="cc.minMult"
+        @input="(val) => setMoveSpeedSpawn  ('minMult', val)"
+      />
+    </el-form-item>
+
+    <div>
       <el-form-item label="List">
         <step-item
           prop-name="speed"
@@ -29,13 +42,15 @@
           :key="index"
           :idx="index"
           :time="item.time"
+          behavior="moveSpeed"
         >
           <el-input-number
             input-size="mini"
             :min="0"
             :step="1"
             :value="item.value"
-            @input="(value) => setListedStepValue({ propName: 'speed', index, value })"
+            @input="(value) =>
+            setListedStepValue({ propName: 'speed', index, value, behavior: 'moveSpeed' })"
           />
         </step-item>
         <new-step-button prop-name="speed"/>
@@ -46,8 +61,6 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex';
-import EasingProp from './v3/EasingProp.vue';
-import IsSteppedProp from './v3/IsSteppedProp.vue';
 import StepItem from './v3/StepItem.vue';
 import NewStepButton from './v3/NewStepButton.vue';
 
@@ -56,13 +69,14 @@ export default {
   components: {
     NewStepButton,
     StepItem,
-    IsSteppedProp,
-    EasingProp,
   },
   computed: {
     ...mapGetters({
       cc: 'currentConfig',
       useV3: 'v3Syntax',
+      configProps() {
+        return [];
+      },
     }),
   },
   methods: {
@@ -75,9 +89,21 @@ export default {
     ...mapMutations([
       'setAcceleration',
       'setListedStepValue',
+      'updateBehaviorConfig',
       'setOldAPIPropStart',
       'setOldAPIPropEnd',
     ]),
+    setMoveSpeedSpawn(key, value) {
+      this.updateBehaviorConfig({
+        type: 'moveSpeed',
+        key,
+        value,
+      });
+    },
+    getDescription() {
+      // const prop = this.configProps?.find((p) => p.name === fieldName);
+      return '';
+    },
   },
 };
 </script>

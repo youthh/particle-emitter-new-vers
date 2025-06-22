@@ -46,31 +46,8 @@ export const renameEmitter = (state, { oldName, newName }) => {
     throw new Error(`No emitters found with name: ${oldName}`);
   }
 };
-export const toggleSyntaxVersion = (state, v3Enabled) => {
-  state.v3Syntax = v3Enabled;
+export const toggleSyntaxVersion = () => {
 
-  // need to remove/convert list items for all emitters in order to apply old API
-  /* eslint-disable  no-param-reassign */
-  state.all.forEach(({ config }) => {
-    ['alpha', 'scale', 'color', 'speed'].forEach((propName) => {
-      if (!v3Enabled && Array.isArray(config[propName].list)) {
-        config[propName].start = config[propName].list[0].value;
-        config[propName].end = config[propName].list[config[propName].list.length - 1].value;
-        delete config[propName].list;
-        delete config[propName].isStepped;
-      } else {
-        config[propName].list = [{
-          time: 0,
-          value: config[propName].start,
-        }, {
-          time: 1,
-          value: config[propName].end,
-        }];
-        config[propName].isStepped = false;
-      }
-    });
-  });
-  /* eslint-enable no-param-reassign */
 };
 
 // =============== Assets management ===============
@@ -144,6 +121,10 @@ export const setSpawnType = (state, value) => {
 
   setConfigProp(state, 'spawnType', value);
 };
+
+export const setTypeSpawn = (state, value) => {
+  state.all[0].spawnType = value;
+};
 export const setPPerWave = (state, value) => setConfigProp(state, 'particlesPerWave', value);
 export const setPSpacing = (state, value) => setConfigProp(state, 'particleSpacing', value);
 export const setAngleStart = (state, value) => setConfigProp(state, 'angleStart', value);
@@ -160,9 +141,10 @@ export const setLifetimeMax = (state, value) => setConfigPropWithAttr(state, 'li
 export const setSpawnPolygon = (state, value) => setConfigProp(state, 'spawnPolygon', value);
 export const setAcceleration = (state, { attr, value }) => setConfigPropWithAttr(state, 'acceleration', attr, value);
 
-const getCurrentListedItem = (state, propName) => {
+const getCurrentListedItem = (state, propName, behavior) => {
   const c = getCurrentItem(state).config;
-  return c[propName].list;
+  const co = c.behaviors.find((item) => item.type === behavior).config[propName].list;
+  return co;
 };
 const setCurrentListItem = (state, propName, list) => {
   setConfigPropWithAttr(state, propName, 'list', list.sort((a, b) => a.time - b.time));
@@ -191,13 +173,17 @@ export const removeListedStep = (state, { propName, index }) => {
   validateList(list);
   setCurrentListItem(state, propName, list);
 };
-export const setListedStepValue = (state, { propName, index, value }) => {
-  const list = getCurrentListedItem(state, propName);
+export const setListedStepValue = (state, {
+  propName, index, value, behavior,
+}) => {
+  const list = getCurrentListedItem(state, propName, behavior);
   list[index].value = value;
   setCurrentListItem(state, propName, list);
 };
-export const setListedStepTime = (state, { propName, index, time }) => {
-  const list = getCurrentListedItem(state, propName);
+export const setListedStepTime = (state, {
+  propName, index, time, behavior,
+}) => {
+  const list = getCurrentListedItem(state, propName, behavior);
   if (index === list.length - 1 && time !== 1) {
     return;
   }
@@ -250,4 +236,22 @@ export const setAnimationFramerate = (state, value) => {
 };
 export const setAnimationLoop = (state, value) => {
   setAnimProp(state, 'loop', value);
+};
+
+export const updateBehaviorConfig = (state, { type, key, value }) => {
+  const emitter = state.all.find((e) => e.name === state.current);
+  if (!emitter) return;
+
+  const behavior = emitter.config.behaviors.find((b) => b.type === type);
+  if (!behavior) return;
+
+  const keys = key.split('.');
+  let target = behavior.config;
+
+  for (let i = 0; i < keys.length - 1; i += 1) {
+    if (!(keys[i] in target)) return;
+    target = target[keys[i]];
+  }
+
+  target[keys[keys.length - 1]] = value;
 };

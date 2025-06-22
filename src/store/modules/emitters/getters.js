@@ -14,6 +14,27 @@ export const getRotationBehavior = (state) => {
   const rotatiponBehavior = state.all[0].config.behaviors.find((behavior) => behavior?.type === 'rotation').config;
   return rotatiponBehavior;
 };
+export const getMoveAccelerationBehavior = (state) => {
+  const rotatiponBehavior = state.all[0].config.behaviors
+    .find((behavior) => behavior?.type === 'moveAcceleration').config;
+  return rotatiponBehavior;
+};
+export const getBurstSpawnBehavior = (state) => {
+  const rotatiponBehavior = state.all[0].config.behaviors
+    .find((behavior) => behavior?.type === 'spawnBurst').config;
+  return rotatiponBehavior;
+};
+export const getScaleBehavior = (state) => {
+  const rotatiponBehavior = state.all[0].config.behaviors
+    .find((behavior) => behavior?.type === 'scale').config;
+  return rotatiponBehavior;
+};
+
+export const getShapeBehavior = (state) => {
+  const rotatiponBehavior = state.all[0].config.behaviors
+    .find((behavior) => behavior?.type === 'spawnShape').config;
+  return rotatiponBehavior;
+};
 
 export const getEmitterIdx = (state, name) => state.all.findIndex((e) => e.name === name);
 
@@ -43,3 +64,5 @@ export const getAssetIdx = (state) => (name) => {
 export const getAssetItem = (state) => (fileName) => {
   return state.assets.find((item) => item.name === fileName);
 };
+
+export const getSpawnType = (state) => state.all[0].spawnType;

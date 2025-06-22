@@ -11,7 +11,8 @@
             :precision="2"
             :step="0.01"
             :value="time"
-            @input="(newTime) => setListedStepTime({ propName, index: idx, time: newTime })"
+            @input="(newTime) =>
+            setListedStepTime({ propName, index: idx, time: newTime, behavior: behavior })"
           />
         </el-form-item>
       </el-col>
@@ -57,6 +58,9 @@ export default {
       type: Number,
     },
     time: {},
+    behavior: {
+      type: String,
+    },
   },
   methods: {
     ...mapMutations([

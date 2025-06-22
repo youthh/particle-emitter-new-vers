@@ -51,21 +51,6 @@
       </el-row>
     </el-form-item>
 
-<!--    <el-form-item>-->
-<!--      <div slot="label">-->
-<!--        <el-tooltip placement="left">-->
-<!--          <div slot="content">-->
-<!--            If particles should never rotate. <br>-->
-<!--            A non-zero rotation speed will override this.-->
-<!--          </div>-->
-<!--          <span>No Particle rotation</span>-->
-<!--        </el-tooltip>-->
-<!--      </div>-->
-<!--      <el-switch-->
-<!--        :value="cc.noRotation"-->
-<!--        @input="setNoRotation"-->
-<!--      />-->
-<!--    </el-form-item>-->
     <el-form-item label="">
       <div slot="label">
         <el-tooltip placement="left">
@@ -125,7 +110,19 @@ export default {
       'setStartRotationMax',
       'setRotationSpeedMin',
       'setRotationSpeedMax',
+      'updateBehaviorConfig',
     ]),
+    setRotation(key, value) {
+      this.updateBehaviorConfig({
+        type: 'rotation',
+        key,
+        value,
+      });
+    },
+    getDescription() {
+      // const prop = this.configProps?.find((p) => p.name === fieldName);
+      return '';
+    },
   },
 };
 </script>
