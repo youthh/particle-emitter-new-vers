@@ -1,6 +1,5 @@
 // export const ACTION_RENAME_EMITTER = 'renameEmitter';
 
-import { upgradeConfig } from '@pixi/particle-emitter';
 import { getAssetIdx, getEmitterByName } from './getters';
 import { EMITTER_TYPE_DEFAULT } from './names';
 
@@ -98,13 +97,25 @@ export const tryToAddAsset = (state, assetFilename) => new Promise((resolve, rej
   }
 });
 
-export const addAsset = ({ commit, state }, assetNameAndBody) => tryToAddAsset(
-  state,
-  assetNameAndBody.filename,
-).then(() => {
-  commit('addAsset', assetNameAndBody);
-  return Promise.resolve();
-});
+export const addAsset = ({ commit, state }, assetNameAndBody) => {
+  tryToAddAsset(
+    state,
+    assetNameAndBody.filename,
+  ).then(() => {
+    commit('addAsset', assetNameAndBody);
+    return Promise.resolve();
+  });
+};
+
+export const addBehaviorAsset = ({ commit, state }, assetNameAndBody) => {
+  tryToAddAsset(
+    state,
+    assetNameAndBody.filename,
+  ).then(() => {
+    commit('addBehaviorAsset', assetNameAndBody);
+    return Promise.resolve();
+  });
+};
 
 export const addAssetToEmitter = ({ commit, state }, assetNameAndBody) => tryToAddAsset(
   state,
@@ -118,15 +129,13 @@ export const addAssetToEmitter = ({ commit, state }, assetNameAndBody) => tryToA
 export const downloadEmitterConfig = ({ state }, emitterName) => {
   const emitter = getEmitterByName(state, emitterName);
 
-  const cleanArt = emitter.art;
-
-  const upgraded = upgradeConfig(emitter.config, cleanArt);
+  // const upgraded = upgradeConfig(emitter.config, cleanArt);
 
   const a = document.createElement('a');
   a.download = `${emitterName}.json`;
   a.href = `data:text/json;charset=utf-8,${
     encodeURIComponent(
-      JSON.stringify(upgraded, null, 2),
+      JSON.stringify(emitter.config, null, 2),
     )}`;
   a.click();
 };

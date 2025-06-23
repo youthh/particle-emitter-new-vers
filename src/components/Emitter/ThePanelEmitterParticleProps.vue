@@ -6,6 +6,12 @@
       </div>
       <the-panel-emitter-particle-prop-alpha />
     </el-collapse-item>
+    <el-collapse-item name="1.10" align="left">
+      <div slot="title">
+        <b>Animated Single Textures</b>
+      </div>
+      <ThePanelEmitterAnimatedSingleTextures />
+    </el-collapse-item>
     <el-collapse-item name="1.2" align="left">
       <div slot="title">
         <b>Scale</b>
@@ -54,6 +60,7 @@ import ThePanelEmitterParticlePropRotation from './ParticleProps/Rotation.vue';
 import ThePanelEmitterParticlePropScale from './ParticleProps/Scale.vue';
 import ThePanelEmitterParticlePropSpeed from './ParticleProps/Speed.vue';
 import ThePanelEmitterParticlePropMoveAcceleration from './ParticleProps/MoveAcceleration.vue';
+import ThePanelEmitterAnimatedSingleTextures from './ParticleProps/AnimatedTextures.vue';
 
 export default {
   name: 'ThePanelEmitterParticleProps',
@@ -65,6 +72,7 @@ export default {
     ThePanelEmitterParticlePropScale,
     ThePanelEmitterParticlePropSpeed,
     ThePanelEmitterParticlePropMoveAcceleration,
+    ThePanelEmitterAnimatedSingleTextures,
   },
 };
 </script>

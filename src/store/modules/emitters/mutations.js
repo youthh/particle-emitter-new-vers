@@ -2,7 +2,7 @@ import {
   getAssetIdx,
   getEmitterByName,
   getCurrentEmitterIdx,
-  getEmitterIdx,
+  getEmitterIdx, getBehaviorAssetIdx,
 } from './getters';
 
 import {
@@ -82,13 +82,54 @@ export const addAsset = (state, assetNameAndData) => {
   // Vue.set(state, 'assets', assets);
 };
 
+export const addBehaviorAsset = (state, assetNameAndData) => {
+  const idx = getCurrentEmitterIdx(state);
+  // delete prev textures
+  state.all[idx].config.behaviors = state.all[idx].config.behaviors.filter((behavior) => !behavior.type.includes('texture'));
+  state.assetsBehaviors.push({
+    name: assetNameAndData.filename,
+    body: assetNameAndData.fileData,
+  });
+  const isAnimatedSingle = state.all[idx].config.behaviors.find((behavior) => behavior.type === 'animatedSingle');
+  if (!isAnimatedSingle) {
+    state.all[idx].config.behaviors.push({
+      type: 'animatedSingle',
+      config: {
+        anim: {
+          framerate: 30,
+          loop: false,
+          textures: [assetNameAndData.fileData],
+        },
+      },
+    });
+  } else {
+    state.all[idx].config.behaviors.map((behavior) => {
+      if (behavior.type === 'animatedSingle') {
+        behavior.config.anim.textures.push(assetNameAndData.fileData);
+      }
+      return behavior;
+    });
+  }
+};
+
 export const removeEmitterAsset = (state, assetFilename) => {
   const current = getCurrentItem(state);
   const assetIdx = current.art.indexOf(assetFilename);
 
   current.art.splice(assetIdx, 1);
 };
-
+export const removeBehaviorAsset = (state, assetFilename) => {
+  const idx = getBehaviorAssetIdx(state)(assetFilename);
+  state.assetsBehaviors.splice(idx, 1);
+  removeEmitterAsset(state, assetFilename);
+  const ix = getCurrentEmitterIdx(state);
+  state.all[ix].config.behaviors.map((behavior) => {
+    if (behavior.type === 'animatedSingle') {
+      behavior.config.anim.textures.splice(idx, 1);
+    }
+    return behavior;
+  });
+};
 export const removeAsset = (state, assetFilename) => {
   const idx = getAssetIdx(state)(assetFilename);
   state.assets.splice(idx, 1);
@@ -250,4 +291,44 @@ export const setAnimationFramerate = (state, value) => {
 };
 export const setAnimationLoop = (state, value) => {
   setAnimProp(state, 'loop', value);
+};
+
+export const setFrameRate = (state, value) => {
+  const idx = getCurrentEmitterIdx(state);
+  const behaviors = state.all[idx].config.behaviors.map((b) => {
+    if (b.type === 'animatedSingle') {
+      return {
+        ...b,
+        config: {
+          ...b.config,
+          anim: {
+            ...b.config.anim,
+            framerate: value,
+          },
+        },
+      };
+    }
+    return b;
+  });
+  state.all[idx].config.behaviors = behaviors;
+};
+
+export const setLoop = (state, value) => {
+  const idx = getCurrentEmitterIdx(state);
+  const behaviors = state.all[idx].config.behaviors.map((b) => {
+    if (b.type === 'animatedSingle') {
+      return {
+        ...b,
+        config: {
+          ...b.config,
+          anim: {
+            ...b.config.anim,
+            loop: value,
+          },
+        },
+      };
+    }
+    return b;
+  });
+  state.all[idx].config.behaviors = behaviors;
 };

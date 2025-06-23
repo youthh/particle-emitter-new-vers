@@ -43,3 +43,17 @@ export const getAssetIdx = (state) => (name) => {
 export const getAssetItem = (state) => (fileName) => {
   return state.assets.find((item) => item.name === fileName);
 };
+
+export const getAnimateSingleTextures = (state) => {
+  const assets = state.assetsBehaviors;
+  return assets;
+};
+export const getBehaviorAssetIdx = (state) => (name) => {
+  return state.assetsBehaviors.findIndex((item) => item.name === name);
+};
+
+export const getAnimateSingleTexturesConfig = (state) => {
+  const idx = getCurrentEmitterIdx(state);
+
+  return state.all[idx].config.behaviors.find((b) => b.type === 'animatedSingle')?.config.anim;
+};
