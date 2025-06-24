@@ -16,23 +16,23 @@ export const getRotationBehavior = (state) => {
 };
 export const getMoveAccelerationBehavior = (state) => {
   const rotatiponBehavior = state.all[0].config.behaviors
-    .find((behavior) => behavior?.type === 'moveAcceleration').config;
+    .find((behavior) => behavior?.type === 'moveAcceleration')?.config;
   return rotatiponBehavior;
 };
 export const getBurstSpawnBehavior = (state) => {
   const rotatiponBehavior = state.all[0].config.behaviors
-    .find((behavior) => behavior?.type === 'spawnBurst').config;
+    .find((behavior) => behavior?.type === 'spawnBurst')?.config;
   return rotatiponBehavior;
 };
 export const getScaleBehavior = (state) => {
   const rotatiponBehavior = state.all[0].config.behaviors
-    .find((behavior) => behavior?.type === 'scale').config;
+    .find((behavior) => behavior?.type === 'scale')?.config;
   return rotatiponBehavior;
 };
 
 export const getShapeBehavior = (state) => {
   const rotatiponBehavior = state.all[0].config.behaviors
-    .find((behavior) => behavior?.type === 'spawnShape').config;
+    .find((behavior) => behavior?.type === 'spawnShape')?.config;
   return rotatiponBehavior;
 };
 

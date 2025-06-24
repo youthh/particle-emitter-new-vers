@@ -1,5 +1,5 @@
 export const SPAWN_TYPE_DEFAULT = 'point';
-export const SPAWN_TYPE_CIRCLE = 'circle';
+export const SPAWN_TYPE_TORUS = 'torus';
 export const SPAWN_TYPE_RING = 'ring';
 export const SPAWN_TYPE_RECT = 'rect';
 export const SPAWN_TYPE_BURST = 'burst';

@@ -6,7 +6,6 @@ import {
 } from './getters';
 
 import {
-  SPAWN_TYPE_CIRCLE,
   SPAWN_TYPE_RING,
   SPAWN_TYPE_RECT, EMITTER_TYPE_PATH,
 } from './names';
@@ -146,7 +145,7 @@ export const setAddAtBack = (state, value) => setConfigProp(state, 'addAtBack', 
 export const setSpawnType = (state, value) => {
   const c = getCurrentItem(state).config;
   // create default required props per spawn type
-  if (value === SPAWN_TYPE_RING || value === SPAWN_TYPE_CIRCLE) {
+  if (value === SPAWN_TYPE_RING ) {
     if (!c.spawnCircle) {
       c.spawnCircle = {
         x: 0, y: 0, r: 1, minR: 1,
@@ -164,7 +163,11 @@ export const setSpawnType = (state, value) => {
 };
 
 export const setTypeSpawn = (state, value) => {
-  state.all[0].spawnType = value;
+  const idx = getCurrentEmitterIdx(state);
+  state.all[idx].config.behaviors =  state.all[idx].config.behaviors.filter((behavior) => behavior.type !== 'spawnShape');
+  // state.all[idx].config = { ...state.all[idx].config, spawnType: value };
+  setConfigProp(state, 'spawnType', value);
+
 };
 export const setPPerWave = (state, value) => setConfigProp(state, 'particlesPerWave', value);
 export const setPSpacing = (state, value) => setConfigProp(state, 'particleSpacing', value);
@@ -336,3 +339,36 @@ export const setLoop = (state, value) => {
   });
   state.all[idx].config.behaviors = behaviors;
 };
+
+
+export const shapeBehaviorChange = (state, {type, key, value}) => {
+  const idx = getCurrentEmitterIdx(state);
+  const isExistShape =  state.all[idx].config.behaviors.find((b) => b.type === "spawnShape");
+  if(isExistShape) {
+    state.all[idx].config.behaviors = state.all[idx].config.behaviors.map((b) => {
+      if (b.type === "spawnShape") {
+        return {
+          ...b,
+          config: {
+            ...b.config,
+            data: {
+              ...b.config.data,
+              [key]: value,
+            },
+          },
+        };
+      }
+      return b;
+    });
+  }else {
+    state.all[idx].config.behaviors.push({
+      type: 'spawnShape',
+      config: {
+        type,
+        data: {
+          [key]: value,
+        },
+      },
+    });
+  }
+}
