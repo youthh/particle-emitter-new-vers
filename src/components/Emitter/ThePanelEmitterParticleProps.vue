@@ -74,14 +74,7 @@ import ThePanelEmitterParticlePropSpeed from './Behavior/Speed.vue';
 import ThePanelEmitterParticlePropMoveAcceleration from './Behavior/MoveAcceleration.vue';
 import ThePanelEmitterParticlePropBurstSpawn from './Behavior/BurstSpawn.vue';
 import ThePanelEmitterParticlePropShapeSpawn from './Behavior/ShapeSpawn.vue';
-import ThePanelEmitterParticlePropAlpha from './ParticleProps/Alpha.vue';
-import ThePanelEmitterParticlePropColor from './ParticleProps/Color.vue';
-import ThePanelEmitterParticlePropLifetime from './ParticleProps/Lifetime.vue';
-import ThePanelEmitterParticlePropRotation from './ParticleProps/Rotation.vue';
-import ThePanelEmitterParticlePropScale from './ParticleProps/Scale.vue';
-import ThePanelEmitterParticlePropSpeed from './ParticleProps/Speed.vue';
-import ThePanelEmitterParticlePropMoveAcceleration from './ParticleProps/MoveAcceleration.vue';
-import ThePanelEmitterAnimatedSingleTextures from './ParticleProps/AnimatedTextures.vue';
+import ThePanelEmitterAnimatedSingleTextures from './Behavior/AnimatedTextures.vue';
 
 export default {
   name: 'ThePanelEmitterParticleProps',
