@@ -2,7 +2,7 @@
   <el-button
     icon="el-icon-plus"
     type="success"
-    @click="() => addNewListedStep(propName)"
+    @click="() => handleClick(propName, behaviorName)"
   >
     Add new step
   </el-button>
@@ -18,11 +18,18 @@ export default {
       required: true,
       type: String,
     },
+    behaviorName: {
+      required: true,
+      type: String,
+    },
   },
   methods: {
     ...mapMutations([
       'addNewListedStep',
     ]),
+    handleClick(propName, behavior) {
+      this.addNewListedStep({propName, behavior});
+    },
   },
 };
 </script>

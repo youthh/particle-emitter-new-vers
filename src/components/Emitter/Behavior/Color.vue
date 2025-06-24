@@ -26,7 +26,10 @@
             })"
           />
         </step-item>
-        <new-step-button prop-name="color" />
+        <new-step-button
+          prop-name="color"
+          behavior-name="color"
+        />
       </el-form-item>
     </div>
   </el-form>

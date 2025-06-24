@@ -62,7 +62,10 @@
               setListedStepValue({ propName: 'speed', index, value, behavior: 'moveSpeed' })"
           />
         </step-item>
-        <new-step-button prop-name="speed" />
+        <new-step-button
+          prop-name="speed"
+          behavior-name="moveSpeed"
+        />
       </el-form-item>
     </div>
   </el-form>

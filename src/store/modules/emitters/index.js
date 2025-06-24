@@ -150,6 +150,18 @@ export default {
                 textures: [utils.TextureCache['CartoonSmoke.png']],
               },
             },
+            {
+              type: 'color',
+              config: {
+                color: {
+                  list: [
+                    { value: 'fff191', time: 0 },
+                    { value: '333333', time: 1 },
+                  ],
+                  isStepped: false,
+                },
+              },
+            },
           ],
         },
       },

@@ -28,7 +28,10 @@
               setListedStepValue({ propName: 'alpha', index, value, behavior: 'alpha' })"
           />
         </step-item>
-        <new-step-button prop-name="alpha" />
+        <new-step-button
+          prop-name="alpha"
+          behavior-name="alpha"
+        />
       </el-form-item>
     </div>
   </el-form>

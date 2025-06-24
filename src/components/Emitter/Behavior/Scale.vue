@@ -67,7 +67,10 @@
               setListedStepValue({ propName: 'scale', index, value, behavior: 'scale' })"
           />
         </step-item>
-        <new-step-button prop-name="scale" />
+        <new-step-button
+          prop-name="scale"
+          behavior-name="scale"
+        />
       </el-form-item>
     </div>
   </el-form>

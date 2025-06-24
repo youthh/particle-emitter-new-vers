@@ -6,7 +6,6 @@ import {
 } from './getters';
 
 import {
-  SPAWN_TYPE_CIRCLE,
   SPAWN_TYPE_RING,
   SPAWN_TYPE_RECT, EMITTER_TYPE_PATH,
 } from './names';
@@ -214,16 +213,16 @@ const validateList = (list) => {
   return list;
 };
 
-export const addNewListedStep = (state, propName) => {
-  const list = getCurrentListedItem(state, propName);
+export const addNewListedStep = (state, {propName, behavior}) => {
+  const list = getCurrentListedItem(state, propName, behavior);
   list.push({
     value: propName === 'color' ? 'ffffff' : 0,
     time: 1,
   });
   setCurrentListItem(state, propName, list);
 };
-export const removeListedStep = (state, { propName, index }) => {
-  const list = getCurrentListedItem(state, propName);
+export const removeListedStep = (state, { propName, index, behavior }) => {
+  const list = getCurrentListedItem(state, propName, behavior);
   list.splice(index, 1);
   validateList(list);
   setCurrentListItem(state, propName, list);
