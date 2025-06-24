@@ -2,21 +2,21 @@
   <div class="assets-list">
     <app-image-resource
       v-for="asset in assetsList"
+      :id="asset.name"
       :key="asset.name"
       size="small"
-      :id="asset.name"
       :img-src="asset.body"
       :img-filename="asset.name"
-      @onReset="$_onAssetDelete(asset.name)"
+      @on-reset="$_onAssetDelete(asset.name)"
     />
 
     <app-image-uploader
-      class="new-asset"
-      ref="newAsset"
-      size="small"
       id="newAsset"
+      ref="newAsset"
+      class="new-asset"
+      size="small"
       :multiple="true"
-      @onItemUploaded="$_onNewAssetUploaded"
+      @on-item-uploaded="$_onNewAssetUploaded"
     />
   </div>
 </template>

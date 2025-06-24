@@ -5,7 +5,6 @@ import './plugins/element';
 import './registerServiceWorker';
 import 'vue-resize/dist/vue-resize.css';
 import './style/fontello.css';
-// eslint-disable-next-line import/order
 import * as PIXI from 'pixi.js';
 
 Vue.config.productionTip = false;

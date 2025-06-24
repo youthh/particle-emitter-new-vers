@@ -1,63 +1,116 @@
 <template>
-  <el-collapse accordion class="particle-props-collapse">
-    <el-collapse-item name="1.9" align="left">
-      <div slot="title">
-        <b>Shape Spawn</b>
-      </div>
+  <el-collapse
+    accordion
+    class="particle-props-collapse"
+  >
+    <el-collapse-item
+      name="1.9"
+      align="left"
+    >
+      <template #title>
+        <div>
+          <b>Shape Spawn</b>
+        </div>
+      </template>
       <ThePanelEmitterParticlePropShapeSpawn />
     </el-collapse-item>
-    <el-collapse-item name="1.1" align="left">
-      <div slot="title">
-        <b>Alpha</b>
-      </div>
+    <el-collapse-item
+      name="1.1"
+      align="left"
+    >
+      <template #title>
+        <div>
+          <b>Alpha</b>
+        </div>
+      </template>
       <the-panel-emitter-particle-prop-alpha />
     </el-collapse-item>
-    <el-collapse-item name="1.10" align="left">
-      <div slot="title">
-        <b>Animated Single Textures</b>
-      </div>
+    <el-collapse-item
+      name="1.10"
+      align="left"
+    >
+      <template #title>
+        <div>
+          <b>Animated Single Textures</b>
+        </div>
+      </template>
       <ThePanelEmitterAnimatedSingleTextures />
     </el-collapse-item>
-    <el-collapse-item name="1.2" align="left">
-      <div slot="title">
-        <b>Scale</b>
-      </div>
+    <el-collapse-item
+      name="1.2"
+      align="left"
+    >
+      <template #title>
+        <div>
+          <b>Scale</b>
+        </div>
+      </template>
       <the-panel-emitter-particle-prop-scale />
     </el-collapse-item>
-    <el-collapse-item name="1.3" align="left">
-      <div slot="title">
-        <b>Color</b>
-      </div>
+    <el-collapse-item
+      name="1.3"
+      align="left"
+    >
+      <template #title>
+        <div>
+          <b>Color</b>
+        </div>
+      </template>
       <the-panel-emitter-particle-prop-color />
     </el-collapse-item>
-    <el-collapse-item name="1.4" align="left">
-      <div slot="title">
-        <b>Speed</b>
-      </div>
+    <el-collapse-item
+      name="1.4"
+      align="left"
+    >
+      <template #title>
+        <div>
+          <b>Speed</b>
+        </div>
+      </template>
       <the-panel-emitter-particle-prop-speed />
     </el-collapse-item>
-    <el-collapse-item name="1.5" align="left">
-      <div slot="title">
-        <b>Rotation</b>
-      </div>
+    <el-collapse-item
+      name="1.5"
+      align="left"
+    >
+      <template #title>
+        <div>
+          <b>Rotation</b>
+        </div>
+      </template>
       <the-panel-emitter-particle-prop-rotation />
     </el-collapse-item>
-    <el-collapse-item name="1.6" align="left">
-      <div slot="title">
-        <b>Lifetime</b>
-      </div>
+    <el-collapse-item
+      name="1.6"
+      align="left"
+    >
+      <template #title>
+        <div>
+          <b>Lifetime</b>
+        </div>
+      </template>
       <the-panel-emitter-particle-prop-lifetime />
     </el-collapse-item>
-    <el-collapse-item name="1.7" align="left">
-      <div slot="title">
-        <b>Move Acceleration</b>
-      </div>
+    <el-collapse-item
+      name="1.7"
+      align="left"
+    >
+      <template #title>
+        <div>
+          <b>Move Acceleration</b>
+        </div>
+      </template>
       <ThePanelEmitterParticlePropMoveAcceleration />
     </el-collapse-item>
-    <el-collapse-item name="1.8" align="left">
-      <div slot="title">
-        <b>Busrt Spawn</b>
-      </div>
+    <el-collapse-item
+      name="1.8"
+      align="left"
+    >
+      <template #title>
+        <div>
+          <b>Busrt Spawn</b>
+        </div>
+      </template>
       <ThePanelEmitterParticlePropBurstSpawn />
     </el-collapse-item>
   </el-collapse>

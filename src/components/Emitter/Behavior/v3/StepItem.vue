@@ -2,7 +2,10 @@
   <div class="list-value-step-item">
     <el-row>
       <el-col>
-        <el-form-item label="Time" label-width="4em">
+        <el-form-item
+          label="Time"
+          label-width="4em"
+        >
           <el-slider
             :show-input="true"
             input-size="mini"
@@ -12,20 +15,26 @@
             :step="0.01"
             :value="time"
             @input="(newTime) =>
-            setListedStepTime({ propName, index: idx, time: newTime, behavior: behavior })"
+              setListedStepTime({ propName, index: idx, time: newTime, behavior: behavior })"
           />
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col>
-        <el-form-item :label="label" label-width="4em">
+        <el-form-item
+          :label="label"
+          label-width="4em"
+        >
           <slot />
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="10" :offset="14">
+      <el-col
+        :span="10"
+        :offset="14"
+      >
         <el-button
           icon="el-icon-delete"
           type="warning"
@@ -36,7 +45,6 @@
       </el-col>
     </el-row>
   </div>
-
 </template>
 
 <script>

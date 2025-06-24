@@ -9,8 +9,11 @@
       label="Render Type"
     >
       <el-radio-group v-model="renderType">
-        <el-radio label="WebGL" :disabled="webGLNotSupported"></el-radio>
-        <el-radio label="Canvas2d"></el-radio>
+        <el-radio
+          label="WebGL"
+          :disabled="webGLNotSupported"
+        />
+        <el-radio label="Canvas2d" />
       </el-radio-group>
     </el-form-item>
     <el-form-item label="BG color">
@@ -23,24 +26,27 @@
         :img-src="imgData"
         :img-filename="imgFile"
 
-        @onChange="$_handleSceneImageChange"
-        @onReset="$_handleSceneImageDelete"
+        @on-change="$_handleSceneImageChange"
+        @on-reset="$_handleSceneImageDelete"
       />
     </el-form-item>
     <span
-      class="hint"
       v-show="hasBgImageData"
+      class="hint"
     >
       On preview stage you can use right-mouse to drag background image or set it manually
     </span>
     <el-form-item
+      v-show="hasBgImageData"
       label="Pos"
       label-width="100px"
-      v-show="hasBgImageData"
     >
       <el-row>
         <el-col :span="12">
-          <el-form-item label="x" label-width="4em">
+          <el-form-item
+            label="x"
+            label-width="4em"
+          >
             <el-input-number
               v-model="bgImgPosX"
               controls-position="right"
@@ -49,7 +55,10 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="y" label-width="4em">
+          <el-form-item
+            label="y"
+            label-width="4em"
+          >
             <el-input-number
               v-model="bgImgPosY"
               controls-position="right"
@@ -60,13 +69,16 @@
       </el-row>
     </el-form-item>
     <el-form-item
+      v-show="hasBgImageData"
       label="Scale"
       label-width="100px"
-      v-show="hasBgImageData"
     >
       <el-row>
         <el-col :span="12">
-          <el-form-item label="x" label-width="4em">
+          <el-form-item
+            label="x"
+            label-width="4em"
+          >
             <el-input-number
               v-model="bgImgScaleX"
               :step="0.01"
@@ -76,7 +88,10 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="y" label-width="4em">
+          <el-form-item
+            label="y"
+            label-width="4em"
+          >
             <el-input-number
               v-model="bgImgScaleY"
               :step="0.01"

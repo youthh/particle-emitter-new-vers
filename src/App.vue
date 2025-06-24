@@ -30,7 +30,7 @@ import AppSidePanel from './components/AppSidePanel.vue';
 import ThePanelProject from './components/ThePanelProject.vue';
 
 export default {
-  name: 'app',
+  name: 'App',
   components: {
     ThePanelProject,
     AppSidePanel,
@@ -39,12 +39,20 @@ export default {
   },
   computed: {
     projectPanelCollapsed: {
-      get() { return this.$store.state.uiState.projectPanel.collapsed; },
-      set(v) { this.$store.commit('uiState/setProjectPanelCollapsed', v); },
+      get() {
+        return this.$store.state.uiState.projectPanel.collapsed;
+      },
+      set(v) {
+        this.$store.commit('uiState/setProjectPanelCollapsed', v);
+      },
     },
     emitterPanelCollapsed: {
-      get() { return this.$store.state.uiState.emitterPanel.collapsed; },
-      set(v) { this.$store.commit('uiState/setEmitterPanelCollapsed', v); },
+      get() {
+        return this.$store.state.uiState.emitterPanel.collapsed;
+      },
+      set(v) {
+        this.$store.commit('uiState/setEmitterPanelCollapsed', v);
+      },
     },
   },
 };
@@ -71,10 +79,12 @@ html, body {
 
 #main-container {
   height: 100%;
+
   .el-main {
     overflow: hidden;
     padding: 0;
   }
+
   /*
   .el-aside {
     padding: 20px;
@@ -82,7 +92,7 @@ html, body {
 }
 
 .el-input-number--mini {
-  width: 110px!important;
+  width: 110px !important;
 }
 
 .tooltip-link {

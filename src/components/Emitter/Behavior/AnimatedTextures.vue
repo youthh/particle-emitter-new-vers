@@ -6,19 +6,25 @@
     label-position="left"
   >
     <el-form-item label="">
-      <div slot="label">
-        <el-tooltip placement="left">
-          <div slot="content">
-            Speed in degrees per second that particles <br>
-            rotate - Positive numbers are clockwise
-          </div>
-          <span>Frame Rate</span>
-        </el-tooltip>
-      </div>
+      <template #label>
+        <div>
+          <el-tooltip placement="left">
+            <template #content>
+              <div>
+                Speed in degrees per second that particles <br>
+                rotate - Positive numbers are clockwise
+              </div>
+            </template>
+            <span>Frame Rate</span>
+          </el-tooltip>
+        </div>
+      </template>
       <el-row>
         <el-col>
-
-          <el-tooltip content="Starting speed" placement="top">
+          <el-tooltip
+            content="Starting speed"
+            placement="top"
+          >
             <el-input-number
               class="xs-mini"
               :step="1"
@@ -26,46 +32,49 @@
               @input="setFrameRate"
             />
           </el-tooltip>
-
         </el-col>
       </el-row>
     </el-form-item>
     <el-form-item>
-      <div slot="label">
-        <el-tooltip placement="left">
-          <div slot="content">
-            If this is the first node in the list,<br>
-            controls if the entire list is stepped or not.
-          </div>
-          <span>Loop</span>
-        </el-tooltip>
-        <el-form-item label="">
-          <el-switch
-            :value="cc?.loop ? cc.loop : false"
-            @input="$_onSwitchLoop"
-          />
-        </el-form-item>
-      </div>
+      <template #label>
+        <div>
+          <el-tooltip placement="left">
+            <template #content>
+              <div>
+                If this is the first node in the list,<br>
+                controls if the entire list is stepped or not.
+              </div>
+            </template>
+            <span>Loop</span>
+          </el-tooltip>
+          <el-form-item label="">
+            <el-switch
+              :value="cc?.loop ? cc.loop : false"
+              @input="$_onSwitchLoop"
+            />
+          </el-form-item>
+        </div>
+      </template>
     </el-form-item>
     <el-form-item label="Add animated Texture">
       <div class="assets-list">
         <app-image-resource
           v-for="asset in assets"
+          :id="id"
           :key="asset"
           size="small"
-          :id="id"
           :img-src="asset.body"
           :img-filename="asset.name"
-          @onReset="$_onAssetDelete(asset.name)"
+          @on-reset="$_onAssetDelete(asset.name)"
         />
 
         <app-image-uploader
-          class="new-asset"
-          ref="newBehaviorAsset"
-          size="small"
           id="newBehaviorAsset"
+          ref="newBehaviorAsset"
+          class="new-asset"
+          size="small"
           :multiple="true"
-          @onItemUploaded="$_onNewAssetUploaded"
+          @on-item-uploaded="$_onNewAssetUploaded"
         />
       </div>
     </el-form-item>

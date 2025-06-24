@@ -6,6 +6,7 @@ import {
 } from './getters';
 
 import {
+  SPAWN_TYPE_CIRCLE,
   SPAWN_TYPE_RING,
   SPAWN_TYPE_RECT, EMITTER_TYPE_PATH,
 } from './names';
@@ -165,16 +166,23 @@ export const setSpawnType = (state, value) => {
 export const setTypeSpawn = (state, value) => {
   const idx = getCurrentEmitterIdx(state);
   state.all[idx].config.behaviors =  state.all[idx].config.behaviors.filter((behavior) => behavior.type !== 'spawnShape');
-  // state.all[idx].config = { ...state.all[idx].config, spawnType: value };
-  setConfigProp(state, 'spawnType', value);
-
+  state.all[idx].spawnType = value;
 };
 export const setPPerWave = (state, value) => setConfigProp(state, 'particlesPerWave', value);
 export const setPSpacing = (state, value) => setConfigProp(state, 'particleSpacing', value);
 export const setAngleStart = (state, value) => setConfigProp(state, 'angleStart', value);
-export const setSpawnPos = (state, { attr, value }) => setConfigPropWithAttr(state, 'pos', attr, value);
-export const setSpawnCircle = (state, { attr, value }) => setConfigPropWithAttr(state, 'spawnCircle', attr, value);
-export const setSpawnRect = (state, { attr, value }) => setConfigPropWithAttr(state, 'spawnRect', attr, value);
+export const setSpawnPos = (state, {
+  attr,
+  value,
+}) => setConfigPropWithAttr(state, 'pos', attr, value);
+export const setSpawnCircle = (state, {
+  attr,
+  value,
+}) => setConfigPropWithAttr(state, 'spawnCircle', attr, value);
+export const setSpawnRect = (state, {
+  attr,
+  value,
+}) => setConfigPropWithAttr(state, 'spawnRect', attr, value);
 export const setNoRotation = (state, value) => setConfigProp(state, 'noRotation', value);
 export const setStartRotationMin = (state, value) => setConfigPropWithAttr(state, 'startRotation', 'min', value);
 export const setStartRotationMax = (state, value) => setConfigPropWithAttr(state, 'startRotation', 'max', value);
@@ -183,7 +191,10 @@ export const setRotationSpeedMax = (state, value) => setConfigPropWithAttr(state
 export const setLifetimeMin = (state, value) => setConfigPropWithAttr(state, 'lifetime', 'min', value);
 export const setLifetimeMax = (state, value) => setConfigPropWithAttr(state, 'lifetime', 'max', value);
 export const setSpawnPolygon = (state, value) => setConfigProp(state, 'spawnPolygon', value);
-export const setAcceleration = (state, { attr, value }) => setConfigPropWithAttr(state, 'acceleration', attr, value);
+export const setAcceleration = (state, {
+  attr,
+  value,
+}) => setConfigPropWithAttr(state, 'acceleration', attr, value);
 
 const getCurrentListedItem = (state, propName, behavior) => {
   const c = getCurrentItem(state).config;

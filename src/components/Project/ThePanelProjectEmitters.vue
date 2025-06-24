@@ -1,11 +1,11 @@
 <template>
   <div>
     <el-form
+      ref="emittersForm"
       size="mini"
       label-width="140px"
       label-suffix=":"
       label-position="left"
-      ref="emittersForm"
       :rules="validationRules"
       :model="formData"
     >
@@ -14,14 +14,16 @@
         prop="newName"
       >
         <el-input
-          clearable
           v-model="formData.newName"
+          clearable
         >
-          <el-button
-            slot="append"
-            icon="el-icon-plus"
-            @click="$_handleAddNewClick"
-          />
+          <template #append>
+            <el-button
+            
+              icon="el-icon-plus"
+              @click="$_handleAddNewClick"
+            />
+          </template>
         </el-input>
       </el-form-item>
       <el-form-item
@@ -33,11 +35,8 @@
           inactive-text="2.x Syntax"
           :value="v3Syntax"
           @input="toggleSyntaxVersion"
-        >
-        </el-switch>
-
+        />
       </el-form-item>
-
     </el-form>
     <table class="emitters-list">
       <tr class="head">
@@ -53,12 +52,12 @@
           emitter.enabled ? '': 'not-active',
           emitter.isCurrent ? 'current' : '',
         ]"
-        >
+      >
         <td>
-          {{emitter.name}}
+          {{ emitter.name }}
         </td>
         <td>
-          {{emitter.type}}
+          {{ emitter.type }}
         </td>
         <td width="20%">
           <el-switch
@@ -115,7 +114,7 @@
       accept="application/json"
       style="display: none"
       @change="$_handleUploadEmitter"
-    />
+    >
   </div>
 </template>
 

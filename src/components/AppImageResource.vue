@@ -1,30 +1,48 @@
 <template>
   <div
+    ref="wrapper"
     class="app-image-res"
     :class="[
       sizeClass
     ]"
-    ref="wrapper"
   >
-    <div class="app-image-res__placeholder" v-if="!imgSelected">
+    <div
+      v-if="!imgSelected"
+      class="app-image-res__placeholder"
+    >
       <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
-      <label :for="inputId" class="app-image-res__label"> </label>
-      <div class="app-image-res__placeholder_add">+</div>
+      <label
+        :for="inputId"
+        class="app-image-res__label"
+      />
+      <div class="app-image-res__placeholder_add">
+        +
+      </div>
       <p class="app-image-res__placeholder_text">
-        {{placeholder}}
+        {{ placeholder }}
       </p>
     </div>
 
-    <div class="app-image-res__preview" v-if="imgSelected">
+    <div
+      v-if="imgSelected"
+      class="app-image-res__preview"
+    >
       <el-tooltip
         placement="top"
         :content="filename"
       >
-        <img :src="dataUrl" class="app-image-res__preview-img" alt="">
+        <img
+          :src="dataUrl"
+          class="app-image-res__preview-img"
+          alt=""
+        >
       </el-tooltip>
     </div>
 
-    <div class="app-image-res__toolbar" v-if="imgSelected" >
+    <div
+      v-if="imgSelected"
+      class="app-image-res__toolbar"
+    >
       <el-tooltip
         content="Download"
       >
@@ -37,7 +55,7 @@
       </el-tooltip>
       <el-tooltip
         content="Delete"
-        >
+      >
         <el-button
           plain
           type="danger"
@@ -49,22 +67,27 @@
     </div>
     <!-- eslint-disable-next-line vuejs-accessibility/form-control-has-label -->
     <input
+      :id="inputId"
       ref="input"
       type="file"
-      :id="inputId"
       :accept="accept"
       class="app-image-res__input"
       @change="$_handleFileChange"
-    />
+    >
     <transition name="a-fade-in">
-      <div class="app-image-res__err" v-if="errText.length">{{errText}}</div>
+      <div
+        v-if="errText.length"
+        class="app-image-res__err"
+      >
+        {{ errText }}
+      </div>
     </transition>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'app-image-resource',
+  name: 'AppImageResource',
   props: {
     size: {
       type: String,
@@ -158,7 +181,7 @@ export default {
 
     this.$refs.wrapper.addEventListener('drop', this.$_onDrop);
   },
-  beforeDestroy() {
+  beforeUnmount() {
     const removeDefaultEvent = (eventName) => {
       document.removeEventListener(eventName, this.$_preventDefaultHandler);
     };

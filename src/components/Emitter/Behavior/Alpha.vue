@@ -8,10 +8,10 @@
     <div>
       <el-form-item label="List">
         <step-item
-          prop-name="alpha"
-          label="Alpha"
           v-for="(item, index) in cc.behaviors.find((i) => i?.type === 'alpha')?.config?.alpha.list"
           :key="index"
+          prop-name="alpha"
+          label="Alpha"
           :idx="index"
           :time="item.time"
           behavior="alpha"
@@ -25,7 +25,7 @@
             :step="0.01"
             :value="item.value"
             @input="(value) =>
-            setListedStepValue({ propName: 'alpha', index, value, behavior: 'alpha' })"
+              setListedStepValue({ propName: 'alpha', index, value, behavior: 'alpha' })"
           />
         </step-item>
         <new-step-button prop-name="alpha" />

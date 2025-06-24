@@ -1,44 +1,67 @@
 <template>
-  <el-form size="mini" label-width="150px" label-suffix=":" label-position="left">
+  <el-form
+    size="mini"
+    label-width="150px"
+    label-suffix=":"
+    label-position="left"
+  >
     <el-form-item>
-      <div slot="label">
-        <el-tooltip placement="top">
-          <div slot="content">{{ getDescription('spacing') }}</div>
-          <span>Particle Spacing</span>
-        </el-tooltip>
-      </div>
+      <template #label>
+        <div>
+          <el-tooltip placement="top">
+            <template #content>
+              <div>
+                {{ getDescription('spacing') }}
+              </div>
+            </template>
+            <span>Particle Spacing</span>
+          </el-tooltip>
+        </div>
+      </template>
       <el-input-number
         :step="1"
-        :value="cc.spacing"
+        :value="cc?.spacing"
         @input="(val) => setBurstSpawn('spacing', val)"
       />
     </el-form-item>
 
     <el-form-item>
-      <div slot="label">
-        <el-tooltip placement="top">
-          <div slot="content">{{ getDescription('start') }}</div>
-          <span>Start Angle</span>
-        </el-tooltip>
-      </div>
+      <template #label>
+        <div>
+          <el-tooltip placement="top">
+            <template #content>
+              <div>
+                {{ getDescription('start') }}
+              </div>
+            </template>
+            <span>Start Angle</span>
+          </el-tooltip>
+        </div>
+      </template>
       <el-input-number
         :step="1"
-        :value="cc.start"
+        :value="cc?.start"
         @input="(val) => setBurstSpawn('start', val)"
       />
     </el-form-item>
 
     <el-form-item>
-      <div slot="label">
-        <el-tooltip placement="top">
-          <div slot="content">{{ getDescription('distance') }}</div>
-          <span>Distance</span>
-        </el-tooltip>
-      </div>
+      <template #label>
+        <div>
+          <el-tooltip placement="top">
+            <template #content>
+              <div>
+                {{ getDescription('distance') }}
+              </div>
+            </template>
+            <span>Distance</span>
+          </el-tooltip>
+        </div>
+      </template>
       <el-input-number
         :step="1"
         :min="0"
-        :value="cc.distance"
+        :value="cc?.distance"
         @input="(val) => setBurstSpawn('distance', val)"
       />
     </el-form-item>

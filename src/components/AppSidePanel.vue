@@ -3,22 +3,29 @@
   <el-aside
     class="side-panel"
     :class="{collapsed: collapsed}"
-    v-bind:width="(collapsed ? collapsedWidth : width) + 'px'"
+    :width="(collapsed ? collapsedWidth : width) + 'px'"
   >
     <el-container>
       <el-main>
-        <slot v-if="!collapsed"/>
+        <slot v-if="!collapsed" />
       </el-main>
-      <el-footer height="40px" :class="{'el-footer-left': isLeft, 'el-footer-right': !isLeft}">
-        <el-button type="primary" size="mini" @click="$_toggleCollapse">
+      <el-footer
+        height="40px"
+        :class="{'el-footer-left': isLeft, 'el-footer-right': !isLeft}"
+      >
+        <el-button
+          type="primary"
+          size="mini"
+          @click="$_toggleCollapse"
+        >
           <i
             v-show="(!collapsed && isLeft) || (collapsed && !isLeft)"
             class="el-icon-arrow-left"
-          ></i>
+          />
           <i
             v-show="(collapsed && isLeft) || (!collapsed && !isLeft)"
             class="el-icon-arrow-right"
-          ></i>
+          />
         </el-button>
       </el-footer>
     </el-container>

@@ -5,41 +5,50 @@
     label-suffix=":"
     label-position="left"
   >
-    <el-form-item label-width="100px"
-    >
-      <div slot="label">
-        <el-tooltip placement="left">
-          <div slot="content">
-            Acceleration of particles. Prevents using end speed. <br>
-            Without a rotation speed defined, particles will rotate to <br>
-            match movement direction.
-          </div>
-        </el-tooltip>
-      </div>
+    <el-form-item label-width="100px">
+      <template #label>
+        <div>
+          <el-tooltip placement="left">
+            <template #content>
+              <div>
+                Acceleration of particles. Prevents using end speed. <br>
+                Without a rotation speed defined, particles will rotate to <br>
+                match movement direction.
+              </div>
+            </template>
+          </el-tooltip>
+        </div>
+      </template>
     </el-form-item>
     <el-form-item>
-      <div slot="label">
-        <el-tooltip placement="top">
-          <div slot="content">{{ getDescription('minMult') }}</div>
-          <span>Min Mult</span>
-        </el-tooltip>
-      </div>
+      <template #label>
+        <div>
+          <el-tooltip placement="top">
+            <template #content>
+              <div>
+                {{ getDescription('minMult') }}
+              </div>
+            </template>
+            <span>Min Mult</span>
+          </el-tooltip>
+        </div>
+      </template>
       <el-input-number
         :min="0"
         :step="0.1"
         :value="cc.minMult"
-        @input="(val) => setMoveSpeedSpawn  ('minMult', val)"
+        @input="(val) => setMoveSpeedSpawn ('minMult', val)"
       />
     </el-form-item>
 
     <div>
       <el-form-item label="List">
         <step-item
+          v-for="(item, index) in cc.behaviors.find((i) => i?.type === 'moveSpeed')
+            ?.config?.speed.list"
+          :key="index"
           prop-name="speed"
           label="Speed"
-          v-for="(item, index) in cc.behaviors.find((i) => i?.type === 'moveSpeed')
-          ?.config?.speed.list"
-          :key="index"
           :idx="index"
           :time="item.time"
           behavior="moveSpeed"
@@ -50,10 +59,10 @@
             :step="1"
             :value="item.value"
             @input="(value) =>
-            setListedStepValue({ propName: 'speed', index, value, behavior: 'moveSpeed' })"
+              setListedStepValue({ propName: 'speed', index, value, behavior: 'moveSpeed' })"
           />
         </step-item>
-        <new-step-button prop-name="speed"/>
+        <new-step-button prop-name="speed" />
       </el-form-item>
     </div>
   </el-form>

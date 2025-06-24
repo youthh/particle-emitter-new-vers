@@ -5,14 +5,20 @@
     label-suffix=":"
     label-position="left"
   >
-    <div >
+    <div>
       <el-form-item>
-        <div slot="label">
-          <el-tooltip placement="top">
-            <div slot="content">{{ getDescription('minMult') }}</div>
-            <span>Min Mult</span>
-          </el-tooltip>
-        </div>
+        <template #label>
+          <div>
+            <el-tooltip placement="top">
+              <template #content>
+                <div>
+                  {{ getDescription('minMult') }}
+                </div>
+              </template>
+              <span>Min Mult</span>
+            </el-tooltip>
+          </div>
+        </template>
         <el-input-number
           :min="0"
           :step="0.1"
@@ -23,12 +29,18 @@
 
       <!-- isStepped -->
       <el-form-item>
-        <div slot="label">
-          <el-tooltip placement="top">
-            <div slot="content">{{ getDescription('isStepped') }}</div>
-            <span>Is Stepped</span>
-          </el-tooltip>
-        </div>
+        <template #label>
+          <div>
+            <el-tooltip placement="top">
+              <template #content>
+                <div>
+                  {{ getDescription('isStepped') }}
+                </div>
+              </template>
+              <span>Is Stepped</span>
+            </el-tooltip>
+          </div>
+        </template>
         <el-switch
           :value="cc.scale.isStepped"
           @change="(val) => setScaleSpawn('scale.isStepped', val)"
@@ -37,10 +49,10 @@
 
       <el-form-item label="List">
         <step-item
-          prop-name="scale"
-          label="Scale"
           v-for="(item, index) in cc.scale.list"
           :key="index"
+          prop-name="scale"
+          label="Scale"
           :idx="index"
           :time="item.time"
           behavior="scale"
@@ -52,13 +64,12 @@
             :step="0.01"
             :value="item.value"
             @input="(value) =>
-            setListedStepValue({ propName: 'scale', index, value, behavior: 'scale'  })"
+              setListedStepValue({ propName: 'scale', index, value, behavior: 'scale' })"
           />
         </step-item>
         <new-step-button prop-name="scale" />
       </el-form-item>
     </div>
-
   </el-form>
 </template>
 

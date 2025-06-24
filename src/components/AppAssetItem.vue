@@ -4,7 +4,11 @@
       placement="top"
       :content="imgFilename"
     >
-      <img :alt="imgFilename" :src="imgSrc" class="asset-item__preview-img">
+      <img
+        :alt="imgFilename"
+        :src="imgSrc"
+        class="asset-item__preview-img"
+      >
     </el-tooltip>
   </div>
 </template>
