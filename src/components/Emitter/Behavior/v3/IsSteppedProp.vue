@@ -1,14 +1,18 @@
 <template>
   <el-form-item>
-    <div slot="label">
-      <el-tooltip placement="left">
-        <div slot="content">
-          If this is the first node in the list,<br>
-          controls if the entire list is stepped or not.
-        </div>
-        <span>Is stepped?</span>
-      </el-tooltip>
-    </div>
+    <template #label>
+      <div>
+        <el-tooltip placement="left">
+          <template #content>
+            <div>
+              If this is the first node in the list,<br>
+              controls if the entire list is stepped or not.
+            </div>
+          </template>
+          <span>Is stepped?</span>
+        </el-tooltip>
+      </div>
+    </template>
     <el-switch
       v-model="isStepped"
     />

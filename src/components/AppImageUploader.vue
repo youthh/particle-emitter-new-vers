@@ -1,31 +1,41 @@
 <template>
   <div
+    ref="wrapper"
     class="app-image-res"
     :class="[
       sizeClass
     ]"
-    ref="wrapper"
   >
     <div class="app-image-res__placeholder">
       <!-- eslint-disable vuejs-accessibility/label-has-for -->
-      <label :for="inputId" class="app-image-res__label"></label>
-      <div class="app-image-res__placeholder_add">+</div>
+      <label
+        :for="inputId"
+        class="app-image-res__label"
+      />
+      <div class="app-image-res__placeholder_add">
+        +
+      </div>
       <p class="app-image-res__placeholder_text">
-        {{progress > 0 ? progress + "%" : placeholder}}
+        {{ progress > 0 ? progress + "%" : placeholder }}
       </p>
     </div>
     <!-- eslint-disable-next-line vuejs-accessibility/form-control-has-label -->
     <input
+      :id="inputId"
       ref="input"
       type="file"
-      :id="inputId"
       :accept="accept"
       :multiple="multiple && features.html5"
       class="app-image-res__input"
       @change="$_handleFileChange"
-    />
+    >
     <transition name="a-fade-in">
-      <div class="app-image-res__err" v-if="errText.length">{{errText}}</div>
+      <div
+        v-if="errText.length"
+        class="app-image-res__err"
+      >
+        {{ errText }}
+      </div>
     </transition>
   </div>
 </template>
@@ -33,7 +43,7 @@
 <script>
 
 export default {
-  name: 'app-image-uploader',
+  name: 'AppImageUploader',
   props: {
     size: {
       type: String,
@@ -121,7 +131,7 @@ export default {
 
     this.$refs.wrapper.addEventListener('drop', this.$_onDrop);
   },
-  beforeDestroy() {
+  beforeUnmount() {
     const removeDefaultEvent = (eventName) => {
       document.removeEventListener(eventName, this.$_preventDefaultHandler);
     };

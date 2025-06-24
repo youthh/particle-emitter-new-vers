@@ -11,7 +11,7 @@
           :key="item.value"
           :label="item.label"
           :value="item.value"
-          />
+        />
       </el-select>
     </el-form-item>
     <el-form-item label="Active assets">
@@ -33,12 +33,12 @@
     </el-form-item>
     <el-form-item label="Or add new">
       <app-image-uploader
-        class="new-asset"
-        ref="newEmitterAsset"
-        size="small"
         id="newEmitterAsset"
+        ref="newEmitterAsset"
+        class="new-asset"
+        size="small"
         :multiple="true"
-        @onItemUploaded="$_onNewAssetUploaded"
+        @on-item-uploaded="$_onNewAssetUploaded"
       />
     </el-form-item>
   </el-form>

@@ -64,7 +64,7 @@ export default {
         name: 'def',
         type: 'default',
         enabled: true,
-        spawnType: 'default',
+        spawnType: 'rect',
         art: ['CartoonSmoke.png'],
         animConfig: {
           loop: false,
@@ -85,17 +85,16 @@ export default {
           },
           behaviors: [
             {
-              type: 'spawnShape',
-              config: {
-                type: 'torus',
-                data: {
-                  radius: 0,
-                  x: 10,
-                  y: 0,
-                  innerRadius: 10,
-                  rotation: false,
-                },
-              },
+              "type": "spawnShape",
+              "config": {
+                "type": "rect",
+                "data": {
+                  "x": -200,
+                  "y": 100,
+                  "w": 400,
+                  "h": 200
+                }
+              }
             },
             {
               type: 'alpha',
@@ -149,18 +148,6 @@ export default {
               type: 'textureRandom',
               config: {
                 textures: [utils.TextureCache['CartoonSmoke.png']],
-              },
-            },
-            {
-              type: 'spawnPoint',
-              config: {},
-            },
-            {
-              type: 'spawnBurst',
-              config: {
-                spacing: 0,
-                start: 0,
-                distance: 40,
               },
             },
           ],

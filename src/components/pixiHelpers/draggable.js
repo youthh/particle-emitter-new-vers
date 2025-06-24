@@ -1,5 +1,4 @@
-/* eslint-disable import/prefer-default-export */
-// Taken from https://pixijs.io/examples/#/layers/zorder.js
+
 
 export const EV_START_DRAG = 'startDrag';
 export const EV_ON_DRAG = 'updatePosition';

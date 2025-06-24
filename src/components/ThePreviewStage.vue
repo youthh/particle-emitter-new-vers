@@ -1,13 +1,27 @@
 <template>
   <div class="preview-el">
-    <resize-observer @notify="handleResize"/>
-    <canvas ref="previewStageWebGL" class="webgl"></canvas>
-    <canvas ref="previewStageCanvas2d" class="canvas2d"></canvas>
+    <resize-observer @notify="handleResize" />
+    <canvas
+      ref="previewStageWebGL"
+      class="webgl"
+    />
+    <canvas
+      ref="previewStageCanvas2d"
+      class="canvas2d"
+    />
     <div class="stageInfo">
-      <div id="framerate">FPS: {{ curFPS.toFixed(0) }}</div>
-      <div id="particleCount">Particles: {{ pNumber }}</div>
-      <div id="cursorPos">x:{{ mousePos.x }}, y: {{ mousePos.y }}</div>
-      <div id="render">Use: {{ isCurrentWebGl ? 'WebGL' : 'Canvas2d' }}</div>
+      <div id="framerate">
+        FPS: {{ curFPS.toFixed(0) }}
+      </div>
+      <div id="particleCount">
+        Particles: {{ pNumber }}
+      </div>
+      <div id="cursorPos">
+        x:{{ mousePos.x }}, y: {{ mousePos.y }}
+      </div>
+      <div id="render">
+        Use: {{ isCurrentWebGl ? 'WebGL' : 'Canvas2d' }}
+      </div>
     </div>
   </div>
 </template>
@@ -43,7 +57,7 @@ import {
 } from './pixiHelpers/draggable';
 import { addWheelListener } from './pixiHelpers/wheel';
 
-Vue.component('resize-observer', ResizeObserver);
+Vue.component('ResizeObserver', ResizeObserver);
 
 // PIXI.particles.ParticleUtils.verbose = true;
 
@@ -189,7 +203,7 @@ export default {
     /** @type {Container|PIXI.particles.ParticleContainer} */
     this.pContainer = null;
   },
-  beforeDestroy() {
+  beforeUnmount() {
     while (this.watchers.length) {
       const stopWatch = this.watchers.shift();
       stopWatch();

@@ -1,11 +1,11 @@
 <template>
   <div id="props-panel">
     <el-form
+      ref="form"
       label-width="100px"
       size="mini"
       label-suffix=":"
       label-position="left"
-      ref="form"
       :rules="validationRules"
       :model="formData"
     >
@@ -17,11 +17,13 @@
           :value="current"
           @input="$_handleChangeLocalName"
         >
-          <el-button
-            slot="append"
-            icon="icon-floppy"
-            @click="$_handleRename"
-          />
+          <template #append>
+            <el-button
+            
+              icon="icon-floppy"
+              @click="$_handleRename"
+            />
+          </template>
         </el-input>
       </el-form-item>
     </el-form>
@@ -31,33 +33,40 @@
       @input="setActiveEmitterPanel"
     >
       <el-collapse-item name="1">
-        <div slot="title">
-          <i class="el-icon-document"></i>&nbsp;
-          <b class="panel-group-title">Behaviors</b>
-        </div>
-        <the-panel-emitter-particle-props/>
-      </el-collapse-item
-      >
+        <template #title>
+          <div>
+            <i class="el-icon-document" />&nbsp;
+            <b class="panel-group-title">Behaviors</b>
+          </div>
+        </template>
+        <the-panel-emitter-particle-props />
+      </el-collapse-item>
       <el-collapse-item name="2">
-        <div slot="title">
-          <i class="el-icon-setting"></i>&nbsp;
-          <b class="panel-group-title">Emitter Props</b>
-        </div>
-        <the-panel-emitter-props/>
+        <template #title>
+          <div>
+            <i class="el-icon-setting" />&nbsp;
+            <b class="panel-group-title">Emitter Props</b>
+          </div>
+        </template>
+        <the-panel-emitter-props />
       </el-collapse-item>
       <el-collapse-item name="3">
-        <div slot="title">
-          <i class="el-icon-picture-outline"></i>&nbsp;
-          <b class="panel-group-title">Emitter Assets</b>
-        </div>
-        <the-panel-emitter-assets/>
+        <template #title>
+          <div>
+            <i class="el-icon-picture-outline" />&nbsp;
+            <b class="panel-group-title">Emitter Assets</b>
+          </div>
+        </template>
+        <the-panel-emitter-assets />
       </el-collapse-item>
       <el-collapse-item name="4">
-        <div slot="title">
-          <i class=" icon-cog-alt"></i>&nbsp;
-          <b class="panel-group-title">Emitter Type</b>
-        </div>
-        <the-panel-emitter-type/>
+        <template #title>
+          <div>
+            <i class=" icon-cog-alt" />&nbsp;
+            <b class="panel-group-title">Emitter Type</b>
+          </div>
+        </template>
+        <the-panel-emitter-type />
       </el-collapse-item>
     </el-collapse>
   </div>

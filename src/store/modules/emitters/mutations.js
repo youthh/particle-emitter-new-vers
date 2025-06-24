@@ -164,14 +164,25 @@ export const setSpawnType = (state, value) => {
 };
 
 export const setTypeSpawn = (state, value) => {
-  state.all[0].spawnType = value;
+  const idx = getCurrentEmitterIdx(state);
+  state.all[idx].config.behaviors =  state.all[idx].config.behaviors.filter((behavior) => behavior.type !== 'spawnShape');
+  state.all[idx].spawnType = value;
 };
 export const setPPerWave = (state, value) => setConfigProp(state, 'particlesPerWave', value);
 export const setPSpacing = (state, value) => setConfigProp(state, 'particleSpacing', value);
 export const setAngleStart = (state, value) => setConfigProp(state, 'angleStart', value);
-export const setSpawnPos = (state, { attr, value }) => setConfigPropWithAttr(state, 'pos', attr, value);
-export const setSpawnCircle = (state, { attr, value }) => setConfigPropWithAttr(state, 'spawnCircle', attr, value);
-export const setSpawnRect = (state, { attr, value }) => setConfigPropWithAttr(state, 'spawnRect', attr, value);
+export const setSpawnPos = (state, {
+  attr,
+  value,
+}) => setConfigPropWithAttr(state, 'pos', attr, value);
+export const setSpawnCircle = (state, {
+  attr,
+  value,
+}) => setConfigPropWithAttr(state, 'spawnCircle', attr, value);
+export const setSpawnRect = (state, {
+  attr,
+  value,
+}) => setConfigPropWithAttr(state, 'spawnRect', attr, value);
 export const setNoRotation = (state, value) => setConfigProp(state, 'noRotation', value);
 export const setStartRotationMin = (state, value) => setConfigPropWithAttr(state, 'startRotation', 'min', value);
 export const setStartRotationMax = (state, value) => setConfigPropWithAttr(state, 'startRotation', 'max', value);
@@ -180,7 +191,10 @@ export const setRotationSpeedMax = (state, value) => setConfigPropWithAttr(state
 export const setLifetimeMin = (state, value) => setConfigPropWithAttr(state, 'lifetime', 'min', value);
 export const setLifetimeMax = (state, value) => setConfigPropWithAttr(state, 'lifetime', 'max', value);
 export const setSpawnPolygon = (state, value) => setConfigProp(state, 'spawnPolygon', value);
-export const setAcceleration = (state, { attr, value }) => setConfigPropWithAttr(state, 'acceleration', attr, value);
+export const setAcceleration = (state, {
+  attr,
+  value,
+}) => setConfigPropWithAttr(state, 'acceleration', attr, value);
 
 const getCurrentListedItem = (state, propName, behavior) => {
   const c = getCurrentItem(state).config;
@@ -336,3 +350,36 @@ export const setLoop = (state, value) => {
   });
   state.all[idx].config.behaviors = behaviors;
 };
+
+
+export const shapeBehaviorChange = (state, {type, key, value}) => {
+  const idx = getCurrentEmitterIdx(state);
+  const isExistShape =  state.all[idx].config.behaviors.find((b) => b.type === "spawnShape");
+  if(isExistShape) {
+    state.all[idx].config.behaviors = state.all[idx].config.behaviors.map((b) => {
+      if (b.type === "spawnShape") {
+        return {
+          ...b,
+          config: {
+            ...b.config,
+            data: {
+              ...b.config.data,
+              [key]: value,
+            },
+          },
+        };
+      }
+      return b;
+    });
+  }else {
+    state.all[idx].config.behaviors.push({
+      type: 'spawnShape',
+      config: {
+        type,
+        data: {
+          [key]: value,
+        },
+      },
+    });
+  }
+}

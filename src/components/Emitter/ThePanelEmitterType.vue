@@ -4,9 +4,7 @@
     label-width="140px"
     label-suffix=":"
     label-position="left"
-  >
-
-  </el-form>
+  />
 </template>
 
 <script>

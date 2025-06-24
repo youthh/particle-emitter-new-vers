@@ -8,10 +8,10 @@
     <div v-show="useV3">
       <el-form-item label="List">
         <step-item
-          prop-name="color"
-          label="Color"
           v-for="(item, index) in cc.behaviors.find((i) => i?.type === 'color')?.config?.color.list"
           :key="index"
+          prop-name="color"
+          label="Color"
           :idx="index"
           :time="item.time"
           behavior="color"
@@ -19,11 +19,11 @@
           <el-color-picker
             :value="`#${item.value}`"
             @input="(value) => setListedStepValue({
-                    propName: 'color',
-                    index,
-                    value: !value ? 'ffffff': value.substr(1),
-                    behavior: 'color',
-                  })"
+              propName: 'color',
+              index,
+              value: !value ? 'ffffff': value.substr(1),
+              behavior: 'color',
+            })"
           />
         </step-item>
         <new-step-button prop-name="color" />
