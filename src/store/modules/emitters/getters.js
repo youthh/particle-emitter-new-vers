@@ -64,17 +64,21 @@ export const getAssetIdx = (state) => (name) => {
 };
 
 export const getAssetItem = (state) => (fileName) => {
-  return state.assets.find((item) => item.name === fileName);
+  return [...state.assets, state.all[0].assetsBehaviors].find((item) => item.name === fileName);
 };
 
 export const getSpawnType = (state) => state.all[0].spawnType;
 
 export const getAnimateSingleTextures = (state) => {
-  const assets = state.assetsBehaviors;
+  const idx = getCurrentEmitterIdx(state);
+
+  const assets = state.all[idx].assetsBehaviors;
   return assets;
 };
 export const getBehaviorAssetIdx = (state) => (name) => {
-  return state.assetsBehaviors.findIndex((item) => item.name === name);
+  const idx = getCurrentEmitterIdx(state);
+
+  return state.all[idx].assetsBehaviors.findIndex((item) => item.name === name);
 };
 
 export const getAnimateSingleTexturesConfig = (state) => {

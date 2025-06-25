@@ -38,22 +38,22 @@
         <div class="assets-list">
           <app-image-resource
             v-for="asset in assets"
-            :id="id"
-            :key="asset"
+            :id="asset.name"
+            :key="asset.name"
             size="small"
             :img-src="asset.body"
             :img-filename="asset.name"
             @on-reset="$_onAssetDelete(asset.name)"
           />
 
-          <app-image-uploader
-            id="newBehaviorAsset"
-            ref="newBehaviorAsset"
-            class="new-asset"
-            size="small"
-            :multiple="true"
-            @on-item-uploaded="$_onNewAssetUploaded"
-          />
+          <!--          <app-image-uploader-->
+          <!--            id="newBehaviorAsset"-->
+          <!--            ref="newBehaviorAsset"-->
+          <!--            class="new-asset"-->
+          <!--            size="small"-->
+          <!--            :multiple="true"-->
+          <!--            @on-item-uploaded="$_onNewAssetUploaded"-->
+          <!--          />-->
         </div>
       </el-form-item>
     </div>
@@ -114,8 +114,8 @@
         <div class="assets-list">
           <app-image-resource
             v-for="asset in assets"
-            :id="id"
-            :key="asset"
+            :id="asset.name"
+            :key="asset.name"
             size="small"
             :img-src="asset.body"
             :img-filename="asset.name"

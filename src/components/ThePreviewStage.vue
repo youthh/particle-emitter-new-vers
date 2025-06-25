@@ -450,7 +450,7 @@ export default {
       const textures = art.map((fileName) => {
         if (!utils.TextureCache[fileName]) {
           const buff = new Image();
-          buff.src = this.$store.getters.getAssetItem(fileName).body;
+          buff.src = this.$store.getters.getAssetItem(fileName)?.body;
           Texture.addToCache(
             new Texture(new BaseTexture(buff)),
             fileName,
@@ -470,8 +470,7 @@ export default {
     async buildEmitter(emitterObj) {
       const art = JSON.parse(JSON.stringify(emitterObj.art));
       // const animConf = JSON.parse(JSON.stringify(emitterObj.animConfig));
-
-      const textures = await this.$_parseEmitterArt(art);
+      const textures = await this.$_parseEmitterArt([...art, ...emitterObj.assetsBehaviors.map((item) => item.name)]);
       const emitterConfig = JSON.parse(JSON.stringify(emitterObj.config));
 
       emitterConfig.behaviors.forEach((b) => {

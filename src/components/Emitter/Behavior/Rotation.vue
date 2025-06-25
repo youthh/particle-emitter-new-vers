@@ -140,7 +140,6 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex';
-import {behaviors} from "@pixi/particle-emitter";
 
 export default {
   name: 'ThePanelEmitterParticlePropRotation',

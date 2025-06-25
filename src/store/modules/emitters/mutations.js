@@ -62,7 +62,7 @@ export const addBehaviorAsset = (state, assetNameAndData) => {
   const idx = getCurrentEmitterIdx(state);
   // delete prev textures
   state.all[idx].config.behaviors = state.all[idx].config.behaviors.filter((behavior) => !behavior.type.includes('texture'));
-  state.assetsBehaviors.push({
+  state.all[idx].assetsBehaviors.push({
     name: assetNameAndData.filename,
     body: assetNameAndData.fileData,
   });
@@ -74,14 +74,14 @@ export const addBehaviorAsset = (state, assetNameAndData) => {
         anim: {
           framerate: 30,
           loop: false,
-          textures: [assetNameAndData.fileData],
+          textures: [assetNameAndData.filename],
         },
       },
     });
   } else {
     state.all[idx].config.behaviors.map((behavior) => {
       if (behavior.type === 'animatedSingle') {
-        behavior.config.anim.textures.push(assetNameAndData.fileData);
+        behavior.config.anim.textures.push(assetNameAndData.filename);
       }
       return behavior;
     });
@@ -96,7 +96,7 @@ export const removeEmitterAsset = (state, assetFilename) => {
 };
 export const removeBehaviorAsset = (state, assetFilename) => {
   const idx = getBehaviorAssetIdx(state)(assetFilename);
-  state.assetsBehaviors.splice(idx, 1);
+  state.all[idx].assetsBehaviors.splice(idx, 1);
   removeEmitterAsset(state, assetFilename);
   const ix = getCurrentEmitterIdx(state);
   state.all[ix].config.behaviors.map((behavior) => {
@@ -396,5 +396,8 @@ export const setSpawnPolygon = (state, value) => {
 };
 
 export const setTexturesType = (state, value) => {
+  const idx = getCurrentEmitterIdx(state);
+  state.all[idx].config.behaviors = state.all[idx].config.behaviors.filter(b => !b.type.includes('texture'));
+  state.all[idx].assetsBehaviors = []
   state.texturesType = value;
 }

@@ -155,13 +155,13 @@ export default {
     $_handleFileChange(e) {
       let files = (typeof e.target === 'undefined') ? e : e.target.files;
       if (!(this.features.html5 && this.multiple) && files.length > 1) {
-        files = files.slice(0, 1);
+        files = Array.from(files).slice(0, 1);
       }
 
       this.progress = 0;
 
       Array.from(files)
-        .map(this.$_processFile)
+        .map((file, idx, arr) => this.$_processFile(file, idx, arr))
         .reduce(
           (promiseChain, currentTask) => promiseChain.then(
             (chainResults) => currentTask.then(
@@ -171,6 +171,7 @@ export default {
           Promise.resolve([]),
         );
     },
+
     $_processFile(file, idx, allFiles) {
       return new Promise((resolve, reject) => {
         const size = Math.floor(file.size / 1024);
@@ -184,13 +185,14 @@ export default {
           reject(new Error(`File ${file.name} is not an image`));
           return;
         }
+
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onerror = reject;
-        const self = this;
-        reader.onloadend = function onLoadEnd() {
-          self.progress = Math.round(((idx + 1) * 100) / allFiles.length);
-          self.$emit('onItemUploaded', reader.result, file.name);
+        reader.onloadend = () => {
+          this.progress = Math.round(((idx + 1) * 100) / allFiles.length);
+          this.$emit('on-item-uploaded', reader.result, file.name);
+          resolve(); // ✅ Додано
         };
       });
     },
