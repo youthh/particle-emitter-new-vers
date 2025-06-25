@@ -474,11 +474,10 @@ export default {
       const textures = await this.$_parseEmitterArt(art);
       const emitterConfig = JSON.parse(JSON.stringify(emitterObj.config));
 
-      // Підставляємо готові текстури
       emitterConfig.behaviors.forEach((b) => {
-        if (b.type === 'textureRandom') {
+        if (b.type === 'textureSingle') {
           // eslint-disable-next-line no-param-reassign
-          b.config.textures = textures.textures;
+          b.config.texture = textures.textures[0];
         }
       });
 

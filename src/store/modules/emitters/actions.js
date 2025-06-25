@@ -3,20 +3,12 @@
 import { getAssetIdx, getEmitterByName } from './getters';
 import { EMITTER_TYPE_DEFAULT } from './names';
 
-const getDefaultConfig = (v3Syntax) => {
+const getDefaultConfig = () => {
   const config = {
     // min-required configuration
     lifetime: {
       min: 1,
       max: 1,
-    },
-    rotationSpeed: {
-      min: 0,
-      max: 0,
-    },
-    startRotation: {
-      min: 0,
-      max: 360,
     },
     frequency: 0.1,
     spawnChance: 1,
@@ -25,15 +17,6 @@ const getDefaultConfig = (v3Syntax) => {
     maxParticles: 1000,
     addAtBack: false,
     spawnType: 'point',
-    acceleration: {
-      x: 0,
-      y: 0,
-    },
-    spawnCircle: {
-      x: 0,
-      y: 0,
-      r: 10,
-    },
     pos: {
       x: 0,
       y: 0,
@@ -43,21 +26,8 @@ const getDefaultConfig = (v3Syntax) => {
     },
   };
 
-  if (v3Syntax) {
-    ['alpha', 'scale', 'color', 'speed'].forEach((propName) => {
-      config[propName] = {};
-      config[propName].list = [{
-        time: 0,
-        value: propName !== 'color' ? 1 : 'fff',
-      }, {
-        time: 1,
-        value: propName !== 'color' ? 1 : 'fff',
-      }];
-      config[propName].isStepped = false;
-    });
-  }
-  config.alpha.start = 1;
-  config.alpha.end = 1;
+
+
   return config;
 };
 

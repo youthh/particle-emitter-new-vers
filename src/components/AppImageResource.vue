@@ -272,149 +272,149 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .app-image-res {
-    border: dashed 2px gray;
-    position: relative;
-    display: inline-block;
-    /*overflow: hidden;*/
-    /*font-size: .8em;*/
+.app-image-res {
+  border: dashed 2px gray;
+  position: relative;
+  display: inline-block;
+  /*overflow: hidden;*/
+  /*font-size: .8em;*/
 
-    // middle
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.117647), 0 1px 4px rgba(0, 0, 0, 0.117647);
-    width: 100px;
-    height: 100px;
-    border-radius: 8px;
+  // middle
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.117647), 0 1px 4px rgba(0, 0, 0, 0.117647);
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
 
-    /*will-change: transform;*/
-    /*transition: transform 0.2s;*/
+  /*will-change: transform;*/
+  /*transition: transform 0.2s;*/
 
-    &:hover {
-      /*transform: scale(1.05);*/
-      box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12),
-      0 2px 4px -1px rgba(0, 0, 0, 0.3);
-    }
+  &:hover {
+    /*transform: scale(1.05);*/
+    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12),
+    0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  }
 
-    &--small {
-      width: 50px;
-      height: 50px;
-      border-radius: 4px;
+  &--small {
+    width: 50px;
+    height: 50px;
+    border-radius: 4px;
 
-      .app-image-res__placeholder {
-        font-size: .7em;
-        line-height: 1.2em;
-      }
-
-    }
-
-    &--large {
-      width: 150px;
-      height: 150px;
-      border-radius: 4px;
-      .app-image-res__placeholder {
-        font-size: 1.4em;
-      }
-    }
-
-    &__placeholder {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      padding: 2px;
-      color: #aaa;
-      /*width: 94%;*/
-      text-align: center;
+    .app-image-res__placeholder {
+      font-size: .7em;
       line-height: 1.2em;
-
-      cursor: pointer;
-
-      &_add {
-        margin: 5px;
-        font-size: 3em;
-        font-weight: bold;
-        color: #606060;
-      }
-
-      &_text {
-
-      }
     }
 
-    &__preview {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      overflow: hidden;
-      background-color: rgba(128, 128, 128, 0.25);
-    }
+  }
 
-    &__preview-img {
-      position: relative;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 2;
-      width: 100%
-    }
-
-    &__input {
-      position: absolute;
-      top: -1000px;
-    }
-
-    &__label {
-      cursor: pointer;
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      z-index: 1;
-    }
-
-    &__err {
-      color: #e55;
-      font-size: 12px;
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      text-align: center;
-    }
-
-    &__toolbar {
-      position: absolute;
-      min-width: 80px;
-      padding: 0 2px;
-      bottom: -30px;
-      will-change: opacity;
-      transition: opacity 0.2s linear;
-      z-index: 2;
-      opacity: 0;
-      .xs-mini {
-        padding: 4px 8px;
-      }
-      .xs-mini + .xs-mini {
-        margin-left: 4px;
-      }
-    }
-
-    &:hover {
-      .app-image-res__toolbar {
-        opacity: 1;
-      }
+  &--large {
+    width: 150px;
+    height: 150px;
+    border-radius: 4px;
+    .app-image-res__placeholder {
+      font-size: 1.4em;
     }
   }
 
-  .a-fade-in {
-    &-enter-active, &-leave-active {
-      will-change: opacity;
-      transition: opacity .5s;
+  &__placeholder {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 2px;
+    color: #aaa;
+    /*width: 94%;*/
+    text-align: center;
+    line-height: 1.2em;
+
+    cursor: pointer;
+
+    &_add {
+      margin: 5px;
+      font-size: 3em;
+      font-weight: bold;
+      color: #606060;
     }
-    &-enter, &-leave-to {
-      opacity: 0;
+
+    &_text {
+
     }
   }
+
+  &__preview {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+    background-color: rgba(128, 128, 128, 0.25);
+  }
+
+  &__preview-img {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width: 100%
+  }
+
+  &__input {
+    position: absolute;
+    top: -1000px;
+  }
+
+  &__label {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+  }
+
+  &__err {
+    color: #e55;
+    font-size: 12px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+  }
+
+  &__toolbar {
+    position: absolute;
+    min-width: 80px;
+    padding: 0 2px;
+    bottom: -30px;
+    will-change: opacity;
+    transition: opacity 0.2s linear;
+    z-index: 2;
+    opacity: 0;
+    .xs-mini {
+      padding: 4px 8px;
+    }
+    .xs-mini + .xs-mini {
+      margin-left: 4px;
+    }
+  }
+
+  &:hover {
+    .app-image-res__toolbar {
+      opacity: 1;
+    }
+  }
+}
+
+.a-fade-in {
+  &-enter-active, &-leave-active {
+    will-change: opacity;
+    transition: opacity .5s;
+  }
+  &-enter, &-leave-to {
+    opacity: 0;
+  }
+}
 </style>

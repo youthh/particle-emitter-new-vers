@@ -92,18 +92,9 @@ export default {
     }),
   },
   methods: {
-    setAccelerationX(value) {
-      this.setAcceleration({ attr: 'x', value });
-    },
-    setAccelerationY(value) {
-      this.setAcceleration({ attr: 'y', value });
-    },
     ...mapMutations([
-      'setAcceleration',
       'setListedStepValue',
       'updateBehaviorConfig',
-      'setOldAPIPropStart',
-      'setOldAPIPropEnd',
     ]),
     setMoveSpeedSpawn(key, value) {
       this.updateBehaviorConfig({

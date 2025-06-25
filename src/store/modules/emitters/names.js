@@ -8,3 +8,7 @@ export const SPAWN_TYPE_POLYGONAL = 'polygonalChain';
 export const EMITTER_TYPE_DEFAULT = 'default';
 export const EMITTER_TYPE_PATH = 'path';
 export const EMITTER_TYPE_ANIM = 'anim';
+
+
+export const ANIMATED_SINGLE_TEXTURE = 'animatedSingleTexture';
+export const SINGLE_TEXTURE = 'singleTexture';

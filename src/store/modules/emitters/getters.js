@@ -51,6 +51,8 @@ export const emittersList = (state) => state.all.map(({ name, type, enabled }) =
   isCurrent: state.current === name,
 }));
 
+export const getCurrentTypeTextures = (state) => state.texturesType
+
 export const v3Syntax = (state) => state.v3Syntax;
 
 export const assetsList = (state) => state.assets;

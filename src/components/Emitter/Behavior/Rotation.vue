@@ -35,7 +35,7 @@
               :max="360"
               :step="1"
               :value="cc.minStart"
-              @input="setStartRotationMin"
+              @input="(value) => setRotation('minStart', value)"
             />
           </el-form-item>
         </el-col>
@@ -54,7 +54,7 @@
               :max="360"
               :step="1"
               :value="cc.maxStart"
-              @input="setStartRotationMax"
+              @input="(value) => setRotation('maxStart', value)"
             />
           </el-form-item>
         </el-col>
@@ -89,7 +89,7 @@
                 class="xs-mini"
                 :step="1"
                 :value="cc.minSpeed"
-                @input="setRotationSpeedMin"
+                @input="(value) => setRotation('minSpeed', value)"
               />
             </el-tooltip>
           </el-form-item>
@@ -109,7 +109,26 @@
                 class="xs-mini"
                 :step="1"
                 :value="cc.maxSpeed"
-                @input="setRotationSpeedMax"
+                @input="(value) => setRotation('maxSpeed', value)"
+              />
+            </el-tooltip>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col>
+          <el-form-item
+            label="accel"
+            label-width="3em"
+          >
+            <el-tooltip
+              content=" Constant rotational acceleration of the particles, in degrees/second/second."
+              placement="bottom"
+            >
+              <el-input-number
+                :step="1"
+                :value="cc?.accel"
+                @input="(val) => setRotation('accel', val)"
               />
             </el-tooltip>
           </el-form-item>
@@ -121,6 +140,7 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex';
+import {behaviors} from "@pixi/particle-emitter";
 
 export default {
   name: 'ThePanelEmitterParticlePropRotation',

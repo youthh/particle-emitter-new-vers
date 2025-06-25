@@ -1,7 +1,8 @@
-import { utils } from 'pixi.js';
+import {utils} from 'pixi.js';
 import * as getters from './getters';
 import * as actions from './actions';
 import * as mutations from './mutations';
+import {SINGLE_TEXTURE} from "@/store/modules/emitters/names";
 
 export const checkName = (store) => (rule, value, callback) => {
   if (!value) {
@@ -89,7 +90,7 @@ export default {
               "config": {
                 "type": "rect",
                 "data": {
-                  "x": -200,
+                  "x": -300,
                   "y": 100,
                   "w": 400,
                   "h": 200
@@ -101,11 +102,23 @@ export default {
               config: {
                 alpha: {
                   list: [
-                    { value: 0.62, time: 0 },
-                    { value: 0, time: 1 },
+                    {value: 0.62, time: 0},
+                    {value: 0, time: 1},
                   ],
                   isStepped: false,
                 },
+              },
+            },
+            {
+              "type": "moveAcceleration",
+              "config": {
+                "accel": {
+                  "x": 0,
+                  "y": 0
+                },
+                "minStart": 0,
+                "maxStart": 0,
+                "rotate": false
               },
             },
             {
@@ -113,8 +126,8 @@ export default {
               config: {
                 speed: {
                   list: [
-                    { value: 500, time: 0 },
-                    { value: 450, time: 1 },
+                    {value: 500, time: 0},
+                    {value: 450, time: 1},
                   ],
                   isStepped: true,
                 },
@@ -126,8 +139,8 @@ export default {
               config: {
                 scale: {
                   list: [
-                    { value: 0.50, time: 0 },
-                    { value: 0.55, time: 1 },
+                    {value: 0.50, time: 0},
+                    {value: 0.55, time: 1},
                   ],
                   isStepped: false,
                 },
@@ -145,9 +158,9 @@ export default {
               },
             },
             {
-              type: 'textureRandom',
+              type: 'textureSingle',
               config: {
-                textures: [utils.TextureCache['CartoonSmoke.png']],
+                texture: 'CartoonSmoke.png',
               },
             },
             {
@@ -155,8 +168,8 @@ export default {
               config: {
                 color: {
                   list: [
-                    { value: 'fff191', time: 0 },
-                    { value: '333333', time: 1 },
+                    {value: 'fff191', time: 0},
+                    {value: '333333', time: 1},
                   ],
                   isStepped: false,
                 },
@@ -174,6 +187,8 @@ export default {
     }],
     assetsBehaviors: [],
     v3Syntax: true,
+    texturesType: SINGLE_TEXTURE,
+
   },
   getters,
   mutations,

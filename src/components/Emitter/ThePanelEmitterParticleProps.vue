@@ -31,7 +31,7 @@
     >
       <template #title>
         <div>
-          <b>Animated Single Textures</b>
+          <b>Textures</b>
         </div>
       </template>
       <ThePanelEmitterAnimatedSingleTextures />

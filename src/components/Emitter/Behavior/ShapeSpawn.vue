@@ -59,7 +59,7 @@
             <el-input-number
               controls-position="right"
               class="xs-mini"
-              :min="0"
+              :min="-Infinity"
               :value="cc?.data.x"
               @input="(val) => setShapeField('x', val)"
             />
@@ -73,7 +73,7 @@
             <el-input-number
               controls-position="right"
               class="xs-mini"
-              :min="0"
+              :min="-Infinity"
               :value="cc?.data.y"
               @input="(val) => setShapeField('y', val)"
             />
@@ -83,9 +83,9 @@
       <el-row>
         <el-col :span="12">
           <el-form-item label-width="2em">
-            <el-tooltip content="Radius">
+            <el-tooltip content="Radius of circle, or outer radius of a ring">
               <el-input-number
-                :min="1"
+                :min="0"
                 :value="cc?.data.radius"
                 @input="(val) => setShapeField('radius', val)"
               />
@@ -96,9 +96,9 @@
       <el-row>
         <el-col :span="12">
           <el-form-item label-width="2em">
-            <el-tooltip content="Inner radius">
+            <el-tooltip content="Inner radius of a ring. Use 0 to have a circle.">
               <el-input-number
-                :min="1"
+                :min="0"
                 :value="cc?.data.innerRadius"
                 @input="(val) => setShapeField('innerRadius', val)"
               />
@@ -223,7 +223,7 @@
           <el-input
             type="textarea"
             :rows="6"
-            :value="JSON.stringify(cc.spawnPolygon || [])"
+            :value="JSON.stringify(cc?.data || [])"
             @input="setSimplePolygonalPints"
           />
         </el-tooltip>

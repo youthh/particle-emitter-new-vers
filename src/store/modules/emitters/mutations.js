@@ -182,18 +182,10 @@ export const setSpawnRect = (state, {
   attr,
   value,
 }) => setConfigPropWithAttr(state, 'spawnRect', attr, value);
-export const setNoRotation = (state, value) => setConfigProp(state, 'noRotation', value);
-export const setStartRotationMin = (state, value) => setConfigPropWithAttr(state, 'startRotation', 'min', value);
-export const setStartRotationMax = (state, value) => setConfigPropWithAttr(state, 'startRotation', 'max', value);
-export const setRotationSpeedMin = (state, value) => setConfigPropWithAttr(state, 'rotationSpeed', 'min', value);
-export const setRotationSpeedMax = (state, value) => setConfigPropWithAttr(state, 'rotationSpeed', 'max', value);
+
 export const setLifetimeMin = (state, value) => setConfigPropWithAttr(state, 'lifetime', 'min', value);
 export const setLifetimeMax = (state, value) => setConfigPropWithAttr(state, 'lifetime', 'max', value);
-export const setSpawnPolygon = (state, value) => setConfigProp(state, 'spawnPolygon', value);
-export const setAcceleration = (state, {
-  attr,
-  value,
-}) => setConfigPropWithAttr(state, 'acceleration', attr, value);
+
 
 const getCurrentListedItem = (state, propName, behavior) => {
   const c = getCurrentItem(state).config;
@@ -232,7 +224,7 @@ export const setListedStepValue = (state, {
 }) => {
   const list = getCurrentListedItem(state, propName, behavior);
   list[index].value = value;
-  setCurrentListItem(state, propName, list);
+  // setCurrentListItem(state, propName, list);
 };
 export const setListedStepTime = (state, {
   propName, index, time, behavior,
@@ -242,7 +234,8 @@ export const setListedStepTime = (state, {
     return;
   }
   list[index].time = time;
-  setCurrentListItem(state, propName, list);
+  list.sort((a, b) => a.time - b.time)
+  // setCurrentListItem(state, propName, list);
 };
 
 export const setPPropIsSteppedValue = (state, { propName, value }) => {
@@ -381,4 +374,27 @@ export const shapeBehaviorChange = (state, {type, key, value}) => {
       },
     });
   }
+}
+
+
+export const setSpawnPolygon = (state, value) => {
+  const idx = getCurrentEmitterIdx(state);
+  const behaviors = state.all[idx].config.behaviors;
+  const shapeIdx = behaviors.findIndex(b => b.type === 'spawnShape');
+
+  if (shapeIdx !== -1) {
+    behaviors[shapeIdx].config.data = value;
+  } else {
+    behaviors.push({
+      type: 'spawnShape',
+      config: {
+        type: 'polygonChain',
+        data: value,
+      },
+    });
+  }
+};
+
+export const setTexturesType = (state, value) => {
+  state.texturesType = value;
 }
