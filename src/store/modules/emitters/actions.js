@@ -1,7 +1,7 @@
 // export const ACTION_RENAME_EMITTER = 'renameEmitter';
 
 import { getAssetIdx, getEmitterByName } from './getters';
-import { EMITTER_TYPE_DEFAULT } from './names';
+import {ANIMATED_SINGLE_TEXTURE, EMITTER_TYPE_DEFAULT} from './names';
 
 const getDefaultConfig = () => {
   const config = {
@@ -82,7 +82,11 @@ export const addBehaviorAsset = ({ commit, state }, assetNameAndBody) => {
     state,
     assetNameAndBody.filename,
   ).then(() => {
-    commit('addBehaviorAsset', assetNameAndBody);
+    if(state.texturesType === ANIMATED_SINGLE_TEXTURE) {
+      commit('addBehaviorAsset', assetNameAndBody);
+    }else {
+      commit('addSingleTextures', assetNameAndBody);
+    }
     return Promise.resolve();
   });
 };

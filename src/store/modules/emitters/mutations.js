@@ -88,6 +88,32 @@ export const addBehaviorAsset = (state, assetNameAndData) => {
   }
 };
 
+export const addSingleTextures = (state, assetNameAndData) => {
+  const idx = getCurrentEmitterIdx(state);
+  // delete prev textures
+  state.all[idx].config.behaviors = state.all[idx].config.behaviors.filter((behavior) => !behavior.type.includes('texture'));
+  state.all[idx].assetsBehaviors.push({
+    name: assetNameAndData.filename,
+    body: assetNameAndData.fileData,
+  });
+  const isTextureSingle= state.all[idx].config.behaviors.find((behavior) => behavior.type === 'textureSingle');
+  if (!isTextureSingle) {
+    state.all[idx].config.behaviors.push({
+      type: 'textureSingle',
+      config: {
+          texture: assetNameAndData.filename,
+      },
+    });
+  } else {
+    state.all[idx].config.behaviors.map((behavior) => {
+      if (behavior.type === 'textureSingle') {
+        behavior.config.texture = assetNameAndData.filename
+      }
+      return behavior;
+    });
+  }
+}
+
 export const removeEmitterAsset = (state, assetFilename) => {
   const current = getCurrentItem(state);
   const assetIdx = current.art.indexOf(assetFilename);

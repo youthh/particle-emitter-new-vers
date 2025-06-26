@@ -110,12 +110,19 @@ export default {
     const useWebGL = stageIsWebGL && utils.isWebGLSupported();
     this.stage = new Container();
     this.stage.name = 'stage';
+    // this.canvasRenderer.interactive = true
+    // this.canvasRenderer.interactiveChildren = true
+    // this.webGLRenderer.interactive = true
+    // this.webGLRenderer.interactiveChildren = true
+
     this.stage.interactive = true;
-    this.stage.interactiveChildren = true;
+    this.stage.interactiveChildren = true
+
+    window.__PIXI_RENDERER__ =  this.webGLRenderer;
 
     this.stageHelper = new Graphics();
     this.stageHelper.name = 'stageHelper';
-    // this.stageHelper.setParent(this.stage);
+    this.stageHelper.setParent(this.stage);
     this.stage.addChild(this.stageHelper);
 
     this.stage.on('mouseup', (ev) => {
@@ -423,7 +430,7 @@ export default {
     },
     render() {
       this.curFPS = this.ticker.FPS;
-      console.log(this.pContainer);
+      // console.log(this.pContainer);
       this.pNumber = Array.from(this.pContainer.emittersMap)
         .reduce((num, emitter) => num + emitter[1].particleCount, 0);
 
@@ -455,7 +462,9 @@ export default {
             new Texture(new BaseTexture(buff)),
             fileName,
           );
+
         }
+
         return utils.TextureCache[fileName];
       });
 
@@ -468,16 +477,20 @@ export default {
       };
     },
     async buildEmitter(emitterObj) {
-      const art = JSON.parse(JSON.stringify(emitterObj.art));
+      // const art = JSON.parse(JSON.stringify(emitterObj.art));
       // const animConf = JSON.parse(JSON.stringify(emitterObj.animConfig));
-      const textures = await this.$_parseEmitterArt([...art, ...emitterObj.assetsBehaviors.map((item) => item.name)]);
+      const textures = await this.$_parseEmitterArt(emitterObj.assetsBehaviors.map((item) => item.name));
       const emitterConfig = JSON.parse(JSON.stringify(emitterObj.config));
 
       emitterConfig.behaviors.forEach((b) => {
-        if (b.type === 'textureSingle') {
-          // eslint-disable-next-line no-param-reassign
-          b.config.texture = textures.textures[0];
+        if (b.type.includes('texture') || b.type.includes('Single')) {
+          if(b.config.texture) {
+            b.config.texture = textures.textures[0]
+          }else {
+            b.config.anim.textures = emitterObj.assetsBehaviors.map((item) => item.body)
+          }
         }
+
       });
 
       const emitter = new Emitter(

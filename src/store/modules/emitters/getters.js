@@ -64,7 +64,7 @@ export const getAssetIdx = (state) => (name) => {
 };
 
 export const getAssetItem = (state) => (fileName) => {
-  return [...state.assets, state.all[0].assetsBehaviors].find((item) => item.name === fileName);
+  return [...state.assets, ...state.all[0].assetsBehaviors].find((item) => item.name === fileName);
 };
 
 export const getSpawnType = (state) => state.all[0].spawnType;

@@ -23,7 +23,7 @@
       >
         <el-option
           :value="SINGLE_TEXTURE"
-          label="Single Textures"
+          label="Single Texture"
         />
         <el-option
           :value="ANIMATED_SINGLE_TEXTURE"
@@ -46,14 +46,14 @@
             @on-reset="$_onAssetDelete(asset.name)"
           />
 
-          <!--          <app-image-uploader-->
-          <!--            id="newBehaviorAsset"-->
-          <!--            ref="newBehaviorAsset"-->
-          <!--            class="new-asset"-->
-          <!--            size="small"-->
-          <!--            :multiple="true"-->
-          <!--            @on-item-uploaded="$_onNewAssetUploaded"-->
-          <!--          />-->
+          <app-image-uploader
+            id="newBehaviorAsset"
+            ref="newBehaviorAsset"
+            class="new-asset"
+            size="small"
+            :multiple="true"
+            @on-item-uploaded="$_onNewAssetUploaded"
+          />
         </div>
       </el-form-item>
     </div>
@@ -128,6 +128,7 @@
             class="new-asset"
             size="small"
             :multiple="true"
+            :disabled="true"
             @on-item-uploaded="$_onNewAssetUploaded"
           />
         </div>
