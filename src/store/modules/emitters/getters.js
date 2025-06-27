@@ -86,3 +86,7 @@ export const getAnimateSingleTexturesConfig = (state) => {
 
   return state.all[idx].config.behaviors.find((b) => b.type === 'animatedSingle')?.config.anim;
 };
+
+export const getEnabledBehavior = (state) => (name) => {
+  return state.all[0].enabledBehaviors.find((b) => b.name === name);
+}

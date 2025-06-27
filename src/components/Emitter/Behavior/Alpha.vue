@@ -24,8 +24,7 @@
             :precision="2"
             :step="0.01"
             :value="item.value"
-            @input="(value) =>
-              setListedStepValue({ propName: 'alpha', index, value, behavior: 'alpha' })"
+            @input="value => setListedStepValue({ propName: 'alpha', index: index, value, behavior: 'alpha' })"
           />
         </step-item>
         <new-step-button

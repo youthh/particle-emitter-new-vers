@@ -158,8 +158,17 @@ const setConfigProp = (state, propName, propValue) => {
 };
 
 const setConfigPropWithAttr = (state, propName, propAttr, propValue) => {
-  const idx = getCurrentEmitterIdx(state);
-  state.all[idx].config[propName] = { ...state.all[idx].config[propName], [propAttr]: propValue };
+  const idx = getCurrentEmitterIdx(state)
+  if(propAttr === "list") {
+    state.all[idx].config.behaviors.map((behavior) => {
+        if(behavior.type === propName) {
+          behavior.config = {...behavior.config, [propAttr]: propValue };
+        }
+    })
+  } else {
+    state.all[idx].config[propName] = { ...state.all[idx].config[propName], [propAttr]: propValue };
+
+  }
 };
 
 export const setBlendMode = (state, mode) => setConfigProp(state, 'blendMode', mode);
@@ -239,9 +248,9 @@ export const addNewListedStep = (state, {propName, behavior}) => {
   });
   setCurrentListItem(state, propName, list);
 };
-export const removeListedStep = (state, { propName, index, behavior }) => {
+export const removeListedStep = (state, { propName, idx , behavior }) => {
   const list = getCurrentListedItem(state, propName, behavior);
-  list.splice(index, 1);
+  list.splice(idx, 1);
   validateList(list);
   setCurrentListItem(state, propName, list);
 };
@@ -316,7 +325,10 @@ export const updateBehaviorConfig = (state, { type, key, value }) => {
   if (!emitter) return;
 
   const behavior = emitter.config.behaviors.find((b) => b.type === type);
-  if (!behavior) return;
+  if (!behavior) {
+    createBehavior(state, { type, key, value});
+    return;
+  }
 
   const keys = key.split('.');
   let target = behavior.config;
@@ -328,6 +340,21 @@ export const updateBehaviorConfig = (state, { type, key, value }) => {
 
   target[keys[keys.length - 1]] = value;
 };
+
+export const createBehavior = (state, {type,  key, value }) => {
+  const idx = getCurrentEmitterIdx(state);
+  const isEnabled = state.all[idx].enabledBehaviors.find((b) => b.name === type)?.enabled;
+  if(isEnabled) {
+    state.all[idx].config.behaviors.push(
+      {
+        type,
+        config: {
+          [key]: value,
+        },
+      }
+    )
+  }
+}
 
 export const setFrameRate = (state, value) => {
   const idx = getCurrentEmitterIdx(state);
@@ -426,4 +453,16 @@ export const setTexturesType = (state, value) => {
   state.all[idx].config.behaviors = state.all[idx].config.behaviors.filter(b => !b.type.includes('texture'));
   state.all[idx].assetsBehaviors = []
   state.texturesType = value;
+}
+
+
+export const enabledBehavior = (state, { behaviorName, enabled }) => {
+  const idx = getCurrentEmitterIdx(state);
+  state.all[idx].config.behaviors = state.all[idx].config.behaviors.filter(b => b.type !== behaviorName);
+  state.all[idx].enabledBehaviors = state.all[idx].enabledBehaviors.map((behavior) => {
+    if (behavior.name === behaviorName) {
+      behavior.enabled = enabled;
+    }
+    return behavior;
+  })
 }

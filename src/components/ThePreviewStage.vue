@@ -463,7 +463,10 @@ export default {
             fileName,
           );
 
+        }else {
+          return utils.TextureCache[fileName];
         }
+
 
         return utils.TextureCache[fileName];
       });

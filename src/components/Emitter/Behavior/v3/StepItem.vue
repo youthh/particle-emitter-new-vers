@@ -38,7 +38,9 @@
         <el-button
           icon="el-icon-delete"
           type="warning"
-          @click="() => removeListedStep({ propName, idx, behavior})"
+          @click="() => {
+            removeListedStep({ propName, idx, behavior})
+          }"
         >
           Remove Step
         </el-button>
