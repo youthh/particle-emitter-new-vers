@@ -18,7 +18,6 @@
         </div>
       </template>
       <el-input-number
-        :min="0"
         :max="Infinity"
         :precision="3"
         :step="0.001"

@@ -41,14 +41,13 @@ import {
   UPDATE_PRIORITY,
   utils,
   Container,
-  Graphics,
+  Graphics, Rectangle,
 } from 'pixi.js';
 
 import { ResizeObserver } from 'vue-resize';
 
 // import { EMITTER_TYPE_ANIM, EMITTER_TYPE_PATH } from '@/store/modules/emitters/names';
 import { debounce } from 'debounce';
-import { Emitter } from '@pixi/particle-emitter';
 import {
   makeDraggableByRightButton,
   EV_ON_DRAG,
@@ -56,6 +55,7 @@ import {
   EV_END_DRAG,
 } from './pixiHelpers/draggable';
 import { addWheelListener } from './pixiHelpers/wheel';
+import { Emitter } from '@pixi/particle-emitter';
 
 Vue.component('ResizeObserver', ResizeObserver);
 
@@ -115,8 +115,9 @@ export default {
     // this.webGLRenderer.interactive = true
     // this.webGLRenderer.interactiveChildren = true
 
-    this.stage.interactive = true;
+    // this.stage.interactive = true;
     this.stage.interactiveChildren = true
+    this.stage.eventMode = "static"
 
     window.__PIXI_RENDERER__ =  this.webGLRenderer;
 
@@ -140,7 +141,7 @@ export default {
     this.stage.on('mousemove', (ev) => {
       this.mousePos.x = ev.data.global.x;
       this.mousePos.y = ev.data.global.y;
-
+      console.log("saf");
       if (!this.$store.state.stage.updateOnMouseMove) return;
       this.pContainer.emittersMap.forEach((emitter) => {
         emitter.updateOwnerPos(ev.data.global.x, ev.data.global.y);
@@ -163,8 +164,10 @@ export default {
     particleContainer.emittersMap = new Map();
     this.pContainer = particleContainer;
     this.stage.addChild(particleContainer);
-    this.pContainer.interactive = true;
+    this.pContainer.eventMode = "static"
+    this.pContainer.interactive = false;
     this.pContainer.interactiveChildren = false;
+
     this.ticker = new Ticker();
     this.ticker.add(this.render, this, UPDATE_PRIORITY.LOW);
 
@@ -267,7 +270,12 @@ export default {
         this.$el.clientWidth,
         this.$el.clientHeight,
       );
-
+      this.stage.hitArea = new Rectangle(
+        0,
+        0,
+        this.$el.clientWidth,
+        this.$el.clientHeight
+      );
       if (!this.pContainer) return;
 
       this.pContainer.emittersMap.forEach((emitter) => {
@@ -425,6 +433,14 @@ export default {
       this.renderer = isWebGL ? this.webGLRenderer : this.canvasRenderer;
       this.interaction = this.renderer.plugins.interaction;
       this.interaction.setTargetElement(this.renderer.view, this.renderer.resolution);
+      // this.stage.hitArea = new Rectangle(
+      //   0,
+      //   0,
+      //   this.$refs.previewStageWebGL.offsetWidth ,
+      //   this.$refs.previewStageWebGL.offsetHeight
+      // );
+      this.stage.eventMode = 'static';
+      this.stage.interactiveChildren = true;
       this.interaction.moveWhenInside = true;
       this.handleResize();
     },

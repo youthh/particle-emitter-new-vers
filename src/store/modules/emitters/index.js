@@ -112,7 +112,6 @@ export default {
                     {value: 0.62, time: 0},
                     {value: 0, time: 1},
                   ],
-                  isStepped: false,
                 },
               },
             },

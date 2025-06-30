@@ -162,7 +162,7 @@ const setConfigPropWithAttr = (state, propName, propAttr, propValue) => {
   if(propAttr === "list") {
     state.all[idx].config.behaviors.map((behavior) => {
         if(behavior.type === propName) {
-          behavior.config = {...behavior.config, [propAttr]: propValue };
+          behavior.config[propName] = {...behavior.config[propName], [propAttr]: propValue };
         }
     })
   } else {
@@ -259,7 +259,7 @@ export const setListedStepValue = (state, {
 }) => {
   const list = getCurrentListedItem(state, propName, behavior);
   list[index].value = value;
-  // setCurrentListItem(state, propName, list);
+  setCurrentListItem(state, propName, list);
 };
 export const setListedStepTime = (state, {
   propName, index, time, behavior,
@@ -270,7 +270,7 @@ export const setListedStepTime = (state, {
   }
   list[index].time = time;
   list.sort((a, b) => a.time - b.time)
-  // setCurrentListItem(state, propName, list);
+  setCurrentListItem(state, propName, list);
 };
 
 export const setPPropIsSteppedValue = (state, { propName, value }) => {
