@@ -62,7 +62,7 @@ export default {
     all: [
       {
         name: 'def',
-        emitter: null,
+        currentEmitter: null,
         type: 'default',
         enabled: true,
         spawnType: 'rect',
@@ -136,7 +136,6 @@ export default {
                     {value: 500, time: 0},
                     {value: 450, time: 1},
                   ],
-                  isStepped: true,
                 },
                 minMult: 1,
               },
@@ -149,7 +148,6 @@ export default {
                     {value: 0.50, time: 0},
                     {value: 0.55, time: 1},
                   ],
-                  isStepped: false,
                 },
                 minMult: 1,
               },
@@ -178,7 +176,6 @@ export default {
                     {value: 'fff191', time: 0},
                     {value: '333333', time: 1},
                   ],
-                  isStepped: false,
                 },
               },
             },
