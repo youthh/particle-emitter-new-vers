@@ -160,10 +160,11 @@ const setConfigProp = (state, propName, propValue) => {
 const setConfigPropWithAttr = (state, propName, propAttr, propValue) => {
   const idx = getCurrentEmitterIdx(state)
   if (propAttr === "list") {
-    state.all[idx].config.behaviors.map((behavior) => {
+    state.all[idx].config.behaviors = state.all[idx].config.behaviors.map((behavior) => {
       if (behavior.type === propName) {
         behavior.config[propName] = {...behavior.config[propName], [propAttr]: propValue};
       }
+      return behavior
     })
   } else {
     state.all[idx].config[propName] = {...state.all[idx].config[propName], [propAttr]: propValue};
@@ -450,13 +451,19 @@ export const setSpawnPolygon = (state, value) => {
   }
 };
 
+
+export const setEmitterStore = (state, {emitter}) => {
+  const idx = getCurrentEmitterIdx(state);
+  state.all[idx].currentEmitter = emitter
+};
+
+
 export const setTexturesType = (state, value) => {
   const idx = getCurrentEmitterIdx(state);
   state.all[idx].config.behaviors = state.all[idx].config.behaviors.filter(b => !b.type.includes('texture'));
   state.all[idx].assetsBehaviors = []
   state.texturesType = value;
 }
-
 
 export const enabledBehavior = (state, {behaviorName, enabled}) => {
   const idx = getCurrentEmitterIdx(state);
@@ -468,13 +475,6 @@ export const enabledBehavior = (state, {behaviorName, enabled}) => {
     return behavior;
   })
 }
-
-
-export const setEmitter = (state, {emitter}) => {
-  const idx = getCurrentEmitterIdx(state);
-  state.all[idx].emmiter = emitter
-};
-
 
 export const removeIcon = (state) => {
   const idx = getCurrentEmitterIdx(state);
