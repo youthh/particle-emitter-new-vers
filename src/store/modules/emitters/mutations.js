@@ -31,13 +31,13 @@ export const removeEmitter = (state, emitterName) => {
   }
 };
 // export const setEmitterType = (state, name, type) => state.emitters.get(name).type = type;
-export const toggleEmitter = (state, { emitterName, enabled }) => {
+export const toggleEmitter = (state, {emitterName, enabled}) => {
   const emitter = getEmitterByName(state, emitterName);
   if (emitter) {
     emitter.enabled = enabled;
   }
 };
-export const renameEmitter = (state, { oldName, newName }) => {
+export const renameEmitter = (state, {oldName, newName}) => {
   const emitter = getEmitterByName(state, oldName);
   if (emitter) {
     emitter.name = newName;
@@ -96,12 +96,12 @@ export const addSingleTextures = (state, assetNameAndData) => {
     name: assetNameAndData.filename,
     body: assetNameAndData.fileData,
   });
-  const isTextureSingle= state.all[idx].config.behaviors.find((behavior) => behavior.type === 'textureSingle');
+  const isTextureSingle = state.all[idx].config.behaviors.find((behavior) => behavior.type === 'textureSingle');
   if (!isTextureSingle) {
     state.all[idx].config.behaviors.push({
       type: 'textureSingle',
       config: {
-          texture: assetNameAndData.filename,
+        texture: assetNameAndData.filename,
       },
     });
   } else {
@@ -145,7 +145,7 @@ export const addAssetToEmitter = (state, assetFilename) => {
 };
 // =============== End Assets management ===============
 
-export const setEmitterConfig = (state, { emitterName, config }) => {
+export const setEmitterConfig = (state, {emitterName, config}) => {
   // todo: validate uploaded config
   const idx = getEmitterIdx(state, emitterName);
   state.all[idx].config = config;
@@ -154,19 +154,19 @@ export const setEmitterConfig = (state, { emitterName, config }) => {
 // =============== Emitter config manipulations ========
 const setConfigProp = (state, propName, propValue) => {
   const idx = getCurrentEmitterIdx(state);
-  state.all[idx].config = { ...state.all[idx].config, [propName]: propValue };
+  state.all[idx].config = {...state.all[idx].config, [propName]: propValue};
 };
 
 const setConfigPropWithAttr = (state, propName, propAttr, propValue) => {
   const idx = getCurrentEmitterIdx(state)
-  if(propAttr === "list") {
+  if (propAttr === "list") {
     state.all[idx].config.behaviors.map((behavior) => {
-        if(behavior.type === propName) {
-          behavior.config[propName] = {...behavior.config[propName], [propAttr]: propValue };
-        }
+      if (behavior.type === propName) {
+        behavior.config[propName] = {...behavior.config[propName], [propAttr]: propValue};
+      }
     })
   } else {
-    state.all[idx].config[propName] = { ...state.all[idx].config[propName], [propAttr]: propValue };
+    state.all[idx].config[propName] = {...state.all[idx].config[propName], [propAttr]: propValue};
 
   }
 };
@@ -180,7 +180,7 @@ export const setAddAtBack = (state, value) => setConfigProp(state, 'addAtBack', 
 export const setSpawnType = (state, value) => {
   const c = getCurrentItem(state).config;
   // create default required props per spawn type
-  if (value === SPAWN_TYPE_RING ) {
+  if (value === SPAWN_TYPE_RING) {
     if (!c.spawnCircle) {
       c.spawnCircle = {
         x: 0, y: 0, r: 1, minR: 1,
@@ -199,7 +199,7 @@ export const setSpawnType = (state, value) => {
 
 export const setTypeSpawn = (state, value) => {
   const idx = getCurrentEmitterIdx(state);
-  state.all[idx].config.behaviors =  state.all[idx].config.behaviors.filter((behavior) => behavior.type !== 'spawnShape');
+  state.all[idx].config.behaviors = state.all[idx].config.behaviors.filter((behavior) => behavior.type !== 'spawnShape');
   state.all[idx].spawnType = value;
 };
 export const setPPerWave = (state, value) => setConfigProp(state, 'particlesPerWave', value);
@@ -248,7 +248,9 @@ export const addNewListedStep = (state, {propName, behavior}) => {
   });
   setCurrentListItem(state, propName, list);
 };
-export const removeListedStep = (state, { propName, idx , behavior }) => {
+export const removeListedStep = (state, {propName, idx, behavior}) => {
+  // const index = getCurrentEmitterIdx(state);
+  // state.all[index].emmiter.cleanup();
   const list = getCurrentListedItem(state, propName, behavior);
   list.splice(idx, 1);
   validateList(list);
@@ -273,10 +275,10 @@ export const setListedStepTime = (state, {
   setCurrentListItem(state, propName, list);
 };
 
-export const setPPropIsSteppedValue = (state, { propName, value }) => {
+export const setPPropIsSteppedValue = (state, {propName, value}) => {
   setConfigPropWithAttr(state, propName, 'isStepped', value);
 };
-export const setPPropEasing = (state, { propName, value }) => {
+export const setPPropEasing = (state, {propName, value}) => {
   let normalized = value.trim();
   normalized = normalized.replace(/(s|cp|e):/g, '"$1":');
   setConfigPropWithAttr(state, propName, 'ease', JSON.parse(normalized));
@@ -310,7 +312,7 @@ export const setEmitterType = (state, typeValue) => {
 const setAnimProp = (state, propName, propValue) => {
   const idx = getCurrentEmitterIdx(state);
 
-  state.all[idx].animConfig = { ...state.all[idx].animConfig, [propName]: propValue };
+  state.all[idx].animConfig = {...state.all[idx].animConfig, [propName]: propValue};
 };
 
 export const setAnimationFramerate = (state, value) => {
@@ -320,13 +322,13 @@ export const setAnimationLoop = (state, value) => {
   setAnimProp(state, 'loop', value);
 };
 
-export const updateBehaviorConfig = (state, { type, key, value }) => {
+export const updateBehaviorConfig = (state, {type, key, value}) => {
   const emitter = state.all.find((e) => e.name === state.current);
   if (!emitter) return;
 
   const behavior = emitter.config.behaviors.find((b) => b.type === type);
   if (!behavior) {
-    createBehavior(state, { type, key, value});
+    createBehavior(state, {type, key, value});
     return;
   }
 
@@ -341,10 +343,10 @@ export const updateBehaviorConfig = (state, { type, key, value }) => {
   target[keys[keys.length - 1]] = value;
 };
 
-export const createBehavior = (state, {type,  key, value }) => {
+export const createBehavior = (state, {type, key, value}) => {
   const idx = getCurrentEmitterIdx(state);
   const isEnabled = state.all[idx].enabledBehaviors.find((b) => b.name === type)?.enabled;
-  if(isEnabled) {
+  if (isEnabled) {
     state.all[idx].config.behaviors.push(
       {
         type,
@@ -399,8 +401,8 @@ export const setLoop = (state, value) => {
 
 export const shapeBehaviorChange = (state, {type, key, value}) => {
   const idx = getCurrentEmitterIdx(state);
-  const isExistShape =  state.all[idx].config.behaviors.find((b) => b.type === "spawnShape");
-  if(isExistShape) {
+  const isExistShape = state.all[idx].config.behaviors.find((b) => b.type === "spawnShape");
+  if (isExistShape) {
     state.all[idx].config.behaviors = state.all[idx].config.behaviors.map((b) => {
       if (b.type === "spawnShape") {
         return {
@@ -416,7 +418,7 @@ export const shapeBehaviorChange = (state, {type, key, value}) => {
       }
       return b;
     });
-  }else {
+  } else {
     state.all[idx].config.behaviors.push({
       type: 'spawnShape',
       config: {
@@ -456,7 +458,7 @@ export const setTexturesType = (state, value) => {
 }
 
 
-export const enabledBehavior = (state, { behaviorName, enabled }) => {
+export const enabledBehavior = (state, {behaviorName, enabled}) => {
   const idx = getCurrentEmitterIdx(state);
   state.all[idx].config.behaviors = state.all[idx].config.behaviors.filter(b => b.type !== behaviorName);
   state.all[idx].enabledBehaviors = state.all[idx].enabledBehaviors.map((behavior) => {
@@ -465,4 +467,17 @@ export const enabledBehavior = (state, { behaviorName, enabled }) => {
     }
     return behavior;
   })
+}
+
+
+export const setEmitter = (state, {emitter}) => {
+  const idx = getCurrentEmitterIdx(state);
+  state.all[idx].emmiter = emitter
+};
+
+
+export const removeIcon = (state) => {
+  const idx = getCurrentEmitterIdx(state);
+  state.all[idx].config.behaviors = state.all[idx].config.behaviors.filter((behavior) => !behavior.type.includes('texture') ||  !behavior.type.includes('animated'));
+  state.all[idx].assetsBehaviors = []
 }

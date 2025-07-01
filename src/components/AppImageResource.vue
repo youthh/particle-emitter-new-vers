@@ -261,6 +261,7 @@ export default {
     },
     reset() {
       this.errText = '';
+      this.$store.commit('removeIcon');
 
       this.dataUrl = '';
       this.filename = '';

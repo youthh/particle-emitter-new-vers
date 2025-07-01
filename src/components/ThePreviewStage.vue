@@ -29,7 +29,7 @@
 <script>
 
 import Vue from 'vue';
-import { mapGetters } from 'vuex';
+import {mapGetters, mapMutations} from 'vuex';
 import {
   autoDetectRenderer,
   BaseTexture,
@@ -110,13 +110,10 @@ export default {
     const useWebGL = stageIsWebGL && utils.isWebGLSupported();
     this.stage = new Container();
     this.stage.name = 'stage';
-    // this.canvasRenderer.interactive = true
-    // this.canvasRenderer.interactiveChildren = true
-    // this.webGLRenderer.interactive = true
-    // this.webGLRenderer.interactiveChildren = true
+
 
     // this.stage.interactive = true;
-    this.stage.interactiveChildren = true
+    // this.stage.interactiveChildren = true
     this.stage.eventMode = "static"
 
     window.__PIXI_RENDERER__ =  this.webGLRenderer;
@@ -141,7 +138,6 @@ export default {
     this.stage.on('mousemove', (ev) => {
       this.mousePos.x = ev.data.global.x;
       this.mousePos.y = ev.data.global.y;
-      console.log("saf");
       if (!this.$store.state.stage.updateOnMouseMove) return;
       this.pContainer.emittersMap.forEach((emitter) => {
         emitter.updateOwnerPos(ev.data.global.x, ev.data.global.y);
@@ -237,6 +233,8 @@ export default {
     this.renderer = null;
   },
   methods: {
+    ...mapMutations(['setEmitter']),
+
     preventDef(e) {
       e.preventDefault();
     },
@@ -464,6 +462,7 @@ export default {
         emitter.emit = false;
         emitter.cleanup();
         emitter.destroy();
+
       });
       this.pContainer.emittersMap.clear();
       this.$store.getters.enabledEmitters.forEach(this.buildEmitter);
@@ -516,10 +515,13 @@ export default {
         this.pContainer,
         emitterConfig,
       );
-
       emitter.emit = true;
+      // this.setEmitterStore({emitter})
       this.pContainer.emittersMap.set(emitterObj.name, emitter);
       this.$_setEmittersToCenter();
+    },
+    setEmitterStore(emitter) {
+      this.$store.commit('setEmitter', emitter);
     },
   },
 };

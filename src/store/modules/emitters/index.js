@@ -62,6 +62,7 @@ export default {
     all: [
       {
         name: 'def',
+        emitter: null,
         type: 'default',
         enabled: true,
         spawnType: 'rect',
