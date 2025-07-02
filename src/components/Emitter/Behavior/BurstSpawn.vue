@@ -10,12 +10,12 @@
     >
       <el-form-item label="Enabled behavior">
         <el-switch
-          :value="isEnabled.enabled"
+          :value="isEnabled?.enabled"
           @change="(val) => setEnabled(val)"
         />
       </el-form-item>
     </el-tooltip>
-    <div v-show="isEnabled.enabled">
+    <div v-show="isEnabled?.enabled">
       <el-form-item>
         <template #label>
           <div>

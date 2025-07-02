@@ -5,7 +5,34 @@
     label-suffix=":"
     label-position="left"
   >
-    <div>
+    <el-form-item>
+      <template #label>
+        <div>
+          <el-tooltip
+            placement="left"
+            :content="type === STATIC_ALPHA ? 'An Alpha behavior that applies a static value to the particle\'s opacity at particle initialization.'
+              : 'An Alpha behavior that applies an interpolated or stepped list of values to the particles opacity.'"
+          >
+            <span>Alpha Type</span>
+          </el-tooltip>
+        </div>
+      </template>
+
+      <el-select
+        :value="type"
+        @input="setTypeAlpha"
+      >
+        <el-option
+          :value="STATIC_ALPHA"
+          label="Static Alpha"
+        />
+        <el-option
+          :value="DINAMIC_ALPHA"
+          label="Dynamic Alpha"
+        />
+      </el-select>
+    </el-form-item>
+    <div v-show="type === DINAMIC_ALPHA">
       <el-form-item label="List">
         <step-item
           v-for="(item, index) in cc.behaviors.find((i) => i?.type === 'alpha')?.config?.alpha.list"
@@ -24,7 +51,7 @@
             :precision="2"
             :step="0.01"
             :value="item.value"
-            @input="value => setListedStepValue({ propName: 'alpha', index: index, value, behavior: 'alpha' })"
+            @input="value => setListValue({ propName: 'alpha', index: index, value, behavior: 'alpha' })"
           />
         </step-item>
         <new-step-button
@@ -33,14 +60,24 @@
         />
       </el-form-item>
     </div>
+    <div v-show="STATIC_ALPHA === type">
+      <el-form-item label="Alpha">
+        <el-input-number
+          :step="0.1"
+          :value="staticAlpha?.alpha"
+          @input="(val) => setStaticAlpha(val)"
+        />
+      </el-form-item>
+    </div>
   </el-form>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
-import { setListedStepValue } from '@/store/modules/emitters/mutations';
+import {mapGetters, mapMutations} from 'vuex';
+import {setListedStepValue} from '@/store/modules/emitters/mutations';
 import StepItem from './v3/StepItem.vue';
 import NewStepButton from './v3/NewStepButton.vue';
+import {STATIC_ALPHA, DINAMIC_ALPHA} from "@/store/modules/emitters/names";
 
 export default {
   name: 'ThePanelEmitterParticlePropAlpha',
@@ -48,19 +85,43 @@ export default {
     NewStepButton,
     StepItem,
   },
+  data() {
+    return {
+      STATIC_ALPHA,
+      DINAMIC_ALPHA
+    };
+  },
   computed: {
+    isEnabled() {
+      return this.$store.getters.getEnabledBehavior('alpha');
+    },
     ...mapGetters({
       cc: 'currentConfig',
       useV3: 'v3Syntax',
+      type: 'getAlphaType',
+      staticAlpha: 'getStaticAlpha',
     }),
   },
   methods: {
-    setListedStepValue,
     ...mapMutations([
-      'setListedStepValue',
-      'setOldAPIPropStart',
-      'setOldAPIPropEnd',
+      'setListedStepValue', 'enabledBehavior', 'setAlphaType'
     ]),
+    setListedStepValue,
+    setEnabled(enabled) {
+      this.enabledBehavior({
+        behaviorName: 'alpha',
+        enabled
+      });
+    },
+    setListValue({propName, index, value, behavior}) {
+      this.$store.commit('setListedStepValue', { propName, index, value, behavior});
+    },
+    setTypeAlpha(type) {
+      this.$store.commit('setAlphaType', type);
+    },
+    setStaticAlpha(value) {
+      this.$store.commit('setStaticAlpha', value);
+    },
   },
 };
 </script>

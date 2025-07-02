@@ -516,13 +516,10 @@ export default {
         emitterConfig,
       );
       emitter.emit = true;
-      // this.setEmitterStore({emitter})
       this.pContainer.emittersMap.set(emitterObj.name, emitter);
       this.$_setEmittersToCenter();
     },
-    setEmitterStore(emitter) {
-      this.$store.commit('setEmitter', emitter);
-    },
+
   },
 };
 
