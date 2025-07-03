@@ -29,6 +29,10 @@
           :value="ANIMATED_SINGLE_TEXTURE"
           label="Animated Single Textures"
         />
+        <el-option
+          :value="RANDOM_TEXTURE"
+          label="Random Textures"
+        />
       </el-select>
     </el-form-item>
 
@@ -134,6 +138,31 @@
         </div>
       </el-form-item>
     </div>
+    <!--Random Textures -->
+    <div v-show="type === RANDOM_TEXTURE">
+      <el-form-item label="Add Texture">
+        <div class="assets-list">
+          <app-image-resource
+            v-for="asset in assets"
+            :id="asset.name"
+            :key="asset.name"
+            size="small"
+            :img-src="asset.body"
+            :img-filename="asset.name"
+            @on-reset="$_onAssetDelete(asset.name)"
+          />
+
+          <app-image-uploader
+            id="newBehaviorAsset"
+            ref="newBehaviorAsset"
+            class="new-asset"
+            size="small"
+            :multiple="true"
+            @on-item-uploaded="$_onNewAssetUploaded"
+          />
+        </div>
+      </el-form-item>
+    </div>
   </el-form>
 </template>
 
@@ -143,7 +172,7 @@ import AppImageUploader from '@/components/AppImageUploader.vue';
 import AppImageResource from '@/components/AppImageResource.vue';
 import {Message} from 'element-ui';
 import {
-  ANIMATED_SINGLE_TEXTURE,
+  ANIMATED_SINGLE_TEXTURE, RANDOM_TEXTURE,
   SINGLE_TEXTURE
 } from "@/store/modules/emitters/names";
 import {setTexturesType} from "@/store/modules/emitters/mutations";
@@ -154,7 +183,8 @@ export default {
   data() {
     return {
       ANIMATED_SINGLE_TEXTURE,
-      SINGLE_TEXTURE
+      SINGLE_TEXTURE,
+      RANDOM_TEXTURE
     };
   },
   computed: {
