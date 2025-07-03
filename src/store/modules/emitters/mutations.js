@@ -270,9 +270,18 @@ export const removeListedStep = (state, {propName, idx, behavior}) => {
 export const setListedStepValue = (state, {
   propName, index, value, behavior,
 }) => {
-  const list = getCurrentListedItem(state, propName, behavior);
-  list[index].value = value;
-  setCurrentListItem(state, propName, list);
+  let list = getCurrentListedItem(state, propName, behavior);
+  const values = list.map((item) => item.value);
+  if(!values.some((item) => item === value)) {
+    list[index].value = value;
+    setCurrentListItem(state, propName, list);
+  }else {
+
+    // list = [...list]
+    // setCurrentListItem(state, propName, list);
+    //
+    // Message.error("Impossible to set value same value as previous step");
+  }
 };
 export const setListedStepTime = (state, {
   propName, index, time, behavior,

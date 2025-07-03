@@ -51,7 +51,7 @@
           :min="0"
           :step="0.1"
           :value="cc?.minMult"
-          @change="(val) => setScaleSpawn('minMult', val)"
+          @input="(val) => setScaleSpawn('minMult', val)"
         />
       </el-form-item>
 
@@ -71,7 +71,7 @@
         </template>
         <el-switch
           :value="cc?.scale?.isStepped"
-          @change="(val) => setScaleSpawn('scale.isStepped', val)"
+          @input="(val) => setScaleSpawn('scale.isStepped', val)"
         />
       </el-form-item>
 
@@ -91,7 +91,7 @@
             :precision="2"
             :step="0.01"
             :value="item.value"
-            @change="(value) =>
+            @input="(value) =>
               setListedStepValue({ propName: 'scale', index, value, behavior: 'scale' })"
           />
         </step-item>

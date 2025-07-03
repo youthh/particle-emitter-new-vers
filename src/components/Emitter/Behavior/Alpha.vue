@@ -51,7 +51,7 @@
             :precision="2"
             :step="0.01"
             :value="item.value"
-            @change="value => setListValue({ propName: 'alpha', index: index, value, behavior: 'alpha' })"
+            @input="val => setListValue({ propName: 'alpha', index: index, value: val, behavior: 'alpha' })"
           />
         </step-item>
         <new-step-button
@@ -65,7 +65,7 @@
         <el-input-number
           :step="0.1"
           :value="staticAlpha?.alpha"
-          @input="(val) => setStaticAlpha(val)"
+          @change="(val) => setStaticAlpha(val)"
         />
       </el-form-item>
     </div>
@@ -74,7 +74,6 @@
 
 <script>
 import {mapGetters, mapMutations} from 'vuex';
-import {setListedStepValue} from '@/store/modules/emitters/mutations';
 import StepItem from './v3/StepItem.vue';
 import NewStepButton from './v3/NewStepButton.vue';
 import {STATIC_ALPHA, DINAMIC_ALPHA} from "@/store/modules/emitters/names";
@@ -106,7 +105,6 @@ export default {
     ...mapMutations([
       'setListedStepValue', 'enabledBehavior', 'setAlphaType'
     ]),
-    setListedStepValue,
     setEnabled(enabled) {
       this.enabledBehavior({
         behaviorName: 'alpha',

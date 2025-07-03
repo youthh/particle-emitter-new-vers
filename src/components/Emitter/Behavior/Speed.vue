@@ -91,7 +91,7 @@
               :min="0"
               :step="1"
               :value="item.value"
-              @change="(value) =>
+              @input="(value) =>
                 setListedStepValue({ propName: 'speed', index, value, behavior: 'moveSpeed' })"
             />
           </step-item>
