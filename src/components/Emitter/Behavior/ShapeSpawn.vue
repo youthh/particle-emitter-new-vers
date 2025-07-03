@@ -61,7 +61,7 @@
               class="xs-mini"
               :min="-Infinity"
               :value="cc?.data.x"
-              @input="(val) => setShapeField('x', val)"
+              @change="(val) => setShapeField('x', val)"
             />
           </el-form-item>
         </el-col>
@@ -75,7 +75,7 @@
               class="xs-mini"
               :min="-Infinity"
               :value="cc?.data.y"
-              @input="(val) => setShapeField('y', val)"
+              @change="(val) => setShapeField('y', val)"
             />
           </el-form-item>
         </el-col>
@@ -87,7 +87,7 @@
               <el-input-number
                 :min="0"
                 :value="cc?.data.radius"
-                @input="(val) => setShapeField('radius', val)"
+                @change="(val) => setShapeField('radius', val)"
               />
             </el-tooltip>
           </el-form-item>
@@ -100,7 +100,7 @@
               <el-input-number
                 :min="0"
                 :value="cc?.data.innerRadius"
-                @input="(val) => setShapeField('innerRadius', val)"
+                @change="(val) => setShapeField('innerRadius', val)"
               />
             </el-tooltip>
           </el-form-item>
@@ -109,7 +109,7 @@
       <el-form-item label="Rotate with movement">
         <el-switch
           :value="cc?.data.rotation"
-          @input="(val) => setShapeField('rotation', val)"
+          @change="(val) => setShapeField('rotation', val)"
         />
       </el-form-item>
     </el-form-item>
@@ -140,7 +140,7 @@
               controls-position="right"
               class="xs-mini"
               :value="cc?.data.x"
-              @input="(val) => setShapeField('x', val)"
+              @change="(val) => setShapeField('x', val)"
             />
           </el-form-item>
         </el-col>
@@ -154,7 +154,7 @@
               controls-position="right"
               class="xs-mini"
               :value="cc?.data.y"
-              @input="(val) => setShapeField('y', val)"
+              @change="(val) => setShapeField('y', val)"
             />
           </el-form-item>
         </el-col>
@@ -170,7 +170,7 @@
               class="xs-mini"
               :min="1"
               :value="cc?.data.w"
-              @input="(val) => setShapeField('w', val)"
+              @change="(val) => setShapeField('w', val)"
             />
           </el-form-item>
         </el-col>
@@ -184,7 +184,7 @@
               class="xs-mini"
               :min="1"
               :value="cc?.data?.h"
-              @input="(val) => setShapeField('h', val)"
+              @change="(val) => setShapeField('h', val)"
             />
           </el-form-item>
         </el-col>
@@ -224,7 +224,7 @@
             type="textarea"
             :rows="6"
             :value="JSON.stringify(cc?.data || [])"
-            @input="setSimplePolygonalPints"
+            @change="setSimplePolygonalPints"
           />
         </el-tooltip>
       </div>

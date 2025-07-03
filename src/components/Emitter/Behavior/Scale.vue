@@ -5,7 +5,35 @@
     label-suffix=":"
     label-position="left"
   >
-    <div>
+    <el-form-item>
+      <template #label>
+        <div>
+          <el-tooltip
+            placement="left"
+            :content="STATIC_SCALE === type ? 'A Scale behavior that applies a randomly picked value to the particle s x & y scale at initialization.'
+              : 'A Scale behavior that applies an interpolated or stepped list of values to the particle\'s x & y scale.\n'"
+          >
+            <span>Scale Type</span>
+          </el-tooltip>
+        </div>
+      </template>
+
+      <el-select
+        :value="type"
+        @change="setTypeScale"
+      >
+        <el-option
+          :value="STATIC_SCALE"
+          label="Static Scale"
+        />
+        <el-option
+          :value="DINAMIC_SCALE"
+          label="Dynamic Scale"
+        />
+      </el-select>
+    </el-form-item>
+
+    <div v-show="type === DINAMIC_SCALE">
       <el-form-item>
         <template #label>
           <div>
@@ -22,8 +50,8 @@
         <el-input-number
           :min="0"
           :step="0.1"
-          :value="cc.minMult"
-          @input="(val) => setScaleSpawn('minMult', val)"
+          :value="cc?.minMult"
+          @change="(val) => setScaleSpawn('minMult', val)"
         />
       </el-form-item>
 
@@ -42,14 +70,14 @@
           </div>
         </template>
         <el-switch
-          :value="cc.scale.isStepped"
+          :value="cc?.scale?.isStepped"
           @change="(val) => setScaleSpawn('scale.isStepped', val)"
         />
       </el-form-item>
 
       <el-form-item label="List">
         <step-item
-          v-for="(item, index) in cc.scale.list"
+          v-for="(item, index) in cc?.scale?.list"
           :key="index"
           prop-name="scale"
           label="Scale"
@@ -63,7 +91,7 @@
             :precision="2"
             :step="0.01"
             :value="item.value"
-            @input="(value) =>
+            @change="(value) =>
               setListedStepValue({ propName: 'scale', index, value, behavior: 'scale' })"
           />
         </step-item>
@@ -73,13 +101,34 @@
         />
       </el-form-item>
     </div>
+
+    <div v-show="type === STATIC_SCALE">
+      <el-form-item label="Min Scale">
+        <el-input-number
+          :step="1"
+          :value="s?.min"
+          @change="(val) => setScaleSpawn('min', val, 'scaleStatic')"
+        />
+      </el-form-item>
+      <el-form-item label="Max Scale">
+        <el-input-number
+          :step="1"
+          :value="s?.max"
+          @change="(val) => setScaleSpawn('max', val, 'scaleStatic')"
+        />
+      </el-form-item>
+    </div>
   </el-form>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
+import {mapGetters, mapMutations} from 'vuex';
 import StepItem from './v3/StepItem.vue';
 import NewStepButton from './v3/NewStepButton.vue';
+import {
+  DINAMIC_SCALE,
+  STATIC_SCALE
+} from "@/store/modules/emitters/names";
 
 export default {
   name: 'ThePanelEmitterParticlePropScale',
@@ -87,9 +136,18 @@ export default {
     NewStepButton,
     StepItem,
   },
+  data() {
+    return {
+      STATIC_SCALE,
+      DINAMIC_SCALE
+    };
+  },
+
   computed: {
     ...mapGetters({
       cc: 'getScaleBehavior',
+      type: 'getScaleType',
+      s: 'getScaleStatic',
       configProps() {
         return [];
       },
@@ -99,10 +157,11 @@ export default {
     ...mapMutations([
       'setListedStepValue',
       'updateBehaviorConfig',
+      'enabledBehavior'
     ]),
-    setScaleSpawn(key, value) {
+    setScaleSpawn(key, value, scale = 'scale') {
       this.updateBehaviorConfig({
-        type: 'scale',
+        type: scale,
         key,
         value,
       });
@@ -111,6 +170,9 @@ export default {
       // const prop = this.configProps?.find((p) => p.name === fieldName);
       return '';
     },
+    setTypeScale(type) {
+      this.$store.commit('setScaleType', type);
+    }
   },
 };
 </script>

@@ -1,5 +1,12 @@
 /* eslint-disable arrow-body-style */
-export const enabledEmitters = (state) => state.all.filter(({ enabled }) => enabled);
+
+import {
+  DINAMIC_SPEED,
+  STATIC_ALPHA,
+  STATIC_SCALE,
+} from "@/store/modules/emitters/names";
+
+export const enabledEmitters = (state) => state.all.filter(({enabled}) => enabled);
 export const getEmitterByName = (state, name) => {
   return state.all.find((emitter) => emitter.name === name);
 };
@@ -44,7 +51,7 @@ export const getCurrentEmitterIdx = (state) => state.all.findIndex((e) => e.name
 export const nameExists = (state) => (emitterName) => {
   return state.all.some((emitter) => emitter.name === emitterName);
 };
-export const emittersList = (state) => state.all.map(({ name, type, enabled }) => ({
+export const emittersList = (state) => state.all.map(({name, type, enabled}) => ({
   name,
   type,
   enabled,
@@ -88,5 +95,34 @@ export const getAnimateSingleTexturesConfig = (state) => {
 };
 
 export const getEnabledBehavior = (state) => (name) => {
-  return state.all[0].enabledBehaviors.find((b) => b.name === name);
+  // return state.all[0].enabledBehaviors.find((b) => b.name === name);
+  const enabledBehaviors = state.all[0].config.behaviors.map(behaviors => behaviors.type)
+  return enabledBehaviors.some((b) => b === name);
 }
+
+export const getColorType = (state) => {
+  return state.colorType
+
+}
+
+export const getAlphaType = (state) => {
+  return state.alphaType
+}
+
+export const getScaleType = (state) => {
+  return state.scaleType
+}
+export const getMoveSpeedType = (state) => {
+  return state.moveSpeedType
+}
+export const getScaleStatic = (state) => {
+  return state.all[0].config.behaviors.find((behavior) => behavior?.type === STATIC_SCALE)?.config;
+}
+
+export const getStaticAlpha = (state) => {
+  return state.all[0].config.behaviors.find((behavior) => behavior?.type === STATIC_ALPHA)?.config;
+}
+export const getStaticMoveSpeed = (state) => {
+  return state.all[0].config.behaviors.find((behavior) => behavior?.type.includes(DINAMIC_SPEED))?.config;
+}
+

@@ -10,7 +10,7 @@
         <el-input-number
           :step="10"
           :value="cc?.minStart"
-          @input="(val) => setMoveAcceleration('minStart', val)"
+          @change="(val) => setMoveAcceleration('minStart', val)"
         />
       </el-form-item>
     </el-tooltip>
@@ -19,7 +19,7 @@
         <el-input-number
           :step="10"
           :value="cc?.maxStart"
-          @input="(val) => setMoveAcceleration('maxStart', val)"
+          @change="(val) => setMoveAcceleration('maxStart', val)"
         />
       </el-form-item>
     </el-tooltip>
@@ -29,8 +29,8 @@
       <el-form-item label="Accel X">
         <el-input-number
           :step="10"
-          :value="cc?.accel.x"
-          @input="(val) => setMoveAcceleration('accel.x', val)"
+          :value="cc?.accel?.x"
+          @change="(val) => setMoveAcceleration('accel.x', val)"
         />
       </el-form-item>
     </el-tooltip>
@@ -40,8 +40,8 @@
       <el-form-item label="Accel Y">
         <el-input-number
           :step="10"
-          :value="cc?.accel.y"
-          @input="(val) => setMoveAcceleration('accel.y', val)"
+          :value="cc?.accel?.y"
+          @change="(val) => setMoveAcceleration('accel.y', val)"
         />
       </el-form-item>
     </el-tooltip>
@@ -50,7 +50,7 @@
         <el-input-number
           :step="10"
           :value="cc?.maxSpeed"
-          @input="(val) => setMoveAcceleration('maxSpeed', val)"
+          @change="(val) => setMoveAcceleration('maxSpeed', val)"
         />
       </el-form-item>
     </el-tooltip>

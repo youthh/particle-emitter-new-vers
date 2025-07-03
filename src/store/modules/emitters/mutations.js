@@ -7,8 +7,15 @@ import {
 
 import {
   SPAWN_TYPE_RING,
-  SPAWN_TYPE_RECT, EMITTER_TYPE_PATH,
+  SPAWN_TYPE_RECT,
+  EMITTER_TYPE_PATH,
+  STATIC_COLOR,
+  STATIC_ALPHA,
+  STATIC_SCALE,
+  DINAMIC_SPEED,
+  STATIC_SPEED,
 } from './names';
+import {Message} from "element-ui";
 
 const getCurrentItem = (state) => {
   const currentIdx = state.all.findIndex((value) => value.name === state.current);
@@ -250,12 +257,15 @@ export const addNewListedStep = (state, {propName, behavior}) => {
   setCurrentListItem(state, propName, list);
 };
 export const removeListedStep = (state, {propName, idx, behavior}) => {
-  // const index = getCurrentEmitterIdx(state);
-  // state.all[index].emmiter.cleanup();
+
   const list = getCurrentListedItem(state, propName, behavior);
-  list.splice(idx, 1);
-  validateList(list);
-  setCurrentListItem(state, propName, list);
+  if (list.length > 2) {
+    list.splice(idx, 1);
+    validateList(list);
+    setCurrentListItem(state, propName, list);
+  } else {
+    Message.error("Impossible to remove last step, at least 2 steps required");
+  }
 };
 export const setListedStepValue = (state, {
   propName, index, value, behavior,
@@ -269,6 +279,8 @@ export const setListedStepTime = (state, {
 }) => {
   const list = getCurrentListedItem(state, propName, behavior);
   if (index === list.length - 1 && time !== 1) {
+    list[index].time = time;
+    list[index].time = 1;
     return;
   }
   list[index].time = time;
@@ -344,18 +356,10 @@ export const updateBehaviorConfig = (state, {type, key, value}) => {
   target[keys[keys.length - 1]] = value;
 };
 
-export const createBehavior = (state, {type, key, value}) => {
-  const idx = getCurrentEmitterIdx(state);
-  const isEnabled = state.all[idx].enabledBehaviors.find((b) => b.name === type)?.enabled;
-  if (isEnabled) {
-    state.all[idx].config.behaviors.push(
-      {
-        type,
-        config: {
-          [key]: value,
-        },
-      }
-    )
+
+export const createBehavior = (state, { type }) => {
+  if (type === 'spawnShape') {
+    createBurstSpawnBehavior(state)
   }
 }
 
@@ -452,12 +456,6 @@ export const setSpawnPolygon = (state, value) => {
 };
 
 
-export const setEmitterStore = (state, {emitter}) => {
-  const idx = getCurrentEmitterIdx(state);
-  state.all[idx].currentEmitter = emitter
-};
-
-
 export const setTexturesType = (state, value) => {
   const idx = getCurrentEmitterIdx(state);
   state.all[idx].config.behaviors = state.all[idx].config.behaviors.filter(b => !b.type.includes('texture'));
@@ -468,16 +466,107 @@ export const setTexturesType = (state, value) => {
 export const enabledBehavior = (state, {behaviorName, enabled}) => {
   const idx = getCurrentEmitterIdx(state);
   state.all[idx].config.behaviors = state.all[idx].config.behaviors.filter(b => b.type !== behaviorName);
-  state.all[idx].enabledBehaviors = state.all[idx].enabledBehaviors.map((behavior) => {
-    if (behavior.name === behaviorName) {
-      behavior.enabled = enabled;
+  if (enabled) {
+    // state.all[idx].config.behaviors.push({type: behaviorName, config: {}});
+  }
+}
+
+export const removeIcon = (state) => {
+  const idx = getCurrentEmitterIdx(state);
+  state.all[idx].config.behaviors = state.all[idx].config.behaviors.filter((behavior) => !behavior.type.includes('texture') || !behavior.type.includes('animated'));
+  state.all[idx].assetsBehaviors = []
+}
+
+export const setColorType = (state, value) => {
+  state.colorType = value;
+  state.all[0].config.behaviors = state.all[0].config.behaviors.filter((behavior) => !behavior.type.includes('color'));
+  state.all[0].config.behaviors.push({
+    type: value, config: {
+      color: value.includes(STATIC_COLOR) ? '#ffffff' : {
+        list: [{value: '#ff0000', time: 0}, {value: '#00ff00', time: 0.5}, {
+          value: '#0000ff',
+          time: 1
+        }]
+      },
+    }
+  });
+}
+
+export const setStaticColor = (state, value) => {
+  state.all[0].config.behaviors.map((behavior) => {
+    if (behavior.type === 'colorStatic') {
+      behavior.config.color = value;
     }
     return behavior;
   })
 }
 
-export const removeIcon = (state) => {
-  const idx = getCurrentEmitterIdx(state);
-  state.all[idx].config.behaviors = state.all[idx].config.behaviors.filter((behavior) => !behavior.type.includes('texture') ||  !behavior.type.includes('animated'));
-  state.all[idx].assetsBehaviors = []
+export const setAlphaType = (state, value) => {
+  state.alphaType = value;
+  state.all[0].config.behaviors = state.all[0].config.behaviors.filter((behavior) => !behavior.type.includes('alpha'));
+  state.all[0].config.behaviors.push({
+    type: value, config: {
+      alpha: value.includes(STATIC_ALPHA) ? 1 : {
+        list: [{value: 0, time: 0}, {value: 1, time: 0.25}, {value: 0, time: 1}]
+      },
+    }
+  });
+}
+
+export const setStaticAlpha = (state, value) => {
+  state.all[0].config.behaviors.map((behavior) => {
+    if (behavior.type === STATIC_ALPHA) {
+      behavior.config.alpha = value;
+    }
+    return behavior;
+  })
+}
+
+export const setScaleType = (state, value) => {
+  state.scaleType = value;
+  state.all[0].config.behaviors = state.all[0].config.behaviors.filter((behavior) => !behavior.type.includes('scale'));
+  state.all[0].config.behaviors.push({
+    type: value, config: value.includes(STATIC_SCALE) ? {
+      min: 1,
+      max: 0.75
+    } : {
+      scale: {
+        list: [{value: 0, time: 0}, {value: 1, time: 0.25}, {value: 0, time: 1}],
+      },
+      minMult: 0.5
+    }
+  });
+}
+
+
+export const setMoveSpeedType = (state, value) => {
+  state.moveSpeedType = value;
+  state.all[0].config.behaviors = state.all[0].config.behaviors.filter((behavior) => !behavior.type.includes(DINAMIC_SPEED));
+  state.all[0].config.behaviors.push({
+    type: value, config: value.includes(STATIC_SPEED) ? {
+      min: 200,
+      max: 300,
+    } : {
+      speed: {
+        list: [{value: 10, time: 0}, {value: 100, time: 0.25}, {value: 0, time: 1}],
+      },
+      minMult: 0.5
+    }
+  });
+}
+
+export const createBurstSpawnBehavior = (state, {enabled}) => {
+  if(enabled) {
+    state.all[0].config.behaviors.push({
+      type: 'spawnBurst',
+      config: {
+        spacing: 0,
+        start: 0,
+        distance: 100
+        ,
+      }
+    })
+  }else {
+    state.all[0].config.behaviors = state.all[0].config.behaviors.filter((behavior) => behavior.type !== 'spawnBurst');
+  }
 }
