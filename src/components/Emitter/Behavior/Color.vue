@@ -20,7 +20,7 @@
 
       <el-select
         :value="type"
-        @input="setType"
+        @change="setType"
       >
         <el-option
           :value="STATIC_COLOR"
@@ -46,7 +46,7 @@
         >
           <el-color-picker
             :value="`#${item.value}`"
-            @input="(value) => setListedStepValue({
+            @change="(value) => setListedStepValue({
               propName: 'color',
               index,
               value: !value ? 'ffffff': value.substr(1),
@@ -65,7 +65,7 @@
       <el-form-item label="Static Color">
         <el-color-picker
           :value="`#ffffff`"
-          @input="(value) => setColor(value)"
+          @change="(value) => setColor(value)"
         />
       </el-form-item>
     </div>

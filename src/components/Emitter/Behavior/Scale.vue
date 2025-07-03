@@ -20,7 +20,7 @@
 
       <el-select
         :value="type"
-        @input="setTypeScale"
+        @change="setTypeScale"
       >
         <el-option
           :value="STATIC_SCALE"
@@ -51,7 +51,7 @@
           :min="0"
           :step="0.1"
           :value="cc?.minMult"
-          @input="(val) => setScaleSpawn('minMult', val)"
+          @change="(val) => setScaleSpawn('minMult', val)"
         />
       </el-form-item>
 
@@ -91,7 +91,7 @@
             :precision="2"
             :step="0.01"
             :value="item.value"
-            @input="(value) =>
+            @change="(value) =>
               setListedStepValue({ propName: 'scale', index, value, behavior: 'scale' })"
           />
         </step-item>
@@ -107,14 +107,14 @@
         <el-input-number
           :step="1"
           :value="s?.min"
-          @input="(val) => setScaleSpawn('min', val, 'scaleStatic')"
+          @change="(val) => setScaleSpawn('min', val, 'scaleStatic')"
         />
       </el-form-item>
       <el-form-item label="Max Scale">
         <el-input-number
           :step="1"
           :value="s?.max"
-          @input="(val) => setScaleSpawn('max', val, 'scaleStatic')"
+          @change="(val) => setScaleSpawn('max', val, 'scaleStatic')"
         />
       </el-form-item>
     </div>

@@ -1,6 +1,10 @@
 /* eslint-disable arrow-body-style */
 
-import {STATIC_ALPHA, STATIC_SCALE} from "@/store/modules/emitters/names";
+import {
+  DINAMIC_SPEED,
+  STATIC_ALPHA,
+  STATIC_SCALE,
+} from "@/store/modules/emitters/names";
 
 export const enabledEmitters = (state) => state.all.filter(({enabled}) => enabled);
 export const getEmitterByName = (state, name) => {
@@ -108,6 +112,9 @@ export const getAlphaType = (state) => {
 export const getScaleType = (state) => {
   return state.scaleType
 }
+export const getMoveSpeedType = (state) => {
+  return state.moveSpeedType
+}
 export const getScaleStatic = (state) => {
   return state.all[0].config.behaviors.find((behavior) => behavior?.type === STATIC_SCALE)?.config;
 }
@@ -115,3 +122,7 @@ export const getScaleStatic = (state) => {
 export const getStaticAlpha = (state) => {
   return state.all[0].config.behaviors.find((behavior) => behavior?.type === STATIC_ALPHA)?.config;
 }
+export const getStaticMoveSpeed = (state) => {
+  return state.all[0].config.behaviors.find((behavior) => behavior?.type.includes(DINAMIC_SPEED))?.config;
+}
+

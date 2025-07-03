@@ -24,3 +24,7 @@ export const DINAMIC_ALPHA = 'alpha';
 
 export const STATIC_SCALE = 'scaleStatic';
 export const DINAMIC_SCALE = 'scale';
+
+
+export const STATIC_SPEED = 'moveSpeedStatic';
+export const DINAMIC_SPEED = 'moveSpeed';

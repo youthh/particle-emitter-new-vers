@@ -4,7 +4,7 @@ import * as mutations from './mutations';
 import {
   DINAMIC_ALPHA,
   DINAMIC_COLOR,
-  DINAMIC_SCALE,
+  DINAMIC_SCALE, DINAMIC_SPEED,
   SINGLE_TEXTURE
 } from "@/store/modules/emitters/names";
 
@@ -87,25 +87,13 @@ export default {
           },
           frequency: 0.001,
           emitterLifetime: 0,
-          maxParticles: 50,
+          maxParticles: 400,
           addAtBack: false,
           pos: {
             x: 0,
             y: 0,
           },
           behaviors: [
-            {
-              "type": "spawnShape",
-              "config": {
-                "type": "rect",
-                "data": {
-                  "x": -300,
-                  "y": 100,
-                  "w": 400,
-                  "h": 200
-                }
-              }
-            },
             {
               type: 'alpha',
               config: {
@@ -152,6 +140,18 @@ export default {
               },
             },
             {
+              "type": "moveAcceleration",
+              "config": {
+                "accel": {
+                  "x": 0,
+                  "y": 0
+                },
+                "minStart": 600,
+                "maxStart": 600,
+                "rotate": false
+              }
+            },
+            {
               type: 'textureSingle',
               config: {
                 texture: 'CartoonSmoke.png',
@@ -183,6 +183,7 @@ export default {
     colorType: DINAMIC_COLOR,
     alphaType: DINAMIC_ALPHA,
     scaleType: DINAMIC_SCALE,
+    moveSpeedType: DINAMIC_SPEED,
 
   },
   getters,

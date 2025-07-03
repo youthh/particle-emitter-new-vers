@@ -10,12 +10,12 @@
     >
       <el-form-item label="Enabled behavior">
         <el-switch
-          :value="isEnabled?.enabled"
+          :value="isEnabled"
           @change="(val) => setEnabled(val)"
         />
       </el-form-item>
     </el-tooltip>
-    <div v-show="isEnabled?.enabled">
+    <div v-show="isEnabled">
       <el-form-item>
         <template #label>
           <div>
@@ -32,7 +32,7 @@
         <el-input-number
           :step="1"
           :value="cc?.spacing"
-          @input="(val) => setBurstSpawn('spacing', val)"
+          @change="(val) => setBurstSpawn('spacing', val)"
         />
       </el-form-item>
 
@@ -52,7 +52,7 @@
         <el-input-number
           :step="1"
           :value="cc?.start"
-          @input="(val) => setBurstSpawn('start', val)"
+          @change="(val) => setBurstSpawn('start', val)"
         />
       </el-form-item>
 
@@ -73,7 +73,7 @@
           :step="1"
           :min="0"
           :value="cc?.distance"
-          @input="(val) => setBurstSpawn('distance', val)"
+          @change="(val) => setBurstSpawn('distance', val)"
         />
       </el-form-item>
     </div>
@@ -97,7 +97,7 @@ export default {
     },
   },
   methods: {
-    ...mapMutations(['updateBehaviorConfig', 'enabledBehavior']),
+    ...mapMutations(['updateBehaviorConfig', 'createBurstSpawnBehavior']),
     setBurstSpawn(key, value) {
       this.updateBehaviorConfig({
         type: 'spawnBurst',
@@ -106,8 +106,7 @@ export default {
       });
     },
     setEnabled(enabled) {
-      this.enabledBehavior({
-        behaviorName: 'spawnBurst',
+      this.createBurstSpawnBehavior({
         enabled
       });
     },

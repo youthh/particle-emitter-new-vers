@@ -7,7 +7,13 @@ import {
 
 import {
   SPAWN_TYPE_RING,
-  SPAWN_TYPE_RECT, EMITTER_TYPE_PATH, STATIC_COLOR, STATIC_ALPHA, STATIC_SCALE,
+  SPAWN_TYPE_RECT,
+  EMITTER_TYPE_PATH,
+  STATIC_COLOR,
+  STATIC_ALPHA,
+  STATIC_SCALE,
+  DINAMIC_SPEED,
+  STATIC_SPEED,
 } from './names';
 import {Message} from "element-ui";
 
@@ -350,22 +356,12 @@ export const updateBehaviorConfig = (state, {type, key, value}) => {
   target[keys[keys.length - 1]] = value;
 };
 
-export const createBehavior = () => {
+
+export const createBehavior = (state, { type }) => {
+  if (type === 'spawnShape') {
+    createBurstSpawnBehavior(state)
+  }
 }
-// export const createBehavior = (state, {type, key, value}) => {
-//   const idx = getCurrentEmitterIdx(state);
-//   // const isEnabled = state.all[idx].enabledBehaviors.find((b) => b.name === type)?.enabled;
-//   // if (isEnabled) {
-//   //   state.all[idx].config.behaviors.push(
-//   //     {
-//   //       type,
-//   //       config: {
-//   //         [key]: value,
-//   //       },
-//   //     }
-//   //   )
-//   // }
-// }
 
 export const setFrameRate = (state, value) => {
   const idx = getCurrentEmitterIdx(state);
@@ -540,4 +536,37 @@ export const setScaleType = (state, value) => {
       minMult: 0.5
     }
   });
+}
+
+
+export const setMoveSpeedType = (state, value) => {
+  state.moveSpeedType = value;
+  state.all[0].config.behaviors = state.all[0].config.behaviors.filter((behavior) => !behavior.type.includes(DINAMIC_SPEED));
+  state.all[0].config.behaviors.push({
+    type: value, config: value.includes(STATIC_SPEED) ? {
+      min: 200,
+      max: 300,
+    } : {
+      speed: {
+        list: [{value: 10, time: 0}, {value: 100, time: 0.25}, {value: 0, time: 1}],
+      },
+      minMult: 0.5
+    }
+  });
+}
+
+export const createBurstSpawnBehavior = (state, {enabled}) => {
+  if(enabled) {
+    state.all[0].config.behaviors.push({
+      type: 'spawnBurst',
+      config: {
+        spacing: 0,
+        start: 0,
+        distance: 100
+        ,
+      }
+    })
+  }else {
+    state.all[0].config.behaviors = state.all[0].config.behaviors.filter((behavior) => behavior.type !== 'spawnBurst');
+  }
 }

@@ -5,17 +5,37 @@
     label-suffix=":"
     label-position="left"
   >
-    <el-tooltip
-      content="Enabled behavior"
-    >
-      <el-form-item label="Enabled behavior">
-        <el-switch
-          :value="isEnabled"
-          @change="(val) => setEnabled(val)"
+    <el-form-item>
+      <template #label>
+        <div>
+          <el-tooltip
+            placement="left"
+            :content="type === STATIC_SPEED ? 'A Movement behavior that uses a randomly picked constant speed throughout a particle\'s lifetime.' +
+              ' Movement direction is controlled by the particle\'s starting rotation.'
+              : 'A Movement behavior that uses an interpolated or stepped list of values for a particles speed at any given moment.' +
+                'Movement direction is controlled by the particle\'s starting rotation.'"
+          >
+            <span>Move speed Type</span>
+          </el-tooltip>
+        </div>
+      </template>
+
+      <el-select
+        :value="type"
+        @input="setMoveSpeedType"
+      >
+        <el-option
+          :value="STATIC_SPEED"
+          label="Static Speed"
         />
-      </el-form-item>
-    </el-tooltip>
-    <div v-show="isEnabled">
+        <el-option
+          :value="DINAMIC_SPEED"
+          label="Dynamic Speed"
+        />
+      </el-select>
+    </el-form-item>
+
+    <div v-show="type === DINAMIC_SPEED">
       <el-form-item
         label-width="100px"
       >
@@ -49,8 +69,8 @@
         <el-input-number
           :min="0"
           :step="0.1"
-          :value="cc.minMult"
-          @input="(val) => setMoveSpeedSpawn ('minMult', val)"
+          :value="s?.minMult"
+          @change="(val) => setMoveSpeedSpawn ('minMult', val)"
         />
       </el-form-item>
 
@@ -71,7 +91,7 @@
               :min="0"
               :step="1"
               :value="item.value"
-              @input="(value) =>
+              @change="(value) =>
                 setListedStepValue({ propName: 'speed', index, value, behavior: 'moveSpeed' })"
             />
           </step-item>
@@ -82,13 +102,32 @@
         </el-form-item>
       </div>
     </div>
+    <!-----------------------STATIC_SPEED------------------------->
+    <div v-show="type === STATIC_SPEED">
+      <el-form-item label="Min Speed">
+        <el-input-number
+          :step="1"
+          :value="s?.min"
+          @change="(val) => setMoveSpeedSpawn('min', val, STATIC_SPEED)"
+        />
+      </el-form-item>
+      <el-form-item label="Max Speed">
+        <el-input-number
+          :step="1"
+          :value="s?.max"
+          @change="(val) => setMoveSpeedSpawn('max', val, STATIC_SPEED)"
+        />
+      </el-form-item>
+    </div>
   </el-form>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
+import {mapGetters, mapMutations} from 'vuex';
 import StepItem from './v3/StepItem.vue';
 import NewStepButton from './v3/NewStepButton.vue';
+import {DINAMIC_SPEED, STATIC_SPEED} from "@/store/modules/emitters/names";
+import {setMoveSpeedType} from "@/store/modules/emitters/mutations";
 
 export default {
   name: 'ThePanelEmitterParticlePropSpeed',
@@ -96,37 +135,39 @@ export default {
     NewStepButton,
     StepItem,
   },
+  data() {
+    return {
+      STATIC_SPEED,
+      DINAMIC_SPEED,
+    };
+  },
   computed: {
-    isEnabled() {
-      return this.$store.getters.getEnabledBehavior('moveSpeed');
-    },
     ...mapGetters({
       cc: 'currentConfig',
       useV3: 'v3Syntax',
+      type: 'getMoveSpeedType',
+      s: 'getStaticMoveSpeed',
       configProps() {
         return [];
       },
     }),
   },
   methods: {
+    setMoveSpeedType,
     ...mapMutations([
       'setListedStepValue',
       'updateBehaviorConfig',
-        'enabledBehavior'
+      'enabledBehavior',
+      'setMoveSpeedType'
     ]),
-    setMoveSpeedSpawn(key, value) {
+    setMoveSpeedSpawn(key, value, moveSpeed = DINAMIC_SPEED) {
       this.updateBehaviorConfig({
-        type: 'moveSpeed',
+        type: moveSpeed,
         key,
         value,
       });
     },
-    setEnabled(enabled) {
-      this.enabledBehavior({
-        behaviorName: 'moveSpeed',
-        enabled
-      });
-    },
+
     getDescription() {
       // const prop = this.configProps?.find((p) => p.name === fieldName);
       return '';
