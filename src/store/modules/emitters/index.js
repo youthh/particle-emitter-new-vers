@@ -95,6 +95,18 @@ export default {
           },
           behaviors: [
             {
+              "type": "spawnShape",
+              "config": {
+                "type": "rect",
+                "data": {
+                  "x": -300,
+                  "y": 100,
+                  "w": 400,
+                  "h": 200
+                }
+              }
+            },
+            {
               type: 'alpha',
               config: {
                 alpha: {

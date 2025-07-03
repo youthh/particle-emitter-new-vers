@@ -251,13 +251,13 @@ export default {
       );
     },
     $_setEmittersPos(x, y) {
-      // this.pContainer.emittersMap.forEach((emitter) => {
-      //   // emitter.resetPositionTracking();
-      //   emitter.updateOwnerPos(
-      //     x,
-      //     y,
-      //   );
-      // });
+      this.pContainer.emittersMap.forEach((emitter) => {
+        // emitter.resetPositionTracking();
+        emitter.updateOwnerPos(
+          x,
+          y,
+        );
+      });
     },
     $_setEmittersToCenter() {
       // make transparent rectangle on whole screen
@@ -276,13 +276,13 @@ export default {
       );
       if (!this.pContainer) return;
 
-      // this.pContainer.emittersMap.forEach((emitter) => {
-      //   // emitter.resetPositionTracking();
-      //   emitter.updateOwnerPos(
-      //     this.renderer.screen.width / 2,
-      //     this.renderer.screen.height / 2,
-      //   );
-      // });
+      this.pContainer.emittersMap.forEach((emitter) => {
+        // emitter.resetPositionTracking();
+        emitter.updateOwnerPos(
+          this.renderer.screen.width / 2,
+          this.renderer.screen.height / 2,
+        );
+      });
     },
     addStoreWatchers() {
       const self = this;
@@ -432,12 +432,12 @@ export default {
       this.renderer = isWebGL ? this.webGLRenderer : this.canvasRenderer;
       this.interaction = this.renderer.plugins.interaction;
       this.interaction.setTargetElement(this.renderer.view, this.renderer.resolution);
-      // this.stage.hitArea = new Rectangle(
-      //   0,
-      //   0,
-      //   this.$refs.previewStageWebGL.offsetWidth ,
-      //   this.$refs.previewStageWebGL.offsetHeight
-      // );
+      this.stage.hitArea = new Rectangle(
+        0,
+        0,
+        this.$refs.previewStageWebGL.offsetWidth ,
+        this.$refs.previewStageWebGL.offsetHeight
+      );
       this.stage.eventMode = 'static';
       this.stage.interactiveChildren = true;
       this.interaction.moveWhenInside = true;
@@ -449,28 +449,25 @@ export default {
       this.pNumber = Array.from(this.pContainer.emittersMap)
         .reduce((num, emitter) => num + emitter[1].particleCount, 0);
 
-      // this.pContainer.emittersMap.forEach((emitter) => {
-      //   emitter.update(this.ticker.elapsedMS * 0.001);
-      // });
+      this.pContainer.emittersMap.forEach((emitter) => {
+        emitter.update(this.ticker.elapsedMS * 0.001);
+      });
       this.renderer.render(this.stage);
     },
     buildEnabledEmitters() {
     },
     $_buildEnabledEmitters() {
       // cleanup first
-      // this.pContainer.emittersMap.forEach((emitter) => {
-      //   // eslint-disable-next-line no-param-reassign
-      //   emitter.emit = false;
-      //   emitter.cleanup();
-      //   emitter.destroy();
-      //
-      // });
-      // this.pContainer.emittersMap.clear();
+      this.pContainer.emittersMap.forEach((emitter) => {
+        // eslint-disable-next-line no-param-reassign
+        emitter.emit = false;
+        emitter.cleanup();
+        emitter.destroy();
+
+      });
+      this.pContainer.emittersMap.clear();
       this.$store.getters.enabledEmitters.forEach(this.buildEmitter);
       this.$_setEmittersToCenter();
-    },
-    setEmitterToStore(emitter) {
-      this.$store.commit('setEmitterStore', {emitter});
     },
     $_parseEmitterArt(art, emitterType, animConf) {
       const textures = art.map((fileName) => {
@@ -519,7 +516,6 @@ export default {
         this.pContainer,
         emitterConfig,
       );
-      this.setEmitterToStore(emitter)
       emitter.emit = true;
       this.pContainer.emittersMap.set(emitterObj.name, emitter);
       this.$_setEmittersToCenter();
