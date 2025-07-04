@@ -113,6 +113,28 @@
       </template>
       <ThePanelEmitterParticlePropBurstSpawn />
     </el-collapse-item>
+    <el-collapse-item
+      name="1.11"
+      align="left"
+    >
+      <template #title>
+        <div>
+          <b>Path movement</b>
+        </div>
+      </template>
+      <ThePanelEmitterParticlePathMovement />
+    </el-collapse-item>
+    <el-collapse-item
+      name="1.12"
+      align="left"
+    >
+      <template #title>
+        <div>
+          <b>Spawn Point</b>
+        </div>
+      </template>
+      <ThePanelEmitterParticleSpawnPoint />
+    </el-collapse-item>
   </el-collapse>
 </template>
 
@@ -128,6 +150,8 @@ import ThePanelEmitterParticlePropMoveAcceleration from './Behavior/MoveAccelera
 import ThePanelEmitterParticlePropBurstSpawn from './Behavior/BurstSpawn.vue';
 import ThePanelEmitterParticlePropShapeSpawn from './Behavior/ShapeSpawn.vue';
 import ThePanelEmitterAnimatedSingleTextures from './Behavior/AnimatedTextures.vue';
+import ThePanelEmitterParticlePathMovement from './Behavior/PathMovement.vue';
+import ThePanelEmitterParticleSpawnPoint from './Behavior/SpawnPoint.vue';
 
 export default {
   name: 'ThePanelEmitterParticleProps',
@@ -142,6 +166,8 @@ export default {
     ThePanelEmitterAnimatedSingleTextures,
     ThePanelEmitterParticlePropBurstSpawn,
     ThePanelEmitterParticlePropShapeSpawn,
+    ThePanelEmitterParticlePathMovement,
+    ThePanelEmitterParticleSpawnPoint,
   },
 };
 </script>

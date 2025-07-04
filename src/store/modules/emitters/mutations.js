@@ -604,3 +604,48 @@ export const createBurstSpawnBehavior = (state, {enabled}) => {
     state.all[0].config.behaviors = state.all[0].config.behaviors.filter((behavior) => behavior.type !== 'spawnBurst');
   }
 }
+export const createSpawnPointBehavior = (state, {enabled}) => {
+  if (enabled) {
+    state.all[0].config.behaviors.push({
+      type: 'spawnPoint',
+      config: {}
+    })
+  } else {
+    state.all[0].config.behaviors = state.all[0].config.behaviors.filter((behavior) => behavior.type !== 'spawnPoint');
+  }
+}
+export const createSpawnShapeBehavior = (state, {enabled}) => {
+  if (enabled) {
+    state.all[0].config.behaviors.push({
+      type: 'spawnShape',
+      config: {
+        type: 'rect',
+        data: {
+          x: 0,
+          y: 0,
+          w: 400,
+          h: 300,
+        }
+      }
+    })
+  } else {
+    state.all[0].config.behaviors = state.all[0].config.behaviors.filter((behavior) => behavior.type !== 'spawnShape');
+  }
+}
+
+export const createPathMovementBehavior = (state, {enabled}) => {
+  if (enabled) {
+    state.all[0].config.behaviors.push({
+      "type": "movePath",
+      "config": {
+        "path": "sin(x / 50) * 100",
+        "speed": {
+          "list": [{value: 10, time: 0}, {value: 100, time: 0.25}, {value: 0, time: 1}],
+        },
+        "minMult": 0.8
+      }
+    })
+  } else {
+    state.all[0].config.behaviors = state.all[0].config.behaviors.filter((behavior) => behavior.type !== 'movePath');
+  }
+}

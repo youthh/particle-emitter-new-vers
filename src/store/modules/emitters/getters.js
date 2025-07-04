@@ -129,3 +129,7 @@ export const getStaticMoveSpeed = (state) => {
 export const getBlendMode = (state) => {
   return state.all[0].config.behaviors.find((behavior) => behavior?.type === 'blendMode')?.config.blendMode;
 }
+
+export const getPathMoveConfig = (state) => {
+  return state.all[0].config.behaviors.find((behavior) => behavior?.type === 'movePath')?.config;
+}
