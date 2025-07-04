@@ -105,10 +105,6 @@ export default {
               }
             },
             {
-              type: 'spawnPoint',
-              config: {}
-            },
-            {
               type: 'alphaStatic',
               config: {
                 alpha: 0.75,

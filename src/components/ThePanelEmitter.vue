@@ -68,6 +68,15 @@
         </template>
         <the-panel-emitter-type />
       </el-collapse-item>
+      <el-collapse-item name="5">
+        <template #title>
+          <div>
+            <i class="icon-cog-alt" />&nbsp;
+            <b class="panel-group-title">Preset Configs</b>
+          </div>
+        </template>
+        <ThePanelEmitterParticlePreset />
+      </el-collapse-item>
     </el-collapse>
   </div>
 </template>
@@ -79,6 +88,7 @@ import ThePanelEmitterParticleProps from './Emitter/ThePanelEmitterParticleProps
 import ThePanelEmitterProps from './Emitter/ThePanelEmitterProps.vue';
 import ThePanelEmitterType from './Emitter/ThePanelEmitterType.vue';
 import ThePanelEmitterAssets from './Emitter/ThePanelEmitterAssets.vue';
+import ThePanelEmitterParticlePreset from './Emitter/PresetsConfigs.vue';
 import { checkName } from '../store/modules/emitters';
 
 export default {
@@ -88,6 +98,7 @@ export default {
     ThePanelEmitterType,
     ThePanelEmitterProps,
     ThePanelEmitterParticleProps,
+    ThePanelEmitterParticlePreset
   },
   computed: {
     current: {

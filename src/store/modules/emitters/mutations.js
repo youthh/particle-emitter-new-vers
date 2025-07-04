@@ -232,7 +232,12 @@ export const setSpawnType = (state, value) => {
 
 export const setTypeSpawn = (state, value) => {
   const idx = getCurrentEmitterIdx(state);
-  state.all[idx].config.behaviors = state.all[idx].config.behaviors.filter((behavior) => behavior.type !== 'spawnShape');
+  state.all[idx].config.behaviors = state.all[idx].config.behaviors.filter((behavior) => {
+      if(behavior.type === 'spawnShape') {
+        behavior.config.type  = value
+      }
+      return behavior
+  });
   state.all[idx].spawnType = value;
 };
 export const setPPerWave = (state, value) => setConfigProp(state, 'particlesPerWave', value);
