@@ -120,7 +120,7 @@ export default {
             {
               type: 'blendMode',
               config: {
-                blendMode: 'add',
+                blendMode: 'normal',
               }
             },
             {
