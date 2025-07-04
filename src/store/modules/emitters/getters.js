@@ -126,3 +126,6 @@ export const getStaticMoveSpeed = (state) => {
   return state.all[0].config.behaviors.find((behavior) => behavior?.type.includes(DINAMIC_SPEED))?.config;
 }
 
+export const getBlendMode = (state) => {
+  return state.all[0].config.behaviors.find((behavior) => behavior?.type === 'blendMode')?.config.blendMode;
+}

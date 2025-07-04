@@ -163,6 +163,17 @@
         </div>
       </el-form-item>
     </div>
+
+    <el-form-item label="Blend mode">
+      <el-select v-model="blendMode">
+        <el-option
+          v-for="item in modesList"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        />
+      </el-select>
+    </el-form-item>
   </el-form>
 </template>
 
@@ -191,8 +202,34 @@ export default {
     ...mapGetters({
       cc: 'getAnimateSingleTexturesConfig',
       assets: 'getAnimateSingleTextures',
-      type: 'getCurrentTypeTextures'
+      type: 'getCurrentTypeTextures',
+      blendModeType: 'getBlendMode',
     }),
+    blendMode: {
+      get() { return this.blendModeType || 'normal'; },
+      set(value) { this.$store.commit('updateBehaviorConfig', {type: "blendMode", key: 'blendMode', value}); },
+    },
+  },
+  created() {
+    this.modesList = [
+      { value: 'normal', label: 'Normal' },
+      { value: 'add', label: 'Add' },
+      { value: 'multiply', label: 'Multiply' },
+      { value: 'screen', label: 'Screen' },
+      { value: 'overlay', label: 'Overlay (Canvas2D only)' },
+      { value: 'darken', label: 'Darken (Canvas2D only)' },
+      { value: 'lighten', label: 'Lighten (Canvas2D only)' },
+      { value: 'color_dodge', label: 'Color Dodge (Canvas2D only)' },
+      { value: 'color_burn', label: 'Color Burn (Canvas2D only)' },
+      { value: 'hard_light', label: 'Hard Light (Canvas2D only)' },
+      { value: 'soft_light', label: 'Soft Light (Canvas2D only)' },
+      { value: 'difference', label: 'Difference (Canvas2D only)' },
+      { value: 'exclusion', label: 'Exclusion (Canvas2D only)' },
+      { value: 'hue', label: 'Hue (Canvas2D only)' },
+      { value: 'saturation', label: 'Saturation (Canvas2D only)' },
+      { value: 'color', label: 'Color (Canvas2D only)' },
+      { value: 'luminosity', label: 'Luminosity (Canvas2D only)' },
+    ];
   },
 
   methods: {
@@ -201,6 +238,7 @@ export default {
       'setFrameRate',
       'setLoop',
     ]),
+
     $_onNewAssetUploaded(fileData, filename) {
       this.$store.dispatch('addBehaviorAsset', {
         filename,

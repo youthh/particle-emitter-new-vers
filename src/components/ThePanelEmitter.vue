@@ -19,7 +19,7 @@
         >
           <template #append>
             <el-button
-            
+
               icon="icon-floppy"
               @click="$_handleRename"
             />
@@ -36,7 +36,7 @@
         <template #title>
           <div>
             <i class="el-icon-document" />&nbsp;
-            <b class="panel-group-title">Behaviors</b>
+            <b class="panel-group-title">Particle Behaviors</b>
           </div>
         </template>
         <the-panel-emitter-particle-props />

@@ -118,6 +118,12 @@ export default {
               },
             },
             {
+              type: 'blendMode',
+              config: {
+                blendMode: 'add',
+              }
+            },
+            {
               type: 'moveSpeed',
               config: {
                 speed: {
