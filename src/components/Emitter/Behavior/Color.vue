@@ -46,7 +46,7 @@
         >
           <el-color-picker
             :value="`#${item.value}`"
-            @change="(value) => setListedStepValue({
+            @input="(value) => setListedStepValue({
               propName: 'color',
               index,
               value: !value ? 'ffffff': value.substr(1),

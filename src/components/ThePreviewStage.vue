@@ -505,8 +505,11 @@ export default {
         if (b.type.includes('texture') || b.type.includes('Single')) {
           if(b.config.texture) {
             b.config.texture = textures.textures[0]
+          }else if( b.config.textures){
+            b.config.textures = emitterObj.assetsBehaviors.map((item) => item.body)
           }else {
             b.config.anim.textures = emitterObj.assetsBehaviors.map((item) => item.body)
+
           }
         }
 

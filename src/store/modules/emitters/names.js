@@ -11,6 +11,7 @@ export const EMITTER_TYPE_ANIM = 'anim';
 
 
 export const ANIMATED_SINGLE_TEXTURE = 'animatedSingleTexture';
+export const RANDOM_TEXTURE = 'textureRandom';
 export const SINGLE_TEXTURE = 'singleTexture';
 export let emitter = null
 

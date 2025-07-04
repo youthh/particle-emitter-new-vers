@@ -13,7 +13,7 @@ import {
   STATIC_ALPHA,
   STATIC_SCALE,
   DINAMIC_SPEED,
-  STATIC_SPEED,
+  STATIC_SPEED, RANDOM_TEXTURE, SINGLE_TEXTURE, ANIMATED_SINGLE_TEXTURE,
 } from './names';
 import {Message} from "element-ui";
 
@@ -94,7 +94,32 @@ export const addBehaviorAsset = (state, assetNameAndData) => {
     });
   }
 };
-
+export const addRandomTextures = (state, assetNameAndData) => {
+  const idx = getCurrentEmitterIdx(state);
+  // delete prev textures
+  state.all[idx].config.behaviors = state.all[idx].config.behaviors.filter((behavior) => !behavior.type.includes(SINGLE_TEXTURE)
+    || !behavior.type.includes(ANIMATED_SINGLE_TEXTURE));
+  state.all[idx].assetsBehaviors.push({
+    name: assetNameAndData.filename,
+    body: assetNameAndData.fileData,
+  });
+  const isAnimatedSingle = state.all[idx].config.behaviors.find((behavior) => behavior.type === RANDOM_TEXTURE);
+  if (!isAnimatedSingle) {
+    state.all[idx].config.behaviors.push({
+      type: RANDOM_TEXTURE,
+      config: {
+        textures: [assetNameAndData.filename],
+      }
+    });
+  } else {
+    state.all[idx].config.behaviors.map((behavior) => {
+      if (behavior.type === RANDOM_TEXTURE) {
+        behavior.config.textures.push(assetNameAndData.filename);
+      }
+      return behavior;
+    });
+  }
+}
 export const addSingleTextures = (state, assetNameAndData) => {
   const idx = getCurrentEmitterIdx(state);
   // delete prev textures
@@ -270,9 +295,18 @@ export const removeListedStep = (state, {propName, idx, behavior}) => {
 export const setListedStepValue = (state, {
   propName, index, value, behavior,
 }) => {
-  const list = getCurrentListedItem(state, propName, behavior);
-  list[index].value = value;
-  setCurrentListItem(state, propName, list);
+  let list = getCurrentListedItem(state, propName, behavior);
+  const values = list.map((item) => item.value);
+  if (!values.some((item) => item === value)) {
+    list[index].value = value;
+    setCurrentListItem(state, propName, list);
+  } else {
+
+    // list = [...list]
+    // setCurrentListItem(state, propName, list);
+    //
+    // Message.error("Impossible to set value same value as previous step");
+  }
 };
 export const setListedStepTime = (state, {
   propName, index, time, behavior,
@@ -357,7 +391,7 @@ export const updateBehaviorConfig = (state, {type, key, value}) => {
 };
 
 
-export const createBehavior = (state, { type }) => {
+export const createBehavior = (state, {type}) => {
   if (type === 'spawnShape') {
     createBurstSpawnBehavior(state)
   }
@@ -556,7 +590,7 @@ export const setMoveSpeedType = (state, value) => {
 }
 
 export const createBurstSpawnBehavior = (state, {enabled}) => {
-  if(enabled) {
+  if (enabled) {
     state.all[0].config.behaviors.push({
       type: 'spawnBurst',
       config: {
@@ -566,7 +600,7 @@ export const createBurstSpawnBehavior = (state, {enabled}) => {
         ,
       }
     })
-  }else {
+  } else {
     state.all[0].config.behaviors = state.all[0].config.behaviors.filter((behavior) => behavior.type !== 'spawnBurst');
   }
 }
