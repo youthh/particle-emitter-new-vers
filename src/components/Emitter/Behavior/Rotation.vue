@@ -35,7 +35,7 @@
               :max="360"
               :step="1"
               :value="cc.minStart"
-              @change="(value) => setRotation('minStart', value)"
+              @input="(value) => setRotation('minStart', value)"
             />
           </el-form-item>
         </el-col>
@@ -54,7 +54,7 @@
               :max="360"
               :step="1"
               :value="cc.maxStart"
-              @change="(value) => setRotation('maxStart', value)"
+              @input="(value) => setRotation('maxStart', value)"
             />
           </el-form-item>
         </el-col>
@@ -89,7 +89,7 @@
                 class="xs-mini"
                 :step="1"
                 :value="cc.minSpeed"
-                @change="(value) => setRotation('minSpeed', value)"
+                @input="(value) => setRotation('minSpeed', value)"
               />
             </el-tooltip>
           </el-form-item>
@@ -109,7 +109,7 @@
                 class="xs-mini"
                 :step="1"
                 :value="cc.maxSpeed"
-                @change="(value) => setRotation('maxSpeed', value)"
+                @input="(value) => setRotation('maxSpeed', value)"
               />
             </el-tooltip>
           </el-form-item>
@@ -128,7 +128,7 @@
               <el-input-number
                 :step="1"
                 :value="cc?.accel"
-                @change="(val) => setRotation('accel', val)"
+                @input="(val) => setRotation('accel', val)"
               />
             </el-tooltip>
           </el-form-item>

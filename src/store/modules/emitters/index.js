@@ -2,10 +2,8 @@ import * as getters from './getters';
 import * as actions from './actions';
 import * as mutations from './mutations';
 import {
-  DINAMIC_ALPHA,
-  DINAMIC_COLOR,
   DINAMIC_SCALE, DINAMIC_SPEED,
-  SINGLE_TEXTURE
+  SINGLE_TEXTURE, STATIC_ALPHA, STATIC_COLOR
 } from "@/store/modules/emitters/names";
 
 export const checkName = (store) => (rule, value, callback) => {
@@ -83,11 +81,11 @@ export default {
         config: {
           lifetime: {
             min: 1,
-            max: 2,
+            max: 4,
           },
           frequency: 0.001,
           emitterLifetime: 0,
-          maxParticles: 400,
+          maxParticles: 150,
           addAtBack: false,
           pos: {
             x: 0,
@@ -107,15 +105,14 @@ export default {
               }
             },
             {
-              type: 'alpha',
+              type: 'spawnPoint',
+              config: {}
+            },
+            {
+              type: 'alphaStatic',
               config: {
-                alpha: {
-                  list: [
-                    {value: 0.62, time: 0},
-                    {value: 0, time: 1},
-                  ],
-                },
-              },
+                alpha: 0.75,
+              }
             },
             {
               type: 'blendMode',
@@ -176,16 +173,11 @@ export default {
               },
             },
             {
-              type: 'color',
+              type: 'colorStatic',
               config: {
-                color: {
-                  list: [
-                    {value: 'fff191', time: 0},
-                    {value: '333333', time: 1},
-                  ],
-                },
-              },
-            },
+                color: '#ffffff',
+              }
+            }
           ],
         },
       },
@@ -198,8 +190,8 @@ export default {
     }],
     v3Syntax: true,
     texturesType: SINGLE_TEXTURE,
-    colorType: DINAMIC_COLOR,
-    alphaType: DINAMIC_ALPHA,
+    colorType: STATIC_COLOR,
+    alphaType: STATIC_ALPHA,
     scaleType: DINAMIC_SCALE,
     moveSpeedType: DINAMIC_SPEED,
 
