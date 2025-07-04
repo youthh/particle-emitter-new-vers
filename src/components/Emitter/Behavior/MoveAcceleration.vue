@@ -45,15 +45,6 @@
         />
       </el-form-item>
     </el-tooltip>
-    <el-tooltip content="Maximum linear speed. 0 is unlimited. Defaults to 0.">
-      <el-form-item label="Max speed">
-        <el-input-number
-          :step="10"
-          :value="cc?.maxSpeed"
-          @change="(val) => setMoveAcceleration('maxSpeed', val)"
-        />
-      </el-form-item>
-    </el-tooltip>
     <el-tooltip
       content="         * Rotate the particle with its direction of movement.
          * While initial movement direction reacts to rotation settings, this overrides any dynamic rotation.
