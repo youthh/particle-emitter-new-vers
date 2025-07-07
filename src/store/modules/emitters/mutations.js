@@ -161,12 +161,14 @@ export const removeEmitterAsset = (state, assetFilename) => {
 };
 export const removeBehaviorAsset = (state, assetFilename) => {
   const idx = getBehaviorAssetIdx(state)(assetFilename);
-  state.all[idx].assetsBehaviors.splice(idx, 1);
+  state.all[0].assetsBehaviors.splice(idx, 1);
   removeEmitterAsset(state, assetFilename);
   const ix = getCurrentEmitterIdx(state);
   state.all[ix].config.behaviors.map((behavior) => {
     if (behavior.type === 'animatedSingle') {
       behavior.config.anim.textures.splice(idx, 1);
+    }else if( behavior.type === RANDOM_TEXTURE) {
+      behavior.config.textures.splice(idx, 1);
     }
     return behavior;
   });
@@ -406,6 +408,10 @@ export const updateBehaviorConfig = (state, {type, key, value}) => {
 export const createBehavior = (state, {type}) => {
   if (type === 'spawnShape') {
     createBurstSpawnBehavior(state)
+  }else if(type === 'moveAcceleration') {
+    createMoveAccelerationBehavior(state, {enabled: true});
+  }else if(type === 'blendMode') {
+    createBlendModeBehavior(state, {enabled: true});
   }
 }
 
@@ -520,7 +526,7 @@ export const enabledBehavior = (state, {behaviorName, enabled}) => {
 export const removeIcon = (state) => {
   const idx = getCurrentEmitterIdx(state);
   state.all[idx].config.behaviors = state.all[idx].config.behaviors.filter((behavior) => !behavior.type.includes('texture') || !behavior.type.includes('animated'));
-  state.all[idx].assetsBehaviors = []
+  // state.all[idx].assetsBehaviors = []
 }
 
 export const setColorType = (state, value) => {
@@ -614,6 +620,32 @@ export const createBurstSpawnBehavior = (state, {enabled}) => {
     })
   } else {
     state.all[0].config.behaviors = state.all[0].config.behaviors.filter((behavior) => behavior.type !== 'spawnBurst');
+  }
+}
+export const createMoveAccelerationBehavior = (state, {enabled}) => {
+  if (enabled) {
+    state.all[0].config.behaviors.push({
+      type: 'moveAcceleration',
+      "config": {
+        "accel": {
+          "x": 0,
+          "y": 0
+        },
+        "minStart": 0,
+        "maxStart": 0,
+        "rotate": false
+      }
+    })
+  }
+}
+export const createBlendModeBehavior = (state, {enabled}) => {
+  if (enabled) {
+    state.all[0].config.behaviors.push({
+      type: 'blendMode',
+      config: {
+        blendMode: 'multiply',
+      }
+    })
   }
 }
 export const createSpawnPointBehavior = (state, {enabled}) => {

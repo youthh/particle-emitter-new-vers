@@ -105,7 +105,7 @@ export default {
   data() {
     return {
       selectedPathPreset: '',
-      customPath: '',
+      customPath: this.getCurrentPath() || '',
       pathPresets: {
         "sin(x / 10) * 30": "Sine Wave",
         "cos(x / 100) * 30": "Cosine Curve",

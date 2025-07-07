@@ -67,7 +67,7 @@ export const assetsListNames = (state) => state.assets.map((item) => item.name);
 export const currentAssetsList = (state) => getCurrentEmitter(state).art;
 
 export const getAssetIdx = (state) => (name) => {
-  return state.assets.findIndex((item) => item.name === name);
+  return state.all[0].assetsBehaviors.findIndex((item) => item.name === name);
 };
 
 export const getAssetItem = (state) => (fileName) => {

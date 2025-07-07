@@ -722,5 +722,6 @@ export const FLAME_AND_SMOKE_POLYGON = {
     alphaType: DINAMIC_ALPHA,
     scaleType: DINAMIC_SCALE,
     moveSpeedType: STATIC_SPEED,
-  }
+  },
+  spawnType: SPAWN_TYPE_POLYGONAL
 }

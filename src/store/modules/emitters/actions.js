@@ -2,6 +2,7 @@
 
 import { getAssetIdx, getEmitterByName } from './getters';
 import {ANIMATED_SINGLE_TEXTURE, EMITTER_TYPE_DEFAULT, SINGLE_TEXTURE} from './names';
+import {Message} from "element-ui";
 
 const getDefaultConfig = () => {
   const config = {
@@ -57,11 +58,12 @@ export const setEmitterEnabled = ({ commit }, emitterNameAndState) => {
 };
 
 // eslint-disable-next-line max-len
-export const tryToAddAsset = (state, assetFilename) => new Promise((resolve, reject) => {
+export const tryToAddAsset = (state, assetFilename) => new Promise((resolve) => {
   const idx = getAssetIdx(state)(assetFilename);
   if (idx > -1) {
-    reject(new Error(`filename '${assetFilename}' already exists.\n
-    Remove is first or rename this file`));
+    // reject(new Error(`filename '${assetFilename}' already exists.\n
+    // Remove is first or rename this file`));
+    Message.error(`filename ${assetFilename} already exists.`);
   } else {
     resolve();
   }
