@@ -26,10 +26,6 @@
           label="Heart"
         />
         <el-option
-          :value="SPAWN_TYPE_RECT"
-          label="Spiral"
-        />
-        <el-option
           :value="BUBBLE_STREAM_PATH.name"
           label="Bubble Stream"
         />
