@@ -16,7 +16,12 @@ import {
   STATIC_SPEED, RANDOM_TEXTURE, SINGLE_TEXTURE, ANIMATED_SINGLE_TEXTURE,
 } from './names';
 import {Message} from "element-ui";
-import { BUBBLE_STREAM_PATH, HEART_POLYGON_PATH } from '@/data/config';
+import {
+  BUBBLE_STREAM_PATH,
+  FLAME_AND_SMOKE,
+  FLAME_AND_SMOKE_POLYGON,
+  HEART_POLYGON_PATH
+} from '@/data/config';
 import Vue from 'vue';
 
 const getCurrentItem = (state) => {
@@ -156,12 +161,14 @@ export const removeEmitterAsset = (state, assetFilename) => {
 };
 export const removeBehaviorAsset = (state, assetFilename) => {
   const idx = getBehaviorAssetIdx(state)(assetFilename);
-  state.all[idx].assetsBehaviors.splice(idx, 1);
+  state.all[0].assetsBehaviors.splice(idx, 1);
   removeEmitterAsset(state, assetFilename);
   const ix = getCurrentEmitterIdx(state);
   state.all[ix].config.behaviors.map((behavior) => {
     if (behavior.type === 'animatedSingle') {
       behavior.config.anim.textures.splice(idx, 1);
+    }else if( behavior.type === RANDOM_TEXTURE) {
+      behavior.config.textures.splice(idx, 1);
     }
     return behavior;
   });
@@ -401,6 +408,10 @@ export const updateBehaviorConfig = (state, {type, key, value}) => {
 export const createBehavior = (state, {type}) => {
   if (type === 'spawnShape') {
     createBurstSpawnBehavior(state)
+  }else if(type === 'moveAcceleration') {
+    createMoveAccelerationBehavior(state, {enabled: true});
+  }else if(type === 'blendMode') {
+    createBlendModeBehavior(state, {enabled: true});
   }
 }
 
@@ -515,7 +526,7 @@ export const enabledBehavior = (state, {behaviorName, enabled}) => {
 export const removeIcon = (state) => {
   const idx = getCurrentEmitterIdx(state);
   state.all[idx].config.behaviors = state.all[idx].config.behaviors.filter((behavior) => !behavior.type.includes('texture') || !behavior.type.includes('animated'));
-  state.all[idx].assetsBehaviors = []
+  // state.all[idx].assetsBehaviors = []
 }
 
 export const setColorType = (state, value) => {
@@ -611,6 +622,32 @@ export const createBurstSpawnBehavior = (state, {enabled}) => {
     state.all[0].config.behaviors = state.all[0].config.behaviors.filter((behavior) => behavior.type !== 'spawnBurst');
   }
 }
+export const createMoveAccelerationBehavior = (state, {enabled}) => {
+  if (enabled) {
+    state.all[0].config.behaviors.push({
+      type: 'moveAcceleration',
+      "config": {
+        "accel": {
+          "x": 0,
+          "y": 0
+        },
+        "minStart": 0,
+        "maxStart": 0,
+        "rotate": false
+      }
+    })
+  }
+}
+export const createBlendModeBehavior = (state, {enabled}) => {
+  if (enabled) {
+    state.all[0].config.behaviors.push({
+      type: 'blendMode',
+      config: {
+        blendMode: 'multiply',
+      }
+    })
+  }
+}
 export const createSpawnPointBehavior = (state, {enabled}) => {
   if (enabled) {
     state.all[0].config.behaviors.push({
@@ -665,6 +702,11 @@ export const setPresetConfig = (state, { typeConfig }) => {
     preset = HEART_POLYGON_PATH;
   } else if (typeConfig === BUBBLE_STREAM_PATH.name) {
     preset = BUBBLE_STREAM_PATH;
+  } else if(typeConfig === FLAME_AND_SMOKE.name) {
+    preset = FLAME_AND_SMOKE;
+  } else if(typeConfig === FLAME_AND_SMOKE_POLYGON.name) {
+    preset = FLAME_AND_SMOKE_POLYGON;
+
   }
 
   if (!preset) return;
@@ -687,7 +729,9 @@ export const setPresetConfig = (state, { typeConfig }) => {
       Vue.delete(configTarget, key);
     }
   });
+  Vue.set(state.all[0], 'assetsBehaviors', preset.assetsBehaviors || state.all[0].assetsBehaviors);
 
+  Vue.set(state.all[0], 'spawnType', preset.spawnType || 'rect');
   Object.entries(preset.config).forEach(([key, value]) => {
     Vue.set(configTarget, key, value);
   });

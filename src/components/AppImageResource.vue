@@ -266,7 +266,7 @@ export default {
       this.dataUrl = '';
       this.filename = '';
       this.$refs.input.value = '';
-      this.$emit('onReset');
+      this.$emit('on-reset');
     },
   },
 };
