@@ -16,7 +16,12 @@ import {
   STATIC_SPEED, RANDOM_TEXTURE, SINGLE_TEXTURE, ANIMATED_SINGLE_TEXTURE,
 } from './names';
 import {Message} from "element-ui";
-import { BUBBLE_STREAM_PATH, HEART_POLYGON_PATH } from '@/data/config';
+import {
+  BUBBLE_STREAM_PATH,
+  FLAME_AND_SMOKE,
+  FLAME_AND_SMOKE_POLYGON,
+  HEART_POLYGON_PATH
+} from '@/data/config';
 import Vue from 'vue';
 
 const getCurrentItem = (state) => {
@@ -665,6 +670,11 @@ export const setPresetConfig = (state, { typeConfig }) => {
     preset = HEART_POLYGON_PATH;
   } else if (typeConfig === BUBBLE_STREAM_PATH.name) {
     preset = BUBBLE_STREAM_PATH;
+  } else if(typeConfig === FLAME_AND_SMOKE.name) {
+    preset = FLAME_AND_SMOKE;
+  } else if(typeConfig === FLAME_AND_SMOKE_POLYGON.name) {
+    preset = FLAME_AND_SMOKE_POLYGON;
+
   }
 
   if (!preset) return;
@@ -687,7 +697,9 @@ export const setPresetConfig = (state, { typeConfig }) => {
       Vue.delete(configTarget, key);
     }
   });
+  Vue.set(state.all[0], 'assetsBehaviors', preset.assetsBehaviors || state.all[0].assetsBehaviors);
 
+  Vue.set(state.all[0], 'spawnType', preset.spawnType || 'rect');
   Object.entries(preset.config).forEach(([key, value]) => {
     Vue.set(configTarget, key, value);
   });

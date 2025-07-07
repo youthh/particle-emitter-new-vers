@@ -12,7 +12,7 @@
             placement="left"
             content="How the particles will be spawned."
           >
-            <span>Spawn Type</span>
+            <span>Preset names</span>
           </el-tooltip>
         </div>
       </template>
@@ -24,6 +24,14 @@
         <el-option
           :value="HEART_POLYGON_PATH.name"
           label="Heart"
+        />
+        <el-option
+          :value="FLAME_AND_SMOKE.name"
+          label="Flame and Smoke"
+        />
+        <el-option
+          :value="FLAME_AND_SMOKE_POLYGON.name"
+          label="Flame and Smoke Polygon"
         />
         <el-option
           :value="BUBBLE_STREAM_PATH.name"
@@ -44,7 +52,12 @@ import {
   SPAWN_TYPE_RING, SPAWN_TYPE_TORUS,
 } from '@/store/modules/emitters/names';
 import {Message} from 'element-ui';
-import { BUBBLE_STREAM_PATH, HEART_POLYGON_PATH } from '@/data/config';
+import {
+  BUBBLE_STREAM_PATH,
+  FLAME_AND_SMOKE,
+  FLAME_AND_SMOKE_POLYGON,
+  HEART_POLYGON_PATH
+} from '@/data/config';
 
 export default {
   name: 'ThePanelEmitterParticlePreset',
@@ -60,6 +73,12 @@ export default {
     };
   },
   computed: {
+    FLAME_AND_SMOKE_POLYGON() {
+      return FLAME_AND_SMOKE_POLYGON
+    },
+    FLAME_AND_SMOKE() {
+      return FLAME_AND_SMOKE
+    },
     BUBBLE_STREAM_PATH() {
       return BUBBLE_STREAM_PATH
     },
