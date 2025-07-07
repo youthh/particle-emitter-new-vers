@@ -11,7 +11,7 @@
       <el-form-item label="Enabled behavior">
         <el-switch
           :value="isEnabled"
-          @change="(val) => setEnabled(val)"
+          @input="(val) => setEnabled(val)"
         />
       </el-form-item>
     </el-tooltip>
@@ -30,7 +30,7 @@
 
         <el-select
           :value="type"
-          @input="setType"
+          @change="setType"
         >
           <el-option
             :value="SPAWN_TYPE_TORUS"
@@ -234,7 +234,7 @@
               type="textarea"
               :rows="6"
               :value="JSON.stringify(cc?.data || [])"
-              @change="setSimplePolygonalPints"
+              @input="setSimplePolygonalPints"
             />
           </el-tooltip>
         </div>
@@ -307,8 +307,8 @@ export default {
         value,
       });
     },
-    setType(value) {
-      this.setTypeSpawn(value);
+    setType(v) {
+      this.setTypeSpawn(v);
     },
     setSimplePolygonalPints(value) {
       let points = [];

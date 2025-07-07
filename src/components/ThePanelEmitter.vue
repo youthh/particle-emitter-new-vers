@@ -62,11 +62,11 @@
       <el-collapse-item name="4">
         <template #title>
           <div>
-            <i class=" icon-cog-alt" />&nbsp;
-            <b class="panel-group-title">Emitter Type</b>
+            <i class="icon-cog-alt" />&nbsp;
+            <b class="panel-group-title">Preset Configs</b>
           </div>
         </template>
-        <the-panel-emitter-type />
+        <ThePanelEmitterParticlePreset />
       </el-collapse-item>
     </el-collapse>
   </div>
@@ -77,17 +77,17 @@
 import { mapMutations, mapState } from 'vuex';
 import ThePanelEmitterParticleProps from './Emitter/ThePanelEmitterParticleProps.vue';
 import ThePanelEmitterProps from './Emitter/ThePanelEmitterProps.vue';
-import ThePanelEmitterType from './Emitter/ThePanelEmitterType.vue';
 import ThePanelEmitterAssets from './Emitter/ThePanelEmitterAssets.vue';
+import ThePanelEmitterParticlePreset from './Emitter/PresetsConfigs.vue';
 import { checkName } from '../store/modules/emitters';
 
 export default {
   name: 'PropertiesPanel',
   components: {
     ThePanelEmitterAssets,
-    ThePanelEmitterType,
     ThePanelEmitterProps,
     ThePanelEmitterParticleProps,
+    ThePanelEmitterParticlePreset
   },
   computed: {
     current: {

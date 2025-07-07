@@ -105,10 +105,6 @@ export default {
               }
             },
             {
-              type: 'spawnPoint',
-              config: {}
-            },
-            {
               type: 'alphaStatic',
               config: {
                 alpha: 0.75,
@@ -194,6 +190,7 @@ export default {
     alphaType: STATIC_ALPHA,
     scaleType: DINAMIC_SCALE,
     moveSpeedType: DINAMIC_SPEED,
+    configType: 'custom'
 
   },
   getters,

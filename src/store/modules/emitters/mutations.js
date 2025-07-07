@@ -16,6 +16,8 @@ import {
   STATIC_SPEED, RANDOM_TEXTURE, SINGLE_TEXTURE, ANIMATED_SINGLE_TEXTURE,
 } from './names';
 import {Message} from "element-ui";
+import { BUBBLE_STREAM_PATH, HEART_POLYGON_PATH } from '@/data/config';
+import Vue from 'vue';
 
 const getCurrentItem = (state) => {
   const currentIdx = state.all.findIndex((value) => value.name === state.current);
@@ -232,7 +234,12 @@ export const setSpawnType = (state, value) => {
 
 export const setTypeSpawn = (state, value) => {
   const idx = getCurrentEmitterIdx(state);
-  state.all[idx].config.behaviors = state.all[idx].config.behaviors.filter((behavior) => behavior.type !== 'spawnShape');
+  state.all[idx].config.behaviors = state.all[idx].config.behaviors.filter((behavior) => {
+      if(behavior.type === 'spawnShape') {
+        behavior.config.type  = value
+      }
+      return behavior
+  });
   state.all[idx].spawnType = value;
 };
 export const setPPerWave = (state, value) => setConfigProp(state, 'particlesPerWave', value);
@@ -649,3 +656,39 @@ export const createPathMovementBehavior = (state, {enabled}) => {
     state.all[0].config.behaviors = state.all[0].config.behaviors.filter((behavior) => behavior.type !== 'movePath');
   }
 }
+
+
+export const setPresetConfig = (state, { typeConfig }) => {
+  let preset = null;
+
+  if (typeConfig === HEART_POLYGON_PATH.name) {
+    preset = HEART_POLYGON_PATH;
+  } else if (typeConfig === BUBBLE_STREAM_PATH.name) {
+    preset = BUBBLE_STREAM_PATH;
+  }
+
+  if (!preset) return;
+
+  state.configType = typeConfig;
+
+  // ✅ Merge or assign types (if needed)
+  if (preset.types) {
+    Object.entries(preset.types).forEach(([key, value]) => {
+      Vue.set(state, key, value); // reactive update
+    });
+  }
+
+  // ✅ Update config reactively
+  const configTarget = state.all[0].config;
+
+  Object.keys(configTarget).forEach((key) => {
+    // Remove old keys not in new config
+    if (!(key in preset.config)) {
+      Vue.delete(configTarget, key);
+    }
+  });
+
+  Object.entries(preset.config).forEach(([key, value]) => {
+    Vue.set(configTarget, key, value);
+  });
+};
