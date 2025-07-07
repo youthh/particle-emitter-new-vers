@@ -1,3 +1,11 @@
+import {
+  DINAMIC_ALPHA,
+  DINAMIC_COLOR,
+  DINAMIC_SCALE,
+  SINGLE_TEXTURE,
+  STATIC_SPEED
+} from '@/store/modules/emitters/names';
+
 export const BUBBLE_STREAM_PATH =  {
   name: 'Bubble Stream Path',
   config: {
@@ -309,5 +317,12 @@ export const HEART_POLYGON_PATH = {
       }
     ],
     spawnChance: 0
+  },
+  types: {
+    texturesType: SINGLE_TEXTURE,
+    colorType: DINAMIC_COLOR,
+    alphaType: DINAMIC_ALPHA,
+    scaleType: DINAMIC_SCALE,
+    moveSpeedType: STATIC_SPEED,
   }
 }

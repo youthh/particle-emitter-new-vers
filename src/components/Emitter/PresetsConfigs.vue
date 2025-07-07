@@ -22,16 +22,16 @@
         @input="setType"
       >
         <el-option
-          :value="SPAWN_TYPE_TORUS"
-          label="Torus"
+          :value="HEART_POLYGON_PATH.name"
+          label="Heart"
         />
         <el-option
           :value="SPAWN_TYPE_RECT"
-          label="Rect"
+          label="Spiral"
         />
         <el-option
-          :value="SPAWN_TYPE_POLYGONAL"
-          label="Polygonal Chain"
+          :value="BUBBLE_STREAM_PATH.name"
+          label="Bubble Stream"
         />
       </el-select>
     </el-form-item>
@@ -48,6 +48,7 @@ import {
   SPAWN_TYPE_RING, SPAWN_TYPE_TORUS,
 } from '@/store/modules/emitters/names';
 import {Message} from 'element-ui';
+import { BUBBLE_STREAM_PATH, HEART_POLYGON_PATH } from '@/data/config';
 
 export default {
   name: 'ThePanelEmitterParticlePreset',
@@ -63,9 +64,15 @@ export default {
     };
   },
   computed: {
+    BUBBLE_STREAM_PATH() {
+      return BUBBLE_STREAM_PATH
+    },
+    HEART_POLYGON_PATH() {
+      return HEART_POLYGON_PATH
+    },
     ...mapGetters({
       cc: 'getShapeBehavior',
-      type: 'getSpawnType',
+      type: 'getConfigType',
     }),
     isEnabled() {
       return this.$store.getters.getEnabledBehavior('spawnShape');
@@ -87,7 +94,8 @@ export default {
       'setSpawnCircle',
       'setSpawnRect',
       'shapeBehaviorChange',
-      'createSpawnShapeBehavior'
+      'createSpawnShapeBehavior',
+      'setPresetConfig'
     ]),
     setEnabled(enabled) {
       this.createSpawnShapeBehavior({
@@ -101,8 +109,8 @@ export default {
         value,
       });
     },
-    setType(value) {
-      this.setTypeSpawn(value);
+    setType(typeConfig) {
+      this.setPresetConfig({typeConfig});
     },
     setSimplePolygonalPints(value) {
       let points = [];

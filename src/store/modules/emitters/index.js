@@ -190,6 +190,7 @@ export default {
     alphaType: STATIC_ALPHA,
     scaleType: DINAMIC_SCALE,
     moveSpeedType: DINAMIC_SPEED,
+    configType: 'custom'
 
   },
   getters,

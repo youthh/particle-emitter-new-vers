@@ -133,3 +133,7 @@ export const getBlendMode = (state) => {
 export const getPathMoveConfig = (state) => {
   return state.all[0].config.behaviors.find((behavior) => behavior?.type === 'movePath')?.config;
 }
+
+export const getConfigType = (state) => {
+  return state.configType
+}
