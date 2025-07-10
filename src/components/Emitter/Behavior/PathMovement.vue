@@ -5,9 +5,7 @@
     label-suffix=":"
     label-position="left"
   >
-    <el-tooltip
-      content="Enabled behavior"
-    >
+    <el-tooltip content="Enabled behavior">
       <el-form-item label="Enabled behavior">
         <el-switch
           :value="isEnabled"
@@ -33,8 +31,11 @@
         </el-select>
       </el-form-item>
 
-      <!-- Custom path expression -->
-      <el-form-item label="Path Expression">
+      <!-- Custom path expression with error display -->
+      <el-form-item
+        label="Path Expression"
+        :error="pathError"
+      >
         <el-input
           v-model="customPath"
           placeholder="Enter path expression"
@@ -59,53 +60,53 @@
             :min="0"
             :step="0.1"
             :value="cc?.minMult"
-            @change="(val) => updatePathValue ('minMult', val)"
+            @change="(val) => updatePathValue('minMult', val)"
           />
         </el-form-item>
 
-        <div>
-          <el-form-item label="List">
-            <step-item
-              v-for="(item, index) in cc?.speed.list"
-              :key="index"
-              prop-name="speed"
-              label="Speed"
-              :idx="index"
-              :time="item.time"
-              behavior="movePath"
-            >
-              <el-input-number
-                input-size="mini"
-                :min="0"
-                :step="1"
-                :value="item.value"
-                @input="(value) =>
-                  setListedStepValue({ propName: 'speed', index, value, behavior: 'movePath' })"
-              />
-            </step-item>
-            <new-step-button
-              prop-name="speed"
-              behavior-name="movePath"
+        <el-form-item label="List">
+          <step-item
+            v-for="(item, index) in cc?.speed.list"
+            :key="index"
+            prop-name="speed"
+            label="Speed"
+            :idx="index"
+            :time="item.time"
+            behavior="movePath"
+          >
+            <el-input-number
+              input-size="mini"
+              :min="0"
+              :step="1"
+              :value="item.value"
+              @input="(value) =>
+                setListedStepValue({ propName: 'speed', index, value, behavior: 'movePath' })"
             />
-          </el-form-item>
-        </div>
+          </step-item>
+          <new-step-button
+            prop-name="speed"
+            behavior-name="movePath"
+          />
+        </el-form-item>
       </div>
     </div>
   </el-form>
 </template>
 
 <script>
-import {mapGetters, mapMutations} from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
 import StepItem from "@/components/Emitter/Behavior/v3/StepItem.vue";
 import NewStepButton from "@/components/Emitter/Behavior/v3/NewStepButton.vue";
-
+import { parsePath } from '@/utils/utils.ts';
+import { Message } from 'element-ui';
 export default {
   name: 'ThePanelEmitterParticlePathMovement',
-  components: {NewStepButton, StepItem},
+  components: { NewStepButton, StepItem },
   data() {
     return {
       selectedPathPreset: '',
       customPath: this.getCurrentPath() || '',
+      pathError: null,
       pathPresets: {
         "sin(x / 10) * 30": "Sine Wave",
         "cos(x / 100) * 30": "Cosine Curve",
@@ -138,15 +139,12 @@ export default {
       'createPathMovementBehavior'
     ]),
     setEnabled(enabled) {
-      this.createPathMovementBehavior({
-        enabled
-      });
+      this.createPathMovementBehavior({ enabled });
     },
     getCurrentPath() {
       const behavior = this.cc?.behaviors?.find(b => b.type === 'movePath');
       return behavior?.config?.path || '';
     },
-
     updatePathValue(key, value) {
       this.updateBehaviorConfig({
         type: 'movePath',
@@ -154,21 +152,20 @@ export default {
         value,
       });
     },
-
     onPresetChange(value) {
       this.customPath = value;
+      this.pathError = null;
       this.updatePathValue("path", value);
     },
-
     onPathInputChange(value) {
-      this.updatePathValue("path", value);
-      // If manually entered value matches a preset, auto-select it
-      if (this.pathPresets[value]) {
-        this.selectedPathPreset = value;
-      } else {
-        this.selectedPathPreset = '';
+      const isValid = !!parsePath(value);
+      if (!isValid) {
+        Message.error('Invalid path expression');
+        return;
       }
-    },
+      this.updatePathValue("path", value);
+      this.selectedPathPreset = this.pathPresets[value] ? value : '';
+    }
   },
 };
 </script>
