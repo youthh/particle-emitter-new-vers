@@ -226,7 +226,7 @@ export default {
 
         reader.onloadend = function onLoaded() {
           self.dataUrl = this.result;
-          self.$emit('onChange', self.dataUrl, file.name);
+          self.$emit('on-change', self.dataUrl, file.name);
         };
       }
       this.filename = file.name;
